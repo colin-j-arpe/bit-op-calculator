@@ -17,7 +17,7 @@ public class CalcFrame extends JFrame implements KeyListener   {
         GridLayout calcLayout = new GridLayout(4, 1);
         setLayout (calcLayout);
         
-        this.addKeyListener(this);
+        entryField.entryText.addKeyListener(this);
         
         add(display);
         add(entryField);
@@ -30,7 +30,8 @@ public class CalcFrame extends JFrame implements KeyListener   {
     
     public void keyTyped(KeyEvent input)    {
         char key = input.getKeyChar();
-        entryString += key;
+        if (key >= '0' && key <= '9')
+            entryString += key;
         System.out.println(entryString);
         entryField.entryText.setText(entryString);
     }
