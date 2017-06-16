@@ -2,54 +2,54 @@ package bitcalc;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
-public class CalcFrame extends JFrame   {
+public class CalcFrame extends JFrame implements KeyListener   {
+    EntryPanel entryField = new EntryPanel();
+    String entryString = "";
+    DisplayPanel display = new DisplayPanel();
+    NumberPanel keypad = new NumberPanel();
+    OperPanel operators = new OperPanel();
+
     public CalcFrame()  {
         super("bitCalc");
-        System.out.println("Here #3");
-        setLookAndFeel();
-        setSize(240, 400);
-        BoxLayout calcLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
-        this.setLayout (calcLayout);
+        setSize(250, 400);
+        GridLayout calcLayout = new GridLayout(4, 1);
+        setLayout (calcLayout);
         
-        EntryPanel entryField = new EntryPanel();
-//        FlowLayout entryLayout = new FlowLayout();
-//        entryField.setLayout(entryLayout);
-        DisplayPanel display = new DisplayPanel();
-//        FlowLayout displayLayout = new FlowLayout();
-//        display.setLayout(displayLayout);
-        NumberPanel keypad = new NumberPanel();
-        OperPanel operators = new OperPanel();
+        this.addKeyListener(this);
         
-//        keypad.setLayout(calcLayout);
-//        operators.setLayout(calcLayout);
-        
-        this.add(entryField);
-        this.add(display);
-        this.add(keypad);
-        this.add(operators);
-        add(this);
+        add(display);
+        add(entryField);
+        add(keypad);
+        add(operators);
 
-        System.out.println("Here #8");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
     
-    private void setLookAndFeel()   {
-        try {
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-        }   catch (Exception exc)   {
-            // ignore
-        }
+    public void keyTyped(KeyEvent input)    {
+        char key = input.getKeyChar();
+        entryString += key;
+        System.out.println(entryString);
+        entryField.entryText.setText(entryString);
+    }
+    
+    public void keyPressed(KeyEvent input)  {
+        //  ignore
+    }
+    
+    public void keyReleased(KeyEvent input) {
+        //  ignore
     }
 }
 
 class EntryPanel extends JPanel  {
-    JTextField entryText = new JTextField("0", 10);
+    JTextField entryText = new JTextField("", 12);
     
     public EntryPanel() {
         super();
-        System.out.println("Here #4");
+        entryText.setEditable(false);
         add(entryText);
     }
 }
@@ -61,7 +61,6 @@ class DisplayPanel extends JPanel    {
     
     public DisplayPanel()   {
         super();
-        System.out.println("Here #5");
         add(operand1);
         add(operator);
         add(operand2);
@@ -83,8 +82,7 @@ class NumberPanel extends JPanel    {
     
     public NumberPanel()    {
         super();
-//        setSize(200, 200);
-        GridLayout numberLayout = new GridLayout(4,3);
+        GridLayout numberLayout = new GridLayout(4, 3);
         setLayout(numberLayout);
         add(b1);
         add(b2);
@@ -97,7 +95,6 @@ class NumberPanel extends JPanel    {
         add(b9);
         add(b0);
         add(point);
-        System.out.println("Here #6");
     }
 }
 
@@ -106,13 +103,18 @@ class OperPanel extends JPanel  {
     JButton minus = new JButton("-");
     JButton multiply = new JButton("x");
     JButton divide = new JButton("/");
+    JButton equals = new JButton("=");
+    JButton clear = new JButton("C");
     
     public OperPanel()  {
         super();
-        System.out.println("Here #7");
+//        GridLayout operLayout = new GridLayout(3, 6);
+//        setLayout(operLayout);
         add(plus);
         add(minus);
         add(multiply);
         add(divide);
+        add(equals);
+        add(clear);
     }
 }
