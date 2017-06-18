@@ -4,9 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class CalcFrame extends JFrame implements KeyListener   {
+public class CalcFrame extends JFrame   {
+    CalcActions calc = new CalcActions(this);
     EntryPanel entryField = new EntryPanel();
-    String entryString = "";
     DisplayPanel display = new DisplayPanel();
     NumberPanel keypad = new NumberPanel();
     OperPanel operators = new OperPanel();
@@ -17,7 +17,7 @@ public class CalcFrame extends JFrame implements KeyListener   {
         GridLayout calcLayout = new GridLayout(4, 1);
         setLayout (calcLayout);
         
-        entryField.entryText.addKeyListener(this);
+        entryField.entryText.addKeyListener(calc);
         
         add(display);
         add(entryField);
@@ -26,22 +26,6 @@ public class CalcFrame extends JFrame implements KeyListener   {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-    }
-    
-    public void keyTyped(KeyEvent input)    {
-        char key = input.getKeyChar();
-        if (key >= '0' && key <= '9')
-            entryString += key;
-        System.out.println(entryString);
-        entryField.entryText.setText(entryString);
-    }
-    
-    public void keyPressed(KeyEvent input)  {
-        //  ignore
-    }
-    
-    public void keyReleased(KeyEvent input) {
-        //  ignore
     }
 }
 
@@ -69,33 +53,44 @@ class DisplayPanel extends JPanel    {
 }
 
 class NumberPanel extends JPanel    {
-    JButton b1 = new JButton("1");
-    JButton b2 = new JButton("2");
-    JButton b3 = new JButton("3");
-    JButton b4 = new JButton("4");
-    JButton b5 = new JButton("5");
-    JButton b6 = new JButton("6");
-    JButton b7 = new JButton("7");
-    JButton b8 = new JButton("8");
-    JButton b9 = new JButton("9");
-    JButton b0 = new JButton("0");
-    JButton point = new JButton(".");
+    JButton[] numbers = new JButton[11];
+    for (int i = 0; i < 10; i++)    {
+        String buttonLabel = Integer.toString(i);
+        numbers[i].setName(buttonLabel);
+    }
+    numbers[10].setName(".");
+//    JButton b1 = new JButton("1");
+//    JButton b2 = new JButton("2");
+//    JButton b3 = new JButton("3");
+//    JButton b4 = new JButton("4");
+//    JButton b5 = new JButton("5");
+//    JButton b6 = new JButton("6");
+//    JButton b7 = new JButton("7");
+//    JButton b8 = new JButton("8");
+//    JButton b9 = new JButton("9");
+//    JButton b0 = new JButton("0");
+//    JButton point = new JButton(".");
     
     public NumberPanel()    {
         super();
         GridLayout numberLayout = new GridLayout(4, 3);
         setLayout(numberLayout);
-        add(b1);
-        add(b2);
-        add(b3);
-        add(b4);
-        add(b5);
-        add(b6);
-        add(b7);
-        add(b8);
-        add(b9);
-        add(b0);
-        add(point);
+        for (int i = 1; i < 10; i++)
+            add(numbers[i]);
+        add(numbers[0]);
+        add(numbers[10]);
+        
+//        add(b1);
+//        add(b2);
+//        add(b3);
+//        add(b4);
+//        add(b5);
+//        add(b6);
+//        add(b7);
+//        add(b8);
+//        add(b9);
+//        add(b0);
+//        add(point);
     }
 }
 
