@@ -26,7 +26,7 @@ public class BitCalc {
 
     
     public static void main(String[] args) {
-        BitCalc thisCalc = new BitCalc();
+//        BitCalc thisCalc = new BitCalc();
         setLookAndFeel();
         CalcFrame thisFrame = new CalcFrame();
 //        CalcActions thisActions = new CalcActions();

@@ -5,8 +5,8 @@ import java.awt.event.*;
 
 public class CalcActions implements KeyListener, ActionListener  {
     CalcFrame gui;
-    boolean noDecimal = true;
-    String entryString = "";
+    boolean noDecimal = true, newEntry = true;
+    String entryString = "0";
 
     public CalcActions (CalcFrame in)   {
         gui = in;
@@ -34,12 +34,23 @@ public class CalcActions implements KeyListener, ActionListener  {
     
     public void buttonFunctions(char entry)    {
         if (entry >= '0' && entry <= '9')   {
+            if (newEntry)   {
+                entryString = "";
+                newEntry = false;
+            }
             entryString += entry;
             gui.entryField.entryText.setText(entryString);
         }
         else if (entry == '.' && noDecimal)   {
             entryString += entry;
             noDecimal = false;
+            newEntry = false;
+            gui.entryField.entryText.setText(entryString);
+        }
+        else if (entry == 'C') {
+            entryString = "0";
+            noDecimal = true;
+            newEntry = true;
             gui.entryField.entryText.setText(entryString);
         }
         

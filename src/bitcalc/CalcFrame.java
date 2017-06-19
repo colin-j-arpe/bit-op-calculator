@@ -29,7 +29,7 @@ public class CalcFrame extends JFrame   {
         keypad.b9.addActionListener(calc);
         keypad.b0.addActionListener(calc);
         keypad.point.addActionListener(calc);
-        
+        operators.clear.addActionListener(calc);
         
         add(display);
         add(entryField);
@@ -42,7 +42,7 @@ public class CalcFrame extends JFrame   {
 }
 
 class EntryPanel extends JPanel  {
-    JTextField entryText = new JTextField("", 12);
+    JTextField entryText = new JTextField("0", 12);
     
     public EntryPanel() {
         super();
@@ -52,15 +52,20 @@ class EntryPanel extends JPanel  {
 }
 
 class DisplayPanel extends JPanel    {
-    JLabel operand1 = new JLabel();
+    JTextField operand1 = new JTextField();
     JLabel operator = new JLabel();
-    JLabel operand2 = new JLabel();
+    JTextField operand2 = new JTextField();
     
     public DisplayPanel()   {
         super();
-        add(operand1);
-        add(operator);
-        add(operand2);
+        operand1.setEditable(false);
+        operand2.setEditable(false);
+        
+        BorderLayout displayLayout = new BorderLayout();
+        setLayout(displayLayout);
+        add(operand1, BorderLayout.NORTH);
+        add(operator, BorderLayout.WEST);
+        add(operand2, BorderLayout.SOUTH);
     }
 }
 
