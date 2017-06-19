@@ -27,8 +27,9 @@ public class CalcActions implements KeyListener, ActionListener  {
     
     public void actionPerformed(ActionEvent event)  {
         String buttonLabel = event.getActionCommand();
-        char button = buttonLabel[0];
-        buttonFunctions(button);
+        System.out.println("Triggered button " + buttonLabel);
+        char[] button = buttonLabel.toCharArray() ;
+        buttonFunctions(button[0]);
     }
     
     public void buttonFunctions(char entry)    {

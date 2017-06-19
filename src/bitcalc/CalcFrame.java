@@ -18,6 +18,18 @@ public class CalcFrame extends JFrame   {
         setLayout (calcLayout);
         
         entryField.entryText.addKeyListener(calc);
+        keypad.b1.addActionListener(calc);
+        keypad.b2.addActionListener(calc);
+        keypad.b3.addActionListener(calc);
+        keypad.b4.addActionListener(calc);
+        keypad.b5.addActionListener(calc);
+        keypad.b6.addActionListener(calc);
+        keypad.b7.addActionListener(calc);
+        keypad.b8.addActionListener(calc);
+        keypad.b9.addActionListener(calc);
+        keypad.b0.addActionListener(calc);
+        keypad.point.addActionListener(calc);
+        
         
         add(display);
         add(entryField);
