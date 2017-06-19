@@ -53,12 +53,12 @@ class DisplayPanel extends JPanel    {
 }
 
 class NumberPanel extends JPanel    {
-    JButton[] numbers = new JButton[11];
-    for (int i = 0; i < 10; i++)    {
+    JButton[] numberButton = new JButton[11];
+    JButton numberButtons[10] = new JButton(".");
+    for(int i = 0; i < 10; i++)    {
         String buttonLabel = Integer.toString(i);
-        numbers[i].setName(buttonLabel);
+        numberButton[i] = new JButton(buttonLabel);
     }
-    numbers[10].setName(".");
 //    JButton b1 = new JButton("1");
 //    JButton b2 = new JButton("2");
 //    JButton b3 = new JButton("3");
@@ -75,10 +75,10 @@ class NumberPanel extends JPanel    {
         super();
         GridLayout numberLayout = new GridLayout(4, 3);
         setLayout(numberLayout);
-        for (int i = 1; i < 10; i++)
-            add(numbers[i]);
-        add(numbers[0]);
-        add(numbers[10]);
+        for (int j = 1; j < 10; j++)    
+            add(numberButton[j]);
+        add(numberButton[0]);
+        add(numberButton[10]);
         
 //        add(b1);
 //        add(b2);
