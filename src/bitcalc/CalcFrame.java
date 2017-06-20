@@ -13,7 +13,7 @@ public class CalcFrame extends JFrame   {
 
     public CalcFrame()  {
         super("bitCalc");
-        setSize(250, 400);
+        setSize(300, 400);
         GridLayout calcLayout = new GridLayout(4, 1);
         setLayout (calcLayout);
         
@@ -29,10 +29,11 @@ public class CalcFrame extends JFrame   {
         keypad.b9.addActionListener(calc);
         keypad.b0.addActionListener(calc);
         keypad.point.addActionListener(calc);
+        operators.plus.addActionListener(calc);
         operators.clear.addActionListener(calc);
         
-        add(display);
         add(entryField);
+        add(display);
         add(keypad);
         add(operators);
 
@@ -113,6 +114,8 @@ class OperPanel extends JPanel  {
         super();
 //        GridLayout operLayout = new GridLayout(3, 6);
 //        setLayout(operLayout);
+        equals.setEnabled(false);
+
         add(plus);
         add(minus);
         add(multiply);
