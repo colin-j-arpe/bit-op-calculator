@@ -8,7 +8,7 @@ import java.util.*;
 
 public class CalcActions implements KeyListener, ActionListener  {
     CalcFrame gui;
-    boolean noDecimal = true, newEntry = true;
+    boolean noDecimal = true, newEntry = true, negative = false;
     String entryString = "0", binary1 = "", binary2 = "";
     boolean[] boolOp1 = new boolean[32];
     boolean[] boolOp2 = new boolean[32];
@@ -47,6 +47,7 @@ public class CalcActions implements KeyListener, ActionListener  {
         if (entry >= '0' && entry <= '9')   {
             if (newEntry)   {
                 entryString = "";
+                if (negative) entryString = "-";
                 newEntry = false;
             }
             entryString += entry;
@@ -62,21 +63,38 @@ public class CalcActions implements KeyListener, ActionListener  {
 //            System.out.println(boolOp1[31]);
 //            System.out.println(boolOp1[0]);
             operatorButton();
+            gui.display.operator.setText("+");
 //            System.out.println(boolOp1[31]);
 //            System.out.println(boolOp1[0]);
             selectedOp = PLUS;
+        }
+        else if (entry == '-')  {
+            if (newEntry)   {
+                negative = true;
+                System.out.println("negative");
+                entryString = '-' + entryString;
+                System.out.println(entryString);
+                gui.entryField.entryText.setText(entryString);
+            }
+            else    {
+                operatorButton();
+                gui.display.operator.setText("-");
+                selectedOp = MINUS;
+            }
         }
         
         else if (entry == 'C') {
             entryString = "0";
             noDecimal = true;
             newEntry = true;
+            negative = false;
             binary1 = "";
             binary2 = "";
             Arrays.fill(boolOp1, false);
             Arrays.fill(boolOp2, false);
             gui.entryField.entryText.setText("0");
             gui.display.operand1.setText("");
+            gui.display.operator.setText("");
             gui.display.operand2.setText("");
             gui.operators.plus.setEnabled(true);
             gui.operators.minus.setEnabled(true);
@@ -111,12 +129,12 @@ public class CalcActions implements KeyListener, ActionListener  {
                 output += '1';
                 boolOp[i] = true;
                 inputValue -= powerOf2;
-                System.out.println("added one");
+//                System.out.println("added one");
             }
             else
                 output += '0';
             powerOf2 /= 2;
-            System.out.println(inputValue + ", " + powerOf2);
+//            System.out.println(inputValue + ", " + powerOf2);
         }
 //        System.out.println("in method");
 //        System.out.println(boolOp[31]);

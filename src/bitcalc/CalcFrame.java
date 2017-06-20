@@ -30,6 +30,7 @@ public class CalcFrame extends JFrame   {
         keypad.b0.addActionListener(calc);
         keypad.point.addActionListener(calc);
         operators.plus.addActionListener(calc);
+        operators.minus.addActionListener(calc);
         operators.clear.addActionListener(calc);
         
         add(entryField);
@@ -43,7 +44,7 @@ public class CalcFrame extends JFrame   {
 }
 
 class EntryPanel extends JPanel  {
-    JTextField entryText = new JTextField("0", 12);
+    JTextField entryText = new JTextField("0", 10);
     
     public EntryPanel() {
         super();
@@ -65,7 +66,7 @@ class DisplayPanel extends JPanel    {
         BorderLayout displayLayout = new BorderLayout();
         setLayout(displayLayout);
         add(operand1, BorderLayout.NORTH);
-        add(operator, BorderLayout.WEST);
+        add(operator, BorderLayout.EAST);
         add(operand2, BorderLayout.SOUTH);
     }
 }
