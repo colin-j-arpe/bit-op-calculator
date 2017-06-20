@@ -18,6 +18,7 @@ public class CalcActions implements KeyListener, ActionListener  {
     static final byte MINUS = 1;
     static final byte MULTIPLY = 2;
     static final byte DIVIDE = 3;
+    static final int MAX_VALUE = 1073741824;
 
     public CalcActions (CalcFrame in)   {
         gui = in;
@@ -59,30 +60,51 @@ public class CalcActions implements KeyListener, ActionListener  {
             newEntry = false;
             gui.entryField.entryText.setText(entryString);
         }
-        else if (entry == '+')  {
-//            System.out.println(boolOp1[31]);
-//            System.out.println(boolOp1[0]);
-            operatorButton();
-            gui.display.operator.setText("+");
-//            System.out.println(boolOp1[31]);
-//            System.out.println(boolOp1[0]);
-            selectedOp = PLUS;
-        }
         else if (entry == '-')  {
             if (newEntry)   {
                 negative = true;
+                newEntry = false;
                 System.out.println("negative");
                 entryString = '-' + entryString;
                 System.out.println(entryString);
                 gui.entryField.entryText.setText(entryString);
             }
             else    {
-                operatorButton();
-                gui.display.operator.setText("-");
+                operatorButton(entry);
+//                gui.display.operator.setText("-");
                 selectedOp = MINUS;
             }
         }
-        
+        else if (entry == '+')  {
+            operatorButton(entry);
+//            gui.display.operator.setText("+");
+            selectedOp = PLUS;
+        }
+        else if (entry == '*')  {
+            operatorButton(entry);
+//                gui.display.operator.setText("-");
+            selectedOp = MULTIPLY;
+        }
+        else if (entry == '/')  {
+            operatorButton(entry);
+            selectedOp = DIVIDE;
+        }
+        else if (entry == '=')  {
+            switch (selectedOp) {
+                case PLUS:
+                    addition();
+                    break;
+                case MINUS:
+                    subtraction();
+                    break;
+                case MULTIPLY:
+                    multiplication();
+                    break;
+                case DIVIDE:
+                    division();
+                    break;
+            }
+        }
         else if (entry == 'C') {
             entryString = "0";
             noDecimal = true;
@@ -105,24 +127,35 @@ public class CalcActions implements KeyListener, ActionListener  {
         
     }
     
-    public void operatorButton()    {
+    public void operatorButton(char operator)    {
         gui.operators.plus.setEnabled(false);
         gui.operators.minus.setEnabled(false);
         gui.operators.multiply.setEnabled(false);
         gui.operators.divide.setEnabled(false);
         gui.operators.equals.setEnabled(true);
+
+        String opString = "";
+        opString += operator;
         binary1 = convertToBinary(entryString, boolOp1);
         gui.display.operand1.setText(binary1);
+        gui.display.operator.setText(opString);
+
+        entryString = "0";
+        noDecimal = true;
+        newEntry = true;
+        negative = false;
+        gui.entryField.entryText.setText(entryString);
     }
     
     public String convertToBinary(String input, boolean[] boolOp) {
         String output = "";
         float inputValue = Float.parseFloat(input);
-        int powerOf2 = 1073741824;
+        int powerOf2 = MAX_VALUE;
         if (inputValue < 0) {
             boolOp[31] = true;
             output += '1';
             System.out.println("negative");
+            inputValue *= (-1);
         }   else    output += '0';
         for (int i = 30; i >= 0; i--)    {
             if (inputValue >= powerOf2) {
@@ -142,4 +175,5 @@ public class CalcActions implements KeyListener, ActionListener  {
 //        System.out.println("out");
         return output;
     }
+    
 }
