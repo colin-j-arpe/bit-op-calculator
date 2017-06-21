@@ -9,7 +9,7 @@ import java.util.*;
 public class CalcActions implements KeyListener, ActionListener  {
     CalcFrame gui;
     boolean noDecimal = true, newEntry = true, negative = false, secondOperand = false;
-    String entryString = "0", binary1 = "", binary2 = "", binary3 = "", resultString = "";
+    String entryString = "0", resultString = "";
     boolean[] boolOp1 = new boolean[32];
     boolean[] boolOp2 = new boolean[32];
     boolean[] boolResult = new boolean[32];
@@ -93,9 +93,9 @@ public class CalcActions implements KeyListener, ActionListener  {
             selectedOp = DIVIDE;
         }
         else if (entry == '=')  {
-            binary2 = convertToBinary(entryString, boolOp2);
+            convertToBinary(entryString, boolOp2);
             System.out.println("MAde it here");
-            gui.display.operand2.setText(binary2);
+            gui.display.operand2.setText(binaryOutput(boolOp2));
             switch (selectedOp) {
                 case PLUS:
                     addition();
@@ -117,8 +117,6 @@ public class CalcActions implements KeyListener, ActionListener  {
             noDecimal = true;
             newEntry = true;
             negative = false;
-            binary1 = "";
-            binary2 = "";
             Arrays.fill(boolOp1, false);
             Arrays.fill(boolOp2, false);
             Arrays.fill(boolResult, false);
@@ -143,11 +141,11 @@ public class CalcActions implements KeyListener, ActionListener  {
         gui.operators.divide.setEnabled(false);
         gui.operators.equals.setEnabled(true);
 
-        String opString = "";
-        opString += operator;
-        binary1 = convertToBinary(entryString, boolOp1);
-        gui.display.operand1.setText(binary1);
-        gui.display.operator.setText(opString);
+//        String opString = "";
+//        opString += operator;
+        convertToBinary(entryString, boolOp1);
+        gui.display.operand1.setText(binaryOutput(boolOp1));
+        gui.display.operator.setText("" + operator);
 
         entryString = "0";
         noDecimal = true;
@@ -197,32 +195,52 @@ public class CalcActions implements KeyListener, ActionListener  {
         gui.display.decimalResult.setText(Long.toString(decimalResult));
     }
     
-    public String convertToBinary(String input, boolean[] boolOp) {
-        String output = "";
+    public String binaryOutput (boolean[] boolArray)    {
+        String output = "s:";
+        for (int i = 31; i >= 0; i--)   {
+            if (boolArray[i])
+                output += '1';
+            else
+                output += '0';
+        }
+        output = output.substring(0, 3) + " e:" +
+                 output.substring(3, 7) + " " +
+                 output.substring(7, 11) + " m:" +
+                 output.substring(11, 14) + " " +
+                 output.substring(14);
+        for (int i = 22; i < output.length(); i += 5)    {
+            output = output.substring(0, i) + " " +
+                     output.substring(i);
+        }
+        return output;
+    }
+    
+    public void convertToBinary(String input, boolean[] boolOp) {
+//        String output = "";
         double inputValue = Double.parseDouble(input);
         long powerOf2 = MAX_VALUE;
         if (inputValue < 0) {
             boolOp[31] = true;
-            output += '1';
+//            output += '1';
             System.out.println("negative");
             
             inputValue += (MAX_VALUE * 2);
             System.out.println("value is now " + inputValue);
         }
-        else
-            output += '0';
+//        else
+//            output += '0';
         
         for (int i = 30; i >= 0; i--)    {
             if (inputValue >= powerOf2) {
-                output += '1';
+//                output += '1';
                 boolOp[i] = true;
                 inputValue -= powerOf2;
             }
-            else
-                output += '0';
+//            else
+//                output += '0';
             powerOf2 /= 2;
         }
-        return output;
+//        return output;
     }
     
     public void multByNegOne()  {

@@ -13,7 +13,7 @@ public class CalcFrame extends JFrame   {
 
     public CalcFrame()  {
         super("bitCalc");
-        setSize(300, 600);
+        setSize(350, 600);
         GridLayout calcLayout = new GridLayout(4, 1);
         setLayout (calcLayout);
         
