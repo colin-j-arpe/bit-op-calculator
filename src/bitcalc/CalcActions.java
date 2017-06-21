@@ -19,7 +19,7 @@ public class CalcActions implements KeyListener, ActionListener  {
     static final byte MINUS = 1;
     static final byte MULTIPLY = 2;
     static final byte DIVIDE = 3;
-    static final int MAX_VALUE = 1073741824;
+    static final long MAX_VALUE = 1073741824;
 
     public CalcActions (CalcFrame in)   {
         gui = in;
@@ -110,7 +110,7 @@ public class CalcActions implements KeyListener, ActionListener  {
             }
 //            gui.display.decimalResult.setText(resultString);
         }
-        else if (entry == 'C') {
+        else if (entry == 'C' || entry == 'c') {
             entryString = "0";
             noDecimal = true;
             newEntry = true;
@@ -119,6 +119,7 @@ public class CalcActions implements KeyListener, ActionListener  {
             binary2 = "";
             Arrays.fill(boolOp1, false);
             Arrays.fill(boolOp2, false);
+            Arrays.fill(boolResult, false);
             gui.entryField.entryText.setText("0");
             gui.display.operand1.setText("");
             gui.display.operator.setText("");
@@ -168,9 +169,15 @@ public class CalcActions implements KeyListener, ActionListener  {
         showResults();
     }
     
+    public void subtraction()   {
+        multByNegOne();
+        addition();
+    }
+    
     public void showResults()   {
         String binaryResult = "";
-        int decimalResult = 0, powerOf2 = MAX_VALUE;
+        int decimalResult = 0;
+        long powerOf2 = MAX_VALUE;
         for (int i = 31; i >= 0; i--)   {
             if (boolResult[i])
                 binaryResult += '1';
@@ -189,14 +196,19 @@ public class CalcActions implements KeyListener, ActionListener  {
     
     public String convertToBinary(String input, boolean[] boolOp) {
         String output = "";
-        float inputValue = Float.parseFloat(input);
-        int powerOf2 = MAX_VALUE;
+        double inputValue = Double.parseDouble(input);
+        long powerOf2 = MAX_VALUE;
         if (inputValue < 0) {
             boolOp[31] = true;
             output += '1';
             System.out.println("negative");
-            inputValue *= (-1);
-        }   else    output += '0';
+            
+            inputValue += (MAX_VALUE * 2);
+            System.out.println("value is now " + inputValue);
+        }
+        else
+            output += '0';
+        
         for (int i = 30; i >= 0; i--)    {
             if (inputValue >= powerOf2) {
                 output += '1';
@@ -210,4 +222,40 @@ public class CalcActions implements KeyListener, ActionListener  {
         return output;
     }
     
+    public void multByNegOne()  {
+//        boolean[] boolArray = boolOp;
+        if (boolOp2[31]) {
+            subtractOne();
+            complement();
+        }
+        else    {
+            complement();
+            addOne();
+        }
+        
+    }
+
+    public void complement()    {
+        for (int i = 0; i < 32; i++)    {
+            boolOp2[i] = !boolOp2[i];
+        }
+    }
+
+    public void subtractOne()   {
+        int i = 0;
+        while (!boolOp2[i])  {
+            boolOp2[i] = true;
+            i++;
+        }
+        boolOp2[i] = false;
+    }
+
+    public void addOne()    {
+        int i = 0;
+        while (boolOp2[i])   {
+            boolOp2[i] = false;
+            i++;
+        }
+        boolOp2[i] = true;
+    }
 }
