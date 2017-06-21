@@ -8,7 +8,7 @@ import java.util.*;
 
 public class CalcActions implements KeyListener, ActionListener  {
     CalcFrame gui;
-    boolean noDecimal = true, newEntry = true, negative = false;
+    boolean noDecimal = true, newEntry = true, negative = false, secondOperand = false;
     String entryString = "0", binary1 = "", binary2 = "", binary3 = "", resultString = "";
     boolean[] boolOp1 = new boolean[32];
     boolean[] boolOp2 = new boolean[32];
@@ -65,6 +65,8 @@ public class CalcActions implements KeyListener, ActionListener  {
             if (newEntry)   {
                 negative = true;
                 newEntry = false;
+                if (secondOperand)
+                    gui.operators.minus.setEnabled(false);
                 System.out.println("negative");
                 entryString = '-' + entryString;
                 System.out.println(entryString);
@@ -137,7 +139,6 @@ public class CalcActions implements KeyListener, ActionListener  {
     
     public void operatorButton(char operator)    {
         gui.operators.plus.setEnabled(false);
-        gui.operators.minus.setEnabled(false);
         gui.operators.multiply.setEnabled(false);
         gui.operators.divide.setEnabled(false);
         gui.operators.equals.setEnabled(true);
@@ -152,6 +153,7 @@ public class CalcActions implements KeyListener, ActionListener  {
         noDecimal = true;
         newEntry = true;
         negative = false;
+        secondOperand = true;
         gui.entryField.entryText.setText(entryString);
     }
     
@@ -176,8 +178,7 @@ public class CalcActions implements KeyListener, ActionListener  {
     
     public void showResults()   {
         String binaryResult = "";
-        int decimalResult = 0;
-        long powerOf2 = MAX_VALUE;
+        long decimalResult = 0, powerOf2 = MAX_VALUE;
         for (int i = 31; i >= 0; i--)   {
             if (boolResult[i])
                 binaryResult += '1';
@@ -186,12 +187,14 @@ public class CalcActions implements KeyListener, ActionListener  {
         }
         gui.display.binaryResult.setText(binaryResult);
         
+        if (boolResult[31])
+            decimalResult = MAX_VALUE * (-2);
         for (int i = 30; i >= 0; i--)   {
             if (boolResult[i])
                 decimalResult += powerOf2;
             powerOf2 /= 2;
         }
-        gui.display.decimalResult.setText(Integer.toString(decimalResult));
+        gui.display.decimalResult.setText(Long.toString(decimalResult));
     }
     
     public String convertToBinary(String input, boolean[] boolOp) {
