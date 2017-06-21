@@ -13,7 +13,7 @@ public class CalcFrame extends JFrame   {
 
     public CalcFrame()  {
         super("bitCalc");
-        setSize(300, 400);
+        setSize(300, 600);
         GridLayout calcLayout = new GridLayout(4, 1);
         setLayout (calcLayout);
         
@@ -31,6 +31,7 @@ public class CalcFrame extends JFrame   {
         keypad.point.addActionListener(calc);
         operators.plus.addActionListener(calc);
         operators.minus.addActionListener(calc);
+        operators.equals.addActionListener(calc);
         operators.clear.addActionListener(calc);
         
         add(entryField);
@@ -57,17 +58,23 @@ class DisplayPanel extends JPanel    {
     JTextField operand1 = new JTextField();
     JLabel operator = new JLabel();
     JTextField operand2 = new JTextField();
+    JTextField binaryResult = new JTextField();
+    JTextField decimalResult = new JTextField();
     
     public DisplayPanel()   {
         super();
         operand1.setEditable(false);
         operand2.setEditable(false);
+        binaryResult.setEditable(false);
+        decimalResult.setEditable(false);
         
-        BorderLayout displayLayout = new BorderLayout();
+        BoxLayout displayLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(displayLayout);
-        add(operand1, BorderLayout.NORTH);
-        add(operator, BorderLayout.EAST);
-        add(operand2, BorderLayout.SOUTH);
+        this.add(operand1);
+        this.add(operator);
+        this.add(operand2);
+        this.add(binaryResult);
+        this.add(decimalResult);
     }
 }
 

@@ -9,9 +9,10 @@ import java.util.*;
 public class CalcActions implements KeyListener, ActionListener  {
     CalcFrame gui;
     boolean noDecimal = true, newEntry = true, negative = false;
-    String entryString = "0", binary1 = "", binary2 = "";
+    String entryString = "0", binary1 = "", binary2 = "", binary3 = "", resultString = "";
     boolean[] boolOp1 = new boolean[32];
     boolean[] boolOp2 = new boolean[32];
+    boolean[] boolResult = new boolean[32];
 
     byte selectedOp;
     static final byte PLUS = 0;
@@ -90,6 +91,9 @@ public class CalcActions implements KeyListener, ActionListener  {
             selectedOp = DIVIDE;
         }
         else if (entry == '=')  {
+            binary2 = convertToBinary(entryString, boolOp2);
+            System.out.println("MAde it here");
+            gui.display.operand2.setText(binary2);
             switch (selectedOp) {
                 case PLUS:
                     addition();
@@ -104,6 +108,7 @@ public class CalcActions implements KeyListener, ActionListener  {
                     division();
                     break;
             }
+//            gui.display.decimalResult.setText(resultString);
         }
         else if (entry == 'C') {
             entryString = "0";
@@ -118,6 +123,8 @@ public class CalcActions implements KeyListener, ActionListener  {
             gui.display.operand1.setText("");
             gui.display.operator.setText("");
             gui.display.operand2.setText("");
+            gui.display.binaryResult.setText("");
+            gui.display.decimalResult.setText("");
             gui.operators.plus.setEnabled(true);
             gui.operators.minus.setEnabled(true);
             gui.operators.multiply.setEnabled(true);
@@ -147,6 +154,39 @@ public class CalcActions implements KeyListener, ActionListener  {
         gui.entryField.entryText.setText(entryString);
     }
     
+    public void addition()    {
+        boolean carryFlag = false;
+        
+        for (int i = 0; i < 32; i++)    {
+            boolResult[i] = (boolOp1[i] ^ boolOp2[i]);
+            boolResult[i] = (boolResult[i] ^ carryFlag);
+            if (carryFlag)
+                carryFlag = (boolOp1[i] || boolOp2[i]);
+            else
+                carryFlag = (boolOp1[i] && boolOp2[i]);
+        }
+        showResults();
+    }
+    
+    public void showResults()   {
+        String binaryResult = "";
+        int decimalResult = 0, powerOf2 = MAX_VALUE;
+        for (int i = 31; i >= 0; i--)   {
+            if (boolResult[i])
+                binaryResult += '1';
+            else
+                binaryResult += '0';
+        }
+        gui.display.binaryResult.setText(binaryResult);
+        
+        for (int i = 30; i >= 0; i--)   {
+            if (boolResult[i])
+                decimalResult += powerOf2;
+            powerOf2 /= 2;
+        }
+        gui.display.decimalResult.setText(Integer.toString(decimalResult));
+    }
+    
     public String convertToBinary(String input, boolean[] boolOp) {
         String output = "";
         float inputValue = Float.parseFloat(input);
@@ -162,17 +202,11 @@ public class CalcActions implements KeyListener, ActionListener  {
                 output += '1';
                 boolOp[i] = true;
                 inputValue -= powerOf2;
-//                System.out.println("added one");
             }
             else
                 output += '0';
             powerOf2 /= 2;
-//            System.out.println(inputValue + ", " + powerOf2);
         }
-//        System.out.println("in method");
-//        System.out.println(boolOp[31]);
-//        System.out.println(boolOp[0]);
-//        System.out.println("out");
         return output;
     }
     
