@@ -19,7 +19,7 @@ public class CalcActions implements KeyListener, ActionListener  {
     static final byte MINUS = 1;
     static final byte MULTIPLY = 2;
     static final byte DIVIDE = 3;
-    static final long MAX_VALUE = 1073741824;
+    static final long MAX_VALUE = 4194304;
 
     public CalcActions (CalcFrame in)   {
         gui = in;
@@ -143,7 +143,7 @@ public class CalcActions implements KeyListener, ActionListener  {
 
 //        String opString = "";
 //        opString += operator;
-        convertToBinary(entryString, boolOp1);
+        convertToFloatBinary(entryString, boolOp1);
         gui.display.operand1.setText(binaryOutput(boolOp1));
         gui.display.operator.setText("" + operator);
 
@@ -215,32 +215,50 @@ public class CalcActions implements KeyListener, ActionListener  {
         return output;
     }
     
-    public void convertToBinary(String input, boolean[] boolOp) {
-//        String output = "";
-        double inputValue = Double.parseDouble(input);
-        long powerOf2 = MAX_VALUE;
+    public void convertToFloatBinary(String input, boolean[] boolOp) {
+        int mantissaCount = 22, exponentCount = 22;
+        double inputFraction, inputValue = Double.parseDouble(input), powerOfHalf = 0.5;
+        long inputWhole, powerOf2 = MAX_VALUE;
         if (inputValue < 0) {
             boolOp[31] = true;
-//            output += '1';
             System.out.println("negative");
-            
-            inputValue += (MAX_VALUE * 2);
+            inputValue *= (-1);
             System.out.println("value is now " + inputValue);
         }
-//        else
-//            output += '0';
+        inputWhole = (long) inputValue;
+        inputFraction = inputValue % 1;
         
-        for (int i = 30; i >= 0; i--)    {
-            if (inputValue >= powerOf2) {
-//                output += '1';
-                boolOp[i] = true;
-                inputValue -= powerOf2;
+        if (inputWhole > 0) {
+            while (inputWhole < powerOf2)   {
+                powerOf2 /= 2;
+                exponentCount--;
             }
-//            else
-//                output += '0';
-            powerOf2 /= 2;
+
+            while (powerOf2 > 1)    {
+                if (inputWhole >= powerOf2) {
+                    boolOp[mantissaCount] = true;
+                    inputWhole -= powerOf2;
+                }
+                powerOf2 /= 2;
+                mantissaCount--;
+            }
         }
-//        return output;
+        if (inputFraction > 0)  {
+            while (inputFraction < powerOfHalf) {
+                powerOfHalf /= 2;
+                if (exponentCount < 1)
+                    exponentCount--;
+            }
+            
+            while (mantissaCount >= 0)  {
+                if (inputFraction >= powerOfHalf)   {
+                    boolOp[mantissaCount] = true;
+                    inputFraction -= powerOfHalf;
+                }
+                powerOfHalf /= 2;
+                mantissaCount--;
+            }
+        }
     }
     
     public void multByNegOne()  {
