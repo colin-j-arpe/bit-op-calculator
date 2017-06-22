@@ -55,6 +55,8 @@ public class CalcActions implements KeyListener, ActionListener  {
             gui.entryField.entryText.setText(entryString);
         }
         else if (entry == '.' && noDecimal)   {
+            if (entryString == "-")
+                entryString += "0";
             entryString += entry;
             noDecimal = false;
             newEntry = false;
@@ -67,7 +69,7 @@ public class CalcActions implements KeyListener, ActionListener  {
                 if (secondOperand)
                     gui.operators.minus.setEnabled(false);
                 System.out.println("negative");
-                entryString = '-' + entryString;
+                entryString = "-";
                 System.out.println(entryString);
                 gui.entryField.entryText.setText(entryString);
             }
@@ -92,9 +94,9 @@ public class CalcActions implements KeyListener, ActionListener  {
             selectedOp = DIVIDE;
         }
         else if (entry == '=')  {
-            convertToBinary(entryString, boolOp2);
-            System.out.println("MAde it here");
+            convertToFloatBinary(entryString, boolOp2);
             gui.display.operand2.setText(binaryOutput(boolOp2));
+            System.out.println("MAde it here");
             switch (selectedOp) {
                 case PLUS:
                     addition();
@@ -155,17 +157,78 @@ public class CalcActions implements KeyListener, ActionListener  {
     }
     
     public void addition()    {
-        boolean carryFlag = false;
+        boolean firstExponentIsGreater = true, addFlag, carryFlag = false;
+        int exponentDifference = 0, powerOf2;
         
-        for (int i = 0; i < 32; i++)    {
-            boolResult[i] = (boolOp1[i] ^ boolOp2[i]);
-            boolResult[i] = (boolResult[i] ^ carryFlag);
+        if (boolOp1[30] ^ boolOp2[30])  {
+            if (boolOp1[30])
+                firstExponentIsGreater = false;
+        }
+        else    {
+            for (int i = 29; i > 22; i--)   {
+                if (boolOp1[i] ^ boolOp2[i])  {
+                    if (boolOp2[i])
+                        firstExponentIsGreater = false;
+                    break;
+                }
+            }
+        }
+        for (int i = 30; i > 22; i--)   {
+            if (firstExponentIsGreater)
+                boolResult[i] = boolOp1[i];
+            else
+                boolResult[i] = boolOp2[i];
+        }
+        if (firstExponentIsGreater)
+            multByNegOne(boolOp2, 30, 8);
+        else
+            multByNegOne(boolOp1, 30, 8);
+       
+       powerOf2 = 1;
+       for (int i = 23; i < 31; i++)    {
+            addFlag = (boolOp1[i] ^ boolOp2[i]);
+            addFlag = (addFlag ^ carryFlag);
+            if (addFlag)
+                exponentDifference += powerOf2;
+            powerOf2 *= 2;
             if (carryFlag)
                 carryFlag = (boolOp1[i] || boolOp2[i]);
             else
                 carryFlag = (boolOp1[i] && boolOp2[i]);
         }
-        showResults();
+        
+        if (firstExponentIsGreater)
+            shiftMantissa(boolOp2, exponentDifference);
+        else
+            shiftMantissa(boolOp1, exponentDifference);
+        
+        if (boolOp1[31])
+            multByNegOne(boolOp1, 22, 23);
+        if (boolOp2[31])
+            multByNegOne(boolOp2, 22, 23);
+        
+        addMantissae();
+        gui.display.binaryResult.setText(binaryOutput(boolResult));
+    }
+    
+    public void shiftMantissa (boolean[] boolArray, int distance)   {
+        for (int i = 0; i < distance; i++)  {
+            for (int j = 0; j < 22; j++)
+                boolArray[j] = boolArray[j + 1];
+            boolArray[22] = false;
+        }
+    }
+    
+    public void addMantissae()  {
+        boolean carryFlag = false;
+        for (int i = 0; i < 23; i++)    {
+            boolResult[i] = (boolOp1[i] ^ boolOp2[i]);
+            boolResult[i] = (boolResult[i] ^ carryFlag);
+        }
+        if (carryFlag)
+            carryFlag = (boolOp1[i] || boolOp2[i]);
+        else
+            carryFlag = (boolOp1[i] && boolOp2[i]);
     }
     
     public void subtraction()   {
@@ -275,40 +338,30 @@ public class CalcActions implements KeyListener, ActionListener  {
         }
     }
     
-    public void multByNegOne()  {
+    public void multByNegOne(boolean[] boolArray, int start, int length)  {
 //        boolean[] boolArray = boolOp;
-        if (boolOp2[31]) {
-            subtractOne();
-            complement();
+        if (boolArray[start]) {
+            while (!boolArray[start - length])  {
+                boolArray[start - length] = true;
+                length--;
+            }
+            boolArray[start - length] = false;
+            complement(boolArray, start, length);
         }
         else    {
-            complement();
-            addOne();
+            complement(boolArray, start, length);
+            while (boolArray[start - length])   {
+                boolArray[start - length] = false;
+                length--;
+            }
+            boolArray[start - length] = true;
         }
         
     }
 
-    public void complement()    {
-        for (int i = 0; i < 32; i++)    {
-            boolOp2[i] = !boolOp2[i];
+    public void complement(boolean[] boolArray, int start, int length)    {
+        for (int i = start; i > start - length; i--)    {
+            boolArray[i] = !boolArray[i];
         }
-    }
-
-    public void subtractOne()   {
-        int i = 0;
-        while (!boolOp2[i])  {
-            boolOp2[i] = true;
-            i++;
-        }
-        boolOp2[i] = false;
-    }
-
-    public void addOne()    {
-        int i = 0;
-        while (boolOp2[i])   {
-            boolOp2[i] = false;
-            i++;
-        }
-        boolOp2[i] = true;
     }
 }
