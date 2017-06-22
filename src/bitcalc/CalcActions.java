@@ -1,7 +1,5 @@
 package bitcalc;
 
-
-
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.*;
@@ -20,6 +18,7 @@ public class CalcActions implements KeyListener, ActionListener  {
     static final byte MULTIPLY = 2;
     static final byte DIVIDE = 3;
     static final long MAX_VALUE = 4194304;
+    static final int MAX_EXP = 64;
 
     public CalcActions (CalcFrame in)   {
         gui = in;
@@ -216,7 +215,7 @@ public class CalcActions implements KeyListener, ActionListener  {
     }
     
     public void convertToFloatBinary(String input, boolean[] boolOp) {
-        int mantissaCount = 22, exponentCount = 22;
+        int mantissaCount = 22, exponentCount = -1;
         double inputFraction, inputValue = Double.parseDouble(input), powerOfHalf = 0.5;
         long inputWhole, powerOf2 = MAX_VALUE;
         if (inputValue < 0) {
@@ -231,16 +230,16 @@ public class CalcActions implements KeyListener, ActionListener  {
         if (inputWhole > 0) {
             while (inputWhole < powerOf2)   {
                 powerOf2 /= 2;
-                exponentCount--;
             }
 
-            while (powerOf2 > 1)    {
+            while (powerOf2 >= 1)    {
                 if (inputWhole >= powerOf2) {
                     boolOp[mantissaCount] = true;
                     inputWhole -= powerOf2;
                 }
                 powerOf2 /= 2;
                 mantissaCount--;
+                exponentCount++;
             }
         }
         if (inputFraction > 0)  {
@@ -248,6 +247,8 @@ public class CalcActions implements KeyListener, ActionListener  {
                 powerOfHalf /= 2;
                 if (exponentCount < 1)
                     exponentCount--;
+                else
+                    mantissaCount--;
             }
             
             while (mantissaCount >= 0)  {
@@ -258,6 +259,19 @@ public class CalcActions implements KeyListener, ActionListener  {
                 powerOfHalf /= 2;
                 mantissaCount--;
             }
+        }
+        System.out.println("exponentCount is " + exponentCount);
+        if (exponentCount < 0)  {
+            boolOp[30] = true;
+            exponentCount += (MAX_EXP * 2);
+        }
+        powerOf2 = MAX_EXP;
+        for (int i = 29; i > 22; i--)   {
+            if (exponentCount >= powerOf2)  {
+                boolOp[i] = true;
+                exponentCount -= powerOf2;
+            }
+            powerOf2 /= 2;
         }
     }
     
