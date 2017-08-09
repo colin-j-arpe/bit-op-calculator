@@ -157,25 +157,6 @@ public class CalcActions implements KeyListener, ActionListener  {
         gui.entryField.entryText.setText(entryString);
     }
     
-    public void addition()    {
-        boolean carryFlag = false;
-        
-        for (int i = 0; i < 32; i++)    {
-            boolResult[i] = (boolOp1[i] ^ boolOp2[i]);
-            boolResult[i] = (boolResult[i] ^ carryFlag);
-            if (carryFlag)
-                carryFlag = (boolOp1[i] || boolOp2[i]);
-            else
-                carryFlag = (boolOp1[i] && boolOp2[i]);
-        }
-        showResults();
-    }
-    
-    public void subtraction()   {
-        multByNegOne();
-        addition();
-    }
-    
     public void showResults()   {
         String binaryResult = "";
         long decimalResult = 0, powerOf2 = MAX_VALUE;
@@ -225,40 +206,4 @@ public class CalcActions implements KeyListener, ActionListener  {
         return output;
     }
     
-    public void multByNegOne()  {
-//        boolean[] boolArray = boolOp;
-        if (boolOp2[31]) {
-            subtractOne();
-            complement();
-        }
-        else    {
-            complement();
-            addOne();
-        }
-        
-    }
-
-    public void complement()    {
-        for (int i = 0; i < 32; i++)    {
-            boolOp2[i] = !boolOp2[i];
-        }
-    }
-
-    public void subtractOne()   {
-        int i = 0;
-        while (!boolOp2[i])  {
-            boolOp2[i] = true;
-            i++;
-        }
-        boolOp2[i] = false;
-    }
-
-    public void addOne()    {
-        int i = 0;
-        while (boolOp2[i])   {
-            boolOp2[i] = false;
-            i++;
-        }
-        boolOp2[i] = true;
-    }
 }
