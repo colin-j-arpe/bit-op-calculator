@@ -1,28 +1,28 @@
 package bitcalc;
 
-
-
-import javax.swing.*;
+//import javax.swing.*;
 import java.awt.event.*;
 import java.util.*;
 
 public class CalcActions implements KeyListener, ActionListener  {
     CalcFrame gui;
+    Equation thisEq;
+    
     boolean noDecimal = true, newEntry = true, negative = false, secondOperand = false;
-    String entryString = "0", binary1 = "", binary2 = "", binary3 = "", resultString = "";
-    boolean[] boolOp1 = new boolean[32];
-    boolean[] boolOp2 = new boolean[32];
-    boolean[] boolResult = new boolean[32];
+    String entryString = "0", resultString = "";
+    String[] binaryString = new String[3];
 
     byte selectedOp;
     static final byte PLUS = 0;
     static final byte MINUS = 1;
     static final byte MULTIPLY = 2;
     static final byte DIVIDE = 3;
+
     static final long MAX_VALUE = 1073741824;
 
     public CalcActions (CalcFrame in)   {
-        gui = in;
+        this.thisEq = new Equation();
+        this.gui = in;
     }
     
     public void keyTyped(KeyEvent input)    {
@@ -55,12 +55,14 @@ public class CalcActions implements KeyListener, ActionListener  {
             entryString += entry;
             gui.entryField.entryText.setText(entryString);
         }
+
         else if (entry == '.' && noDecimal)   {
             entryString += entry;
             noDecimal = false;
             newEntry = false;
             gui.entryField.entryText.setText(entryString);
         }
+
         else if (entry == '-')  {
             if (newEntry && !negative)   {
                 negative = true;
@@ -74,54 +76,61 @@ public class CalcActions implements KeyListener, ActionListener  {
             }
             else    {
                 operatorButton(entry);
-//                gui.display.operator.setText("-");
                 selectedOp = MINUS;
             }
         }
+
         else if (entry == '+')  {
             operatorButton(entry);
-//            gui.display.operator.setText("+");
             selectedOp = PLUS;
         }
+
         else if (entry == '*')  {
             operatorButton(entry);
-//                gui.display.operator.setText("-");
             selectedOp = MULTIPLY;
         }
+
         else if (entry == '/')  {
             operatorButton(entry);
             selectedOp = DIVIDE;
         }
+
         else if (entry == '=')  {
-            binary2 = convertToBinary(entryString, boolOp2);
-            System.out.println("MAde it here");
-            gui.display.operand2.setText(binary2);
+            createBinaryArray(entryString, 1);
+            binaryString[1] = createBinaryString(1);
+            gui.display.operand2.setText(binaryString[1]);
+
             switch (selectedOp) {
                 case PLUS:
-                    addition();
+                    thisEq.addition();
                     break;
                 case MINUS:
-                    subtraction();
+                    thisEq.subtraction();
                     break;
                 case MULTIPLY:
-                    multiplication();
+                    thisEq.multiplication();
                     break;
                 case DIVIDE:
-                    division();
+                    thisEq.division();
                     break;
             }
-//            gui.display.decimalResult.setText(resultString);
+            
+            binaryString[2] = createBinaryString(2);
+            gui.display.binaryResult.setText(binaryString[2]);
+            
+            resultString = convertToDecimal(thisEq.binaryNumber[2]);
+            gui.display.decimalResult.setText(resultString);
         }
+        
         else if (entry == 'C' || entry == 'c') {
+            thisEq = new Equation();
             entryString = "0";
             noDecimal = true;
             newEntry = true;
             negative = false;
-            binary1 = "";
-            binary2 = "";
-            Arrays.fill(boolOp1, false);
-            Arrays.fill(boolOp2, false);
-            Arrays.fill(boolResult, false);
+            Arrays.fill(binaryString, "");
+            for (int i = 0; i < 3; i++)
+                Arrays.fill(thisEq.binaryNumber[i], false);
             gui.entryField.entryText.setText("0");
             gui.display.operand1.setText("");
             gui.display.operator.setText("");
@@ -138,72 +147,69 @@ public class CalcActions implements KeyListener, ActionListener  {
     }
     
     public void operatorButton(char operator)    {
+        entryString = "0";
+        createBinaryArray(entryString, 0);
+        binaryString[0] = createBinaryString(0);
+        String opString = "";
+        opString += operator;
+
+        gui.entryField.entryText.setText(entryString);
+        gui.display.operand1.setText(binaryString[0]);
+        gui.display.operator.setText(opString);
+
         gui.operators.plus.setEnabled(false);
         gui.operators.multiply.setEnabled(false);
         gui.operators.divide.setEnabled(false);
         gui.operators.equals.setEnabled(true);
 
-        String opString = "";
-        opString += operator;
-        binary1 = convertToBinary(entryString, boolOp1);
-        gui.display.operand1.setText(binary1);
-        gui.display.operator.setText(opString);
-
-        entryString = "0";
         noDecimal = true;
         newEntry = true;
         negative = false;
         secondOperand = true;
-        gui.entryField.entryText.setText(entryString);
     }
     
-    public void showResults()   {
-        String binaryResult = "";
+    public String convertToDecimal(boolean[] input) {
         long decimalResult = 0, powerOf2 = MAX_VALUE;
-        for (int i = 31; i >= 0; i--)   {
-            if (boolResult[i])
-                binaryResult += '1';
-            else
-                binaryResult += '0';
-        }
-        gui.display.binaryResult.setText(binaryResult);
         
-        if (boolResult[31])
+        if (input[31])
             decimalResult = MAX_VALUE * (-2);
         for (int i = 30; i >= 0; i--)   {
-            if (boolResult[i])
+            if (input[i])
                 decimalResult += powerOf2;
             powerOf2 /= 2;
         }
-        gui.display.decimalResult.setText(Long.toString(decimalResult));
+        
+        return Long.toString(decimalResult);
     }
-    
-    public String convertToBinary(String input, boolean[] boolOp) {
-        String output = "";
+
+    public void createBinaryArray(String input, int whichBinary)  {
         double inputValue = Double.parseDouble(input);
         long powerOf2 = MAX_VALUE;
+        
         if (inputValue < 0) {
-            boolOp[31] = true;
-            output += '1';
+            thisEq.binaryNumber[whichBinary][31] = true;
             System.out.println("negative");
-            
             inputValue += (MAX_VALUE * 2);
             System.out.println("value is now " + inputValue);
         }
-        else
-            output += '0';
         
         for (int i = 30; i >= 0; i--)    {
             if (inputValue >= powerOf2) {
-                output += '1';
-                boolOp[i] = true;
+                thisEq.binaryNumber[whichBinary][i] = true;
                 inputValue -= powerOf2;
             }
-            else
-                output += '0';
             powerOf2 /= 2;
+        }
+    }
+
+    public String createBinaryString(int whichBinary) {
+        String output = "";
+        for (int i = 31; i >= 0; i--)   {
+            if (thisEq.binaryNumber[whichBinary][i])
+                output += "1";
+            else
+                output += "0";
         }
         return output;
     }
-    
 }

@@ -2,7 +2,7 @@ package bitcalc;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+//import java.awt.event.*;
 
 public class CalcFrame extends JFrame   {
     CalcActions calc = new CalcActions(this);
@@ -107,7 +107,7 @@ class NumberPanel extends JPanel    {
         add(b8);
         add(b9);
         add(b0);
-        add(point);
+//        add(point);
     }
 }
 
