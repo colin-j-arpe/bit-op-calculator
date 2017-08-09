@@ -3,22 +3,22 @@ package bitcalc;
 public class Equation   {
     boolean[][] binaryNumber = new boolean[3][32];
     
-    public void addition(byte operandA, byte operandB, boolean resultHolder[])    {
+    public void addition()    {
         boolean carryFlag = false;
         
         for (int i = 0; i < 32; i++)    {
-            resultHolder[i] = (binaryNumber[operandA][i] ^ binaryNumber[operandB][i]);
-            resultHolder[i] = (resultHolder[i] ^ carryFlag);
+            binaryNumber[2][i] = (binaryNumber[0][i] ^ binaryNumber[1][i]);
+            binaryNumber[2][i] = (binaryNumber[2][i] ^ carryFlag);
             if (carryFlag)
-                carryFlag = (binaryNumber[operandA][i] || binaryNumber[operandB][i]);
+                carryFlag = (binaryNumber[0][i] || binaryNumber[1][i]);
             else
-                carryFlag = (binaryNumber[operandA][i] && binaryNumber[operandB][i]);
+                carryFlag = (binaryNumber[0][i] && binaryNumber[1][i]);
         }
     }
     
     public void subtraction()   {
         multByNegOne((byte)1);
-        addition((byte)0, (byte)1, binaryNumber[2]);
+        addition();
     }
     
     public void multiplication()    {
@@ -29,7 +29,7 @@ public class Equation   {
         System.arraycopy(binaryNumber[0], 0, binaryNumber[1], 0, 32);
         
         while (subtractOne(multiplier))    {
-            addition((byte)0, (byte)1, binaryNumber[2]);
+            addition();
             System.arraycopy(binaryNumber[2], 0, binaryNumber[1], 0, 32);
         }
         if (negativeResult)
@@ -43,14 +43,13 @@ public class Equation   {
         boolean[] resultCounter = new boolean[32];
         
         do  {
-            addition((byte)0, (byte)1, binaryNumber[2]);
+            addition();
             if (!binaryNumber[2][31])
                 addOne(resultCounter);
             System.arraycopy(binaryNumber[2], 0, binaryNumber[0], 0, 32);
         }   while (!binaryNumber[0][31]);
         
         System.arraycopy(resultCounter, 0, binaryNumber[2], 0, 32);
-        return;
     }
     
     public void multByNegOne(byte whichBinary)  {
@@ -93,11 +92,12 @@ public class Equation   {
         }
     }
 
-    public boolean removeNegatives()
+    public boolean removeNegatives()    {
         boolean result = binaryNumber[0][31] ^ binaryNumber[1][31];
         for (byte i = 0; i < 2; i++) {
             if (binaryNumber[i][31])
                 multByNegOne(i);
         }
         return result;
+    }
 }
