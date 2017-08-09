@@ -95,6 +95,7 @@ class NumberPanel extends JPanel    {
         super();
         GridLayout numberLayout = new GridLayout(4, 3);
         setLayout(numberLayout);
+        point.setEnabled(false);
         
         add(b1);
         add(b2);
