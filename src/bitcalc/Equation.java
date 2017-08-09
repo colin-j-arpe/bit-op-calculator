@@ -1,5 +1,7 @@
 package bitcalc;
 
+import java.util.Arrays;
+
 public class Equation   {
     boolean[][] binaryNumber = new boolean[3][32];
     
@@ -26,7 +28,8 @@ public class Equation   {
         
         boolean[] multiplier = new boolean[32];
         System.arraycopy(binaryNumber[1], 0, multiplier, 0, 32);
-        System.arraycopy(binaryNumber[0], 0, binaryNumber[1], 0, 32);
+//        System.arraycopy(binaryNumber[0], 0, binaryNumber[1], 0, 32);
+        Arrays.fill(binaryNumber[1], false);
         
         while (subtractOne(multiplier))    {
             addition();
@@ -50,6 +53,8 @@ public class Equation   {
         }   while (!binaryNumber[0][31]);
         
         System.arraycopy(resultCounter, 0, binaryNumber[2], 0, 32);
+        if (negativeResult)
+            multByNegOne((byte)2);
     }
     
     public void multByNegOne(byte whichBinary)  {
@@ -71,10 +76,9 @@ public class Equation   {
         }
         if (i == 31)
             return false;
-        else    {
-            thisBinary[i] = false;
-            return true;
-        }
+        
+        thisBinary[i] = false;
+        return true;
     }
 
     public void addOne(boolean[] thisBinary)    {

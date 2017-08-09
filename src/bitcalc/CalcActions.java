@@ -128,6 +128,7 @@ public class CalcActions implements KeyListener, ActionListener  {
             noDecimal = true;
             newEntry = true;
             negative = false;
+            secondOperand = false;
             Arrays.fill(binaryString, "");
             for (int i = 0; i < 3; i++)
                 Arrays.fill(thisEq.binaryNumber[i], false);
@@ -147,13 +148,11 @@ public class CalcActions implements KeyListener, ActionListener  {
     }
     
     public void operatorButton(char operator)    {
-        entryString = "0";
         createBinaryArray(entryString, 0);
         binaryString[0] = createBinaryString(0);
         String opString = "";
         opString += operator;
 
-        gui.entryField.entryText.setText(entryString);
         gui.display.operand1.setText(binaryString[0]);
         gui.display.operator.setText(opString);
 
@@ -166,6 +165,8 @@ public class CalcActions implements KeyListener, ActionListener  {
         newEntry = true;
         negative = false;
         secondOperand = true;
+        entryString = "0";
+        gui.entryField.entryText.setText(entryString);
     }
     
     public String convertToDecimal(boolean[] input) {

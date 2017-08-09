@@ -31,6 +31,8 @@ public class CalcFrame extends JFrame   {
         keypad.point.addActionListener(calc);
         operators.plus.addActionListener(calc);
         operators.minus.addActionListener(calc);
+        operators.multiply.addActionListener(calc);
+        operators.divide.addActionListener(calc);
         operators.equals.addActionListener(calc);
         operators.clear.addActionListener(calc);
         
@@ -114,7 +116,7 @@ class NumberPanel extends JPanel    {
 class OperPanel extends JPanel  {
     JButton plus = new JButton("+");
     JButton minus = new JButton("-");
-    JButton multiply = new JButton("x");
+    JButton multiply = new JButton("*");
     JButton divide = new JButton("/");
     JButton equals = new JButton("=");
     JButton clear = new JButton("C");
