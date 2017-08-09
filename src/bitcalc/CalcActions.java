@@ -62,9 +62,9 @@ public class CalcActions implements KeyListener, ActionListener  {
             gui.entryField.entryText.setText(entryString);
         }
         else if (entry == '-')  {
-            if (newEntry)   {
+            if (newEntry && !negative)   {
                 negative = true;
-                newEntry = false;
+//                newEntry = false;
                 if (secondOperand)
                     gui.operators.minus.setEnabled(false);
                 System.out.println("negative");
