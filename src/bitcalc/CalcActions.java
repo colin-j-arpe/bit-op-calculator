@@ -8,7 +8,8 @@ public class CalcActions implements KeyListener, ActionListener  {
     CalcFrame gui;
     Equation thisEq;
     
-    boolean noDecimal = true, newEntry = true, negative = false, secondOperand = false;
+    boolean noDecimal = true, newEntry = true, negative = false;
+    byte operand = 0;
     String entryString = "0", resultString = "";
     String[] binaryString = new String[3];
 
@@ -54,6 +55,13 @@ public class CalcActions implements KeyListener, ActionListener  {
             }
             entryString += entry;
             gui.entryField.entryText.setText(entryString);
+
+            createBinaryArray(entryString, operand);
+            binaryString[operand] = createBinaryString(operand);
+            if (operand == 0)
+                gui.display.operand1.setText(binaryString[0]);
+            else
+                gui.display.operand2.setText(binaryString[1]);
         }
 
         else if (entry == '.' && noDecimal)   {
@@ -67,7 +75,7 @@ public class CalcActions implements KeyListener, ActionListener  {
             if (newEntry && !negative)   {
                 negative = true;
 //                newEntry = false;
-                if (secondOperand)
+                if (operand == 1)
                     gui.operators.minus.setEnabled(false);
                 System.out.println("negative");
                 entryString = '-' + entryString;
@@ -96,8 +104,8 @@ public class CalcActions implements KeyListener, ActionListener  {
         }
 
         else if (entry == '=')  {
-            createBinaryArray(entryString, 1);
-            binaryString[1] = createBinaryString(1);
+            createBinaryArray(entryString, (byte)1);
+            binaryString[1] = createBinaryString((byte)1);
             gui.display.operand2.setText(binaryString[1]);
 
             switch (selectedOp) {
@@ -115,7 +123,7 @@ public class CalcActions implements KeyListener, ActionListener  {
                     break;
             }
             
-            binaryString[2] = createBinaryString(2);
+            binaryString[2] = createBinaryString((byte)2);
             gui.display.binaryResult.setText(binaryString[2]);
             
             resultString = convertToDecimal(thisEq.binaryNumber[2]);
@@ -128,7 +136,7 @@ public class CalcActions implements KeyListener, ActionListener  {
             noDecimal = true;
             newEntry = true;
             negative = false;
-            secondOperand = false;
+            operand = 0;
             Arrays.fill(binaryString, "");
             for (int i = 0; i < 3; i++)
                 Arrays.fill(thisEq.binaryNumber[i], false);
@@ -148,8 +156,8 @@ public class CalcActions implements KeyListener, ActionListener  {
     }
     
     public void operatorButton(char operator)    {
-        createBinaryArray(entryString, 0);
-        binaryString[0] = createBinaryString(0);
+        createBinaryArray(entryString, (byte)0);
+        binaryString[0] = createBinaryString((byte)0);
         String opString = "";
         opString += operator;
 
@@ -164,7 +172,7 @@ public class CalcActions implements KeyListener, ActionListener  {
         noDecimal = true;
         newEntry = true;
         negative = false;
-        secondOperand = true;
+        operand = 1;
         entryString = "0";
         gui.entryField.entryText.setText(entryString);
     }
@@ -183,9 +191,11 @@ public class CalcActions implements KeyListener, ActionListener  {
         return Long.toString(decimalResult);
     }
 
-    public void createBinaryArray(String input, int whichBinary)  {
+    public void createBinaryArray(String input, byte whichBinary)  {
         double inputValue = Double.parseDouble(input);
         long powerOf2 = MAX_VALUE;
+        
+        Arrays.fill(thisEq.binaryNumber[whichBinary], false);
         
         if (inputValue < 0) {
             thisEq.binaryNumber[whichBinary][31] = true;
@@ -203,7 +213,7 @@ public class CalcActions implements KeyListener, ActionListener  {
         }
     }
 
-    public String createBinaryString(int whichBinary) {
+    public String createBinaryString(byte whichBinary) {
         String output = "";
         for (int i = 31; i >= 0; i--)   {
             if (thisEq.binaryNumber[whichBinary][i])
