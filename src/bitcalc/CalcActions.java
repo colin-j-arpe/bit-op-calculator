@@ -41,7 +41,6 @@ public class CalcActions implements KeyListener, ActionListener  {
     
     public void actionPerformed(ActionEvent event)  {
         String buttonLabel = event.getActionCommand();
-        System.out.println("Triggered button " + buttonLabel);
         char[] button = buttonLabel.toCharArray() ;
         buttonFunctions(button[0]);
     }
@@ -77,33 +76,36 @@ public class CalcActions implements KeyListener, ActionListener  {
 //                newEntry = false;
                 if (operand == 1)
                     gui.operators.minus.setEnabled(false);
-                System.out.println("negative");
                 entryString = '-' + entryString;
-                System.out.println(entryString);
                 gui.entryField.entryText.setText(entryString);
             }
             else    {
+                if (operand > 0) return;
                 operatorButton(entry);
                 selectedOp = MINUS;
             }
         }
 
         else if (entry == '+')  {
+            if (operand > 0) return;
             operatorButton(entry);
             selectedOp = PLUS;
         }
 
         else if (entry == '*')  {
+            if (operand > 0) return;
             operatorButton(entry);
             selectedOp = MULTIPLY;
         }
 
         else if (entry == '/')  {
+            if (operand > 0) return;
             operatorButton(entry);
             selectedOp = DIVIDE;
         }
 
         else if (entry == '=')  {
+            if (operand < 1) return;
             createBinaryArray(entryString, (byte)1);
             binaryString[1] = createBinaryString((byte)1);
             gui.display.operand2.setText(binaryString[1]);
@@ -199,9 +201,7 @@ public class CalcActions implements KeyListener, ActionListener  {
         
         if (inputValue < 0) {
             thisEq.binaryNumber[whichBinary][31] = true;
-            System.out.println("negative");
             inputValue += (MAX_VALUE * 2);
-            System.out.println("value is now " + inputValue);
         }
         
         for (int i = 30; i >= 0; i--)    {
