@@ -23,7 +23,7 @@ public class Equation   {
         addition();
     }
     
-    public void multiplication()    {
+    public void _multiplication()    {
         boolean negativeResult = removeNegatives();
         
         boolean[] multiplier = new boolean[32];
@@ -38,7 +38,7 @@ public class Equation   {
             multByNegOne((byte)2);
     }
     
-    public void _multiplication()    {
+    public boolean multiplication()    {
         boolean negativeResult = removeNegatives();
         int multiplierIndex = 0;
         
@@ -55,12 +55,15 @@ public class Equation   {
         } while (bitShiftDouble());
         
         for (int i = multiplierIndex; i < 32; i++)  {
-            if (multiplier[i])
+            if (multiplier[i])  {
                 System.out.println("Result is too large");
+                return false;
+            }
         }
         
         if (negativeResult)
             multByNegOne((byte)2);
+        return true;
     }
     
     public void division()  {

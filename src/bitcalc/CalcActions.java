@@ -8,7 +8,7 @@ public class CalcActions implements KeyListener, ActionListener  {
     CalcFrame gui;
     Equation thisEq;
     
-    boolean noDecimal = true, newEntry = true, negative = false;
+    boolean noDecimal = true, newEntry = true, negative = false, outOfRange = false;
     byte operand = 0;
     String entryString = "0", resultString = "";
     String[] binaryString = new String[3];
@@ -118,7 +118,8 @@ public class CalcActions implements KeyListener, ActionListener  {
                     thisEq.subtraction();
                     break;
                 case MULTIPLY:
-                    thisEq.multiplication();
+                    if (!thisEq.multiplication())
+                        outOfRange = true;
                     break;
                 case DIVIDE:
                     thisEq.division();
@@ -128,8 +129,12 @@ public class CalcActions implements KeyListener, ActionListener  {
             binaryString[2] = createBinaryString((byte)2);
             gui.display.binaryResult.setText(binaryString[2]);
             
-            resultString = convertToDecimal(thisEq.binaryNumber[2]);
-            gui.display.decimalResult.setText(resultString);
+            if (outOfRange) {
+                gui.display.decimalResult.setText("ERROR: result out of range");
+            }   else    {
+                resultString = convertToDecimal(thisEq.binaryNumber[2]);
+                gui.display.decimalResult.setText(resultString);
+            }
         }
         
         else if (entry == 'C' || entry == 'c') {
@@ -138,6 +143,7 @@ public class CalcActions implements KeyListener, ActionListener  {
             noDecimal = true;
             newEntry = true;
             negative = false;
+            outOfRange = false;
             operand = 0;
             Arrays.fill(binaryString, "");
             for (int i = 0; i < 3; i++)
