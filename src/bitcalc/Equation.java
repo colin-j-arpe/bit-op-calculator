@@ -28,13 +28,37 @@ public class Equation   {
         
         boolean[] multiplier = new boolean[32];
         System.arraycopy(binaryNumber[1], 0, multiplier, 0, 32);
-//        System.arraycopy(binaryNumber[0], 0, binaryNumber[1], 0, 32);
         Arrays.fill(binaryNumber[1], false);
         
         while (subtractOne(multiplier))    {
             addition();
             System.arraycopy(binaryNumber[2], 0, binaryNumber[1], 0, 32);
         }
+        if (negativeResult)
+            multByNegOne((byte)2);
+    }
+    
+    public void _multiplication()    {
+        boolean negativeResult = removeNegatives();
+        int multiplierIndex = 0;
+        
+        boolean[] multiplier = new boolean[32];
+        System.arraycopy(binaryNumber[1], 0, multiplier, 0, 32);
+        Arrays.fill(binaryNumber[1], false);
+        
+        do {
+            if (multiplier[multiplierIndex])    {
+                addition();
+                System.arraycopy(binaryNumber[2], 0, binaryNumber[1], 0, 32);
+            }
+            multiplierIndex++;
+        } while (bitShiftDouble());
+        
+        for (int i = multiplierIndex; i < 32; i++)  {
+            if (multiplier[i])
+                System.out.println("Result is too large");
+        }
+        
         if (negativeResult)
             multByNegOne((byte)2);
     }
@@ -103,5 +127,15 @@ public class Equation   {
                 multByNegOne(i);
         }
         return result;
+    }
+    
+    private boolean bitShiftDouble()    {
+        if (binaryNumber[0][31])
+            return false;
+        for (int i = 31; i > 0; i--)    {
+            binaryNumber[0][i] = binaryNumber[0][i-1];
+        }
+        binaryNumber[0][0] = false;
+        return true;
     }
 }
