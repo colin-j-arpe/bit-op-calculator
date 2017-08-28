@@ -69,7 +69,7 @@ public class Equation   {
             multByNegOne((byte)2);
     }
     
-    public void multByNegOne(byte whichBinary)  {
+    private void multByNegOne(byte whichBinary)  {
         if (binaryNumber[whichBinary][31]) {
             subtractOne(binaryNumber[whichBinary]);
             complement(whichBinary);
@@ -80,7 +80,7 @@ public class Equation   {
         }
     }
 
-    public boolean subtractOne(boolean[] thisBinary)   {
+    private boolean subtractOne(boolean[] thisBinary)   {
         int i = 0;
         while (!thisBinary[i] && i < 31)  {
             thisBinary[i] = true;
@@ -93,7 +93,7 @@ public class Equation   {
         return true;
     }
 
-    public void addOne(boolean[] thisBinary)    {
+    private void addOne(boolean[] thisBinary)    {
         int i = 0;
         while (thisBinary[i])   {
             thisBinary[i] = false;
@@ -102,13 +102,13 @@ public class Equation   {
         thisBinary[i] = true;
     }
 
-    public void complement(byte whichBinary)    {
+    private void complement(byte whichBinary)    {
         for (int i = 0; i < 32; i++)    {
             binaryNumber[whichBinary][i] = !binaryNumber[whichBinary][i];
         }
     }
 
-    public boolean removeNegatives()    {
+    private boolean removeNegatives()    {
         boolean result = binaryNumber[0][31] ^ binaryNumber[1][31];
         for (byte i = 0; i < 2; i++) {
             if (binaryNumber[i][31])
