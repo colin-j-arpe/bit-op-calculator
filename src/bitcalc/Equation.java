@@ -23,21 +23,6 @@ public class Equation   {
         addition();
     }
     
-    public void _multiplication()    {
-        boolean negativeResult = removeNegatives();
-        
-        boolean[] multiplier = new boolean[32];
-        System.arraycopy(binaryNumber[1], 0, multiplier, 0, 32);
-        Arrays.fill(binaryNumber[1], false);
-        
-        while (subtractOne(multiplier))    {
-            addition();
-            System.arraycopy(binaryNumber[2], 0, binaryNumber[1], 0, 32);
-        }
-        if (negativeResult)
-            multByNegOne((byte)2);
-    }
-    
     public boolean multiplication()    {
         boolean negativeResult = removeNegatives();
         int multiplierIndex = 0;
