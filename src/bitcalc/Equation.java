@@ -3,23 +3,27 @@ package bitcalc;
 import java.util.Arrays;
 
 public class Equation   {
-    boolean[][] binaryNumber = new boolean[3][32];
+    boolean[][] binaryNumber = new boolean[4][32];
+    final byte OPERAND1 = 0;
+    final byte OPERAND2 = 1;
+    final byte RESULT = 2;
+    final byte TEMP = 3;
     
     public void addition()    {
         boolean carryFlag = false;
         
         for (int i = 0; i < 32; i++)    {
-            binaryNumber[2][i] = (binaryNumber[0][i] ^ binaryNumber[1][i]);
-            binaryNumber[2][i] = (binaryNumber[2][i] ^ carryFlag);
+            binaryNumber[RESULT][i] = (binaryNumber[OPERAND1][i] ^ binaryNumber[OPERAND2][i]);
+            binaryNumber[RESULT][i] = (binaryNumber[RESULT][i] ^ carryFlag);
             if (carryFlag)
-                carryFlag = (binaryNumber[0][i] || binaryNumber[1][i]);
+                carryFlag = (binaryNumber[OPERAND1][i] || binaryNumber[OPERAND2][i]);
             else
-                carryFlag = (binaryNumber[0][i] && binaryNumber[1][i]);
+                carryFlag = (binaryNumber[OPERAND1][i] && binaryNumber[OPERAND2][i]);
         }
     }
     
     public void subtraction()   {
-        multByNegOne((byte)1);
+        multByNegOne(OPERAND2);
         addition();
     }
     
@@ -27,79 +31,76 @@ public class Equation   {
         boolean negativeResult = removeNegatives();
         int multiplierIndex = 0;
         
-        boolean[] multiplier = new boolean[32];
-        System.arraycopy(binaryNumber[1], 0, multiplier, 0, 32);
-        Arrays.fill(binaryNumber[1], false);
+        System.arraycopy(binaryNumber[OPERAND2], 0, binaryNumber[TEMP], 0, 32);
+        Arrays.fill(binaryNumber[OPERAND2], false);
         
-        do {
-            if (multiplier[multiplierIndex])    {
+        do  {
+            if (binaryNumber[TEMP][multiplierIndex])    {
                 addition();
-                System.arraycopy(binaryNumber[2], 0, binaryNumber[1], 0, 32);
+                System.arraycopy(binaryNumber[RESULT], 0, binaryNumber[OPERAND2], 0, 32);
             }
             multiplierIndex++;
-        } while (bitShiftDouble());
+        }   while (bitShiftDouble(OPERAND1));
         
         for (int i = multiplierIndex; i < 32; i++)  {
-            if (multiplier[i])  {
+            if (binaryNumber[TEMP][i])  {
                 System.out.println("Result is too large");
                 return false;
             }
         }
         
         if (negativeResult)
-            multByNegOne((byte)2);
+            multByNegOne(RESULT);
         return true;
     }
     
     public void division()  {
         boolean negativeResult = removeNegatives();
-        multByNegOne((byte)1);
-        
-        boolean[] resultCounter = new boolean[32];
+        multByNegOne(OPERAND2);
         
         do  {
             addition();
-            if (!binaryNumber[2][31])
-                addOne(resultCounter);
-            System.arraycopy(binaryNumber[2], 0, binaryNumber[0], 0, 32);
-        }   while (!binaryNumber[0][31]);
+            if (!binaryNumber[RESULT][31])
+                addOne(TEMP);
+            System.arraycopy(binaryNumber[RESULT], 0, binaryNumber[OPERAND1], 0, 32);
+        }   while (!binaryNumber[OPERAND1][31]);
         
-        System.arraycopy(resultCounter, 0, binaryNumber[2], 0, 32);
+        System.arraycopy(binaryNumber[TEMP], 0, binaryNumber[RESULT], 0, 32);
         if (negativeResult)
-            multByNegOne((byte)2);
+            multByNegOne(RESULT);
     }
     
     private void multByNegOne(byte whichBinary)  {
         if (binaryNumber[whichBinary][31]) {
-            subtractOne(binaryNumber[whichBinary]);
+            subtractOne(whichBinary);
             complement(whichBinary);
         }
         else    {
             complement(whichBinary);
-            addOne(binaryNumber[whichBinary]);
+            addOne(whichBinary);
         }
     }
 
-    private boolean subtractOne(boolean[] thisBinary)   {
+    private boolean subtractOne(byte whichBinary)   {
         int i = 0;
-        while (!thisBinary[i] && i < 31)  {
-            thisBinary[i] = true;
+        while (!binaryNumber[whichBinary][i] && i < 31)  {
+            binaryNumber[whichBinary][i] = true;
             i++;
         }
         if (i == 31)
             return false;
         
-        thisBinary[i] = false;
+        binaryNumber[whichBinary][i] = false;
         return true;
     }
 
-    private void addOne(boolean[] thisBinary)    {
+    private void addOne(byte whichBinary)    {
         int i = 0;
-        while (thisBinary[i])   {
-            thisBinary[i] = false;
+        while (binaryNumber[whichBinary][i])   {
+            binaryNumber[whichBinary][i] = false;
             i++;
         }
-        thisBinary[i] = true;
+        binaryNumber[whichBinary][i] = true;
     }
 
     private void complement(byte whichBinary)    {
@@ -109,7 +110,7 @@ public class Equation   {
     }
 
     private boolean removeNegatives()    {
-        boolean result = binaryNumber[0][31] ^ binaryNumber[1][31];
+        boolean result = binaryNumber[OPERAND1][31] ^ binaryNumber[OPERAND2][31];
         for (byte i = 0; i < 2; i++) {
             if (binaryNumber[i][31])
                 multByNegOne(i);
@@ -117,13 +118,13 @@ public class Equation   {
         return result;
     }
     
-    private boolean bitShiftDouble()    {
-        if (binaryNumber[0][31])
+    private boolean bitShiftDouble(byte whichBinary)    {
+        if (binaryNumber[whichBinary][31])
             return false;
         for (int i = 31; i > 0; i--)    {
-            binaryNumber[0][i] = binaryNumber[0][i-1];
+            binaryNumber[whichBinary][i] = binaryNumber[whichBinary][i-1];
         }
-        binaryNumber[0][0] = false;
+        binaryNumber[whichBinary][0] = false;
         return true;
     }
 }
