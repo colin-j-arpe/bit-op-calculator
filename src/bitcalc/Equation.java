@@ -20,11 +20,10 @@ public class Equation   {
             else
                 carryFlag = (binaryNumber[OPERAND1][i] && binaryNumber[OPERAND2][i]);
         }
-        
-        if (carryFlag)
-            return false;
-        else
-            return true;
+        // If there is a carry from adding the highest digits,
+        // the result is too large; the return value will make 
+        // the outOfRange variable true or false
+        return carryFlag;
     }
     
     public boolean subtraction()   {
@@ -50,13 +49,13 @@ public class Equation   {
         for (int i = multiplierIndex; i < 32; i++)  {
             if (binaryNumber[TEMP][i])  {
                 System.out.println("Result is too large");
-                return false;
+                return true;
             }
         }
         
         if (negativeResult)
             multByNegOne(RESULT);
-        return true;
+        return false;
     }
     
     public void division()  {

@@ -115,16 +115,13 @@ public class CalcActions implements KeyListener, ActionListener  {
 
             switch (selectedOp) {
                 case PLUS:
-                    if (!thisEq.addition());
-                        outOfRange = true;
+                    outOfRange = thisEq.addition();
                     break;
                 case MINUS:
-                    if (!thisEq.subtraction());
-                        outOfRange = true;
+                    outOfRange = thisEq.subtraction();
                     break;
                 case MULTIPLY:
-                    if (!thisEq.multiplication())
-                        outOfRange = true;
+                    outOfRange = thisEq.multiplication();
                     break;
                 case DIVIDE:
                     thisEq.division();
