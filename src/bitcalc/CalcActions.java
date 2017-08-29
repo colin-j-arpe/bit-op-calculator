@@ -108,7 +108,10 @@ public class CalcActions implements KeyListener, ActionListener  {
             if (operand < 1) return;
             createBinaryArray(entryString, (byte)1);
             binaryString[1] = createBinaryString((byte)1);
+            decimalString[1] = convertToDecimal(thisEq.binaryNumber[1]);
+           
             gui.display.binaryOperand2.setText(binaryString[1]);
+            gui.display.decimalResult.setText(decimalString[1]);
 
             switch (selectedOp) {
                 case PLUS:
@@ -151,9 +154,11 @@ public class CalcActions implements KeyListener, ActionListener  {
             for (int i = 0; i < 3; i++)
                 Arrays.fill(thisEq.binaryNumber[i], false);
             gui.entryField.entryText.setText("0");
-            gui.display.operand1.setText("");
+            gui.display.binaryOperand1.setText("");
+            gui.display.decimalOperand1.setText("");
             gui.display.operator.setText("");
-            gui.display.operand2.setText("");
+            gui.display.binaryOperand2.setText("");
+            gui.display.decimalOperand2.setText("");
             gui.display.binaryResult.setText("");
             gui.display.decimalResult.setText("");
             gui.operators.plus.setEnabled(true);
@@ -168,10 +173,12 @@ public class CalcActions implements KeyListener, ActionListener  {
     public void operatorButton(char operator)    {
         createBinaryArray(entryString, (byte)0);
         binaryString[0] = createBinaryString((byte)0);
+        decimalString[0] = convertToDecimal(thisEq.binaryNumber[0]);
         String opString = "";
         opString += operator;
 
         gui.display.binaryOperand1.setText(binaryString[0]);
+        gui.display.decimalOperand1.setText(decimalString[0]);
         gui.display.operator.setText(opString);
 
         gui.operators.plus.setEnabled(false);
