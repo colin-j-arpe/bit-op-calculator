@@ -16,7 +16,6 @@ public class CalcFrame extends JFrame   {
         setSize(300, 420);
         JPanel calcWindow = new JPanel();
         BoxLayout calcLayout = new BoxLayout(calcWindow, BoxLayout.Y_AXIS);
-//        GridLayout calcLayout = new GridLayout(4, 1);
         calcWindow.setLayout (calcLayout);
         
         calcWindow.add(entryField);
@@ -137,8 +136,6 @@ class OperPanel extends JPanel  {
     
     public OperPanel()  {
         super();
-//        GridLayout operLayout = new GridLayout(3, 6);
-//        setLayout(operLayout);
         equals.setEnabled(false);
 
         add(plus);
