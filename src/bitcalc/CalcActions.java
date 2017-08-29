@@ -111,7 +111,7 @@ public class CalcActions implements KeyListener, ActionListener  {
             decimalString[1] = convertToDecimal(thisEq.binaryNumber[1]);
            
             gui.display.binaryOperand2.setText(binaryString[1]);
-            gui.display.decimalResult.setText(decimalString[1]);
+            gui.display.decimalOperand2.setText(decimalString[1]);
 
             switch (selectedOp) {
                 case PLUS:

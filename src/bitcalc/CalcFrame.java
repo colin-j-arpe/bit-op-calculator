@@ -13,10 +13,18 @@ public class CalcFrame extends JFrame   {
 
     public CalcFrame()  {
         super("bitCalc");
-        setSize(300, 600);
-        GridLayout calcLayout = new GridLayout(4, 1);
-        setLayout (calcLayout);
+        setSize(300, 420);
+        JPanel calcWindow = new JPanel();
+        BoxLayout calcLayout = new BoxLayout(calcWindow, BoxLayout.Y_AXIS);
+//        GridLayout calcLayout = new GridLayout(4, 1);
+        calcWindow.setLayout (calcLayout);
         
+        calcWindow.add(entryField);
+        calcWindow.add(display);
+        calcWindow.add(keypad);
+        calcWindow.add(operators);
+        add(calcWindow);
+
         entryField.entryText.addKeyListener(calc);
         keypad.b1.addActionListener(calc);
         keypad.b2.addActionListener(calc);
@@ -36,11 +44,6 @@ public class CalcFrame extends JFrame   {
         operators.equals.addActionListener(calc);
         operators.clear.addActionListener(calc);
         
-        add(entryField);
-        add(display);
-        add(keypad);
-        add(operators);
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
@@ -101,7 +104,7 @@ class NumberPanel extends JPanel    {
     
     public NumberPanel()    {
         super();
-        GridLayout numberLayout = new GridLayout(4, 3);
+        GridLayout numberLayout = new GridLayout(4, 3, 10, 10);
         setLayout(numberLayout);
         point.setEnabled(false);
         
@@ -116,6 +119,11 @@ class NumberPanel extends JPanel    {
         add(b9);
         add(b0);
 //        add(point);
+    }
+    
+    public Insets getInsets()   {
+        Insets borders = new Insets (0, 40, 0, 40);
+        return borders;
     }
 }
 
