@@ -18,8 +18,7 @@ public class CalcActions implements KeyListener, ActionListener  {
     static final byte MINUS = 1;
     static final byte MULTIPLY = 2;
     static final byte DIVIDE = 3;
-
-    static final long MAX_VALUE = 1073741824;
+    static final long TWO_TO_THE_30TH = 1073741824;
 
     public CalcActions (CalcFrame in)   {
         this.thisEq = new Equation();
@@ -186,10 +185,10 @@ public class CalcActions implements KeyListener, ActionListener  {
     }
     
     public String convertToDecimal(boolean[] input) {
-        long decimalResult = 0, powerOf2 = MAX_VALUE;
+        long decimalResult = 0, powerOf2 = TWO_TO_THE_30TH;
         
         if (input[31])
-            decimalResult = MAX_VALUE * (-2);
+            decimalResult = TWO_TO_THE_30TH * (-2);
         for (int i = 30; i >= 0; i--)   {
             if (input[i])
                 decimalResult += powerOf2;
@@ -201,13 +200,13 @@ public class CalcActions implements KeyListener, ActionListener  {
 
     public void createBinaryArray(String input, byte whichBinary)  {
         double inputValue = Double.parseDouble(input);
-        long powerOf2 = MAX_VALUE;
+        long powerOf2 = TWO_TO_THE_30TH;
         
         Arrays.fill(thisEq.binaryNumber[whichBinary], false);
         
         if (inputValue < 0) {
             thisEq.binaryNumber[whichBinary][31] = true;
-            inputValue += (MAX_VALUE * 2);
+            inputValue += (TWO_TO_THE_30TH * 2);
         }
         
         for (int i = 30; i >= 0; i--)    {
