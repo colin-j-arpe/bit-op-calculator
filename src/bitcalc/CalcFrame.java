@@ -57,24 +57,30 @@ class EntryPanel extends JPanel  {
 }
 
 class DisplayPanel extends JPanel    {
-    JTextField operand1 = new JTextField();
+    JTextField binaryOperand1 = new JTextField();
+    JTextField decimalOperand1 = new JTextField();
     JLabel operator = new JLabel();
-    JTextField operand2 = new JTextField();
+    JTextField binaryOperand2 = new JTextField();
+    JTextField decimalOperand2 = new JTextField();
     JTextField binaryResult = new JTextField();
     JTextField decimalResult = new JTextField();
     
     public DisplayPanel()   {
         super();
-        operand1.setEditable(false);
-        operand2.setEditable(false);
+        binaryOperand1.setEditable(false);
+        decimalOperand1.setEditable(false);
+        binaryOperand2.setEditable(false);
+        decimalOperand2.setEditable(false);
         binaryResult.setEditable(false);
         decimalResult.setEditable(false);
         
         BoxLayout displayLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(displayLayout);
-        this.add(operand1);
+        this.add(binaryOperand1);
+        this.add(decimalOperand1);
         this.add(operator);
-        this.add(operand2);
+        this.add(binaryOperand2);
+        this.add(decimalOperand2);
         this.add(binaryResult);
         this.add(decimalResult);
     }

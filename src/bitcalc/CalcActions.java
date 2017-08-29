@@ -10,8 +10,9 @@ public class CalcActions implements KeyListener, ActionListener  {
     
     boolean noDecimal = true, newEntry = true, negative = false, outOfRange = false;
     byte operand = 0;
-    String entryString = "0", resultString = "";
+    String entryString = "0";
     String[] binaryString = new String[3];
+    String[] decimalString = new String[3];
 
     byte selectedOp;
     static final byte PLUS = 0;
@@ -57,9 +58,9 @@ public class CalcActions implements KeyListener, ActionListener  {
             createBinaryArray(entryString, operand);
             binaryString[operand] = createBinaryString(operand);
             if (operand == 0)
-                gui.display.operand1.setText(binaryString[0]);
+                gui.display.binaryOperand1.setText(binaryString[0]);
             else
-                gui.display.operand2.setText(binaryString[1]);
+                gui.display.binaryOperand2.setText(binaryString[1]);
         }
 
         else if (entry == '.' && noDecimal)   {
@@ -107,7 +108,7 @@ public class CalcActions implements KeyListener, ActionListener  {
             if (operand < 1) return;
             createBinaryArray(entryString, (byte)1);
             binaryString[1] = createBinaryString((byte)1);
-            gui.display.operand2.setText(binaryString[1]);
+            gui.display.binaryOperand2.setText(binaryString[1]);
 
             switch (selectedOp) {
                 case PLUS:
@@ -133,8 +134,8 @@ public class CalcActions implements KeyListener, ActionListener  {
             if (outOfRange) {
                 gui.display.decimalResult.setText("ERROR: result out of range");
             }   else    {
-                resultString = convertToDecimal(thisEq.binaryNumber[2]);
-                gui.display.decimalResult.setText(resultString);
+                decimalString[2] = convertToDecimal(thisEq.binaryNumber[2]);
+                gui.display.decimalResult.setText(decimalString[2]);
             }
         }
         
@@ -170,7 +171,7 @@ public class CalcActions implements KeyListener, ActionListener  {
         String opString = "";
         opString += operator;
 
-        gui.display.operand1.setText(binaryString[0]);
+        gui.display.binaryOperand1.setText(binaryString[0]);
         gui.display.operator.setText(opString);
 
         gui.operators.plus.setEnabled(false);
