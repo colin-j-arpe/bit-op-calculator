@@ -9,7 +9,7 @@ public class Equation   {
     final byte RESULT = 2;
     final byte TEMP = 3;
     
-    public void addition()    {
+    public boolean addition()    {
         boolean carryFlag = false;
         
         for (int i = 0; i < 32; i++)    {
@@ -20,11 +20,16 @@ public class Equation   {
             else
                 carryFlag = (binaryNumber[OPERAND1][i] && binaryNumber[OPERAND2][i]);
         }
+        
+        if (carryFlag)
+            return false;
+        else
+            return true;
     }
     
-    public void subtraction()   {
+    public boolean subtraction()   {
         multByNegOne(OPERAND2);
-        addition();
+        return addition();
     }
     
     public boolean multiplication()    {
