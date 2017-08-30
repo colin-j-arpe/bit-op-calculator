@@ -20,10 +20,16 @@ public class Equation   {
             else
                 carryFlag = (binaryNumber[OPERAND1][i] && binaryNumber[OPERAND2][i]);
         }
-        // If there is a carry from adding the highest digits,
-        // the result is too large; the return value will make 
-        // the outOfRange variable true or false
-        return carryFlag;
+
+        if (binaryNumber[OPERAND1][31] == binaryNumber[OPERAND2][31])   {
+            if (binaryNumber[OPERAND1][31]) {
+                return !binaryNumber[RESULT][31];
+            }   else    {
+                return binaryNumber[RESULT][31];
+            }
+        }   else    {
+            return false;
+        }
     }
     
     public boolean subtraction()   {
