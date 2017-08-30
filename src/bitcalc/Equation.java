@@ -54,7 +54,6 @@ public class Equation   {
         
         for (int i = multiplierIndex; i < 32; i++)  {
             if (binaryNumber[TEMP][i])  {
-                System.out.println("Result is too large");
                 return true;
             }
         }
