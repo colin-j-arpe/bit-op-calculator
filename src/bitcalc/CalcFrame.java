@@ -61,7 +61,7 @@ class EntryPanel extends JPanel  {
 class DisplayPanel extends JPanel    {
     JTextField binaryOperand1 = new JTextField();
     JTextField decimalOperand1 = new JTextField();
-    JLabel operator = new JLabel();
+    JLabel operator = new JLabel(" ");
     JTextField binaryOperand2 = new JTextField();
     JTextField decimalOperand2 = new JTextField();
     JTextField binaryResult = new JTextField();

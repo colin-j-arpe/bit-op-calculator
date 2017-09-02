@@ -11,6 +11,7 @@ public class CalcActions implements KeyListener, ActionListener  {
     boolean noDecimal = true, newEntry = true, negative = false, outOfRange = false;
     byte operand = 0;
     String entryString = "0";
+    String opString = " ";
     String[] binaryString = new String[3];
     String[] decimalString = new String[3];
 
@@ -153,7 +154,7 @@ public class CalcActions implements KeyListener, ActionListener  {
             gui.entryField.entryText.setText("0");
             gui.display.binaryOperand1.setText("");
             gui.display.decimalOperand1.setText("");
-            gui.display.operator.setText("");
+            gui.display.operator.setText(" ");
             gui.display.binaryOperand2.setText("");
             gui.display.decimalOperand2.setText("");
             gui.display.binaryResult.setText("");
@@ -171,7 +172,6 @@ public class CalcActions implements KeyListener, ActionListener  {
         createBinaryArray(entryString, (byte)0);
         binaryString[0] = createBinaryString((byte)0);
         decimalString[0] = convertToDecimal(thisEq.binaryNumber[0]);
-        String opString = "";
         opString += operator;
 
         gui.display.binaryOperand1.setText(binaryString[0]);
