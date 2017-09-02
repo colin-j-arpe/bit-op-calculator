@@ -232,6 +232,8 @@ public class CalcActions implements KeyListener, ActionListener  {
                 output += "1";
             else
                 output += "0";
+            if (i % 4 == 0)
+                output += " ";
         }
         return output;
     }

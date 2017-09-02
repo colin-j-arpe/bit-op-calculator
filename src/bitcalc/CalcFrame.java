@@ -13,7 +13,7 @@ public class CalcFrame extends JFrame   {
 
     public CalcFrame()  {
         super("bitCalc");
-        setSize(300, 420);
+        setSize(320, 420);
         JPanel calcWindow = new JPanel();
         BoxLayout calcLayout = new BoxLayout(calcWindow, BoxLayout.Y_AXIS);
         calcWindow.setLayout (calcLayout);
