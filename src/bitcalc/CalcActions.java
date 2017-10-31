@@ -29,9 +29,11 @@ public class CalcActions implements KeyListener, ActionListener  {
     
     public void keyTyped(KeyEvent input)    {
         char key = input.getKeyChar();
+        if (input.getKeyCode() == KeyEvent.VK_ENTER)
+            key = '=';
         buttonFunctions(key);
     }
-    
+            
     public void keyPressed(KeyEvent input)  {
         //  ignore
     }

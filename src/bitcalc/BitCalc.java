@@ -9,14 +9,14 @@ import javax.swing.UIManager;
 
 /**
  *
- * @author cspanw74
+ * @author colin.j.arpe
  */
 public class BitCalc {
 
     /**
      * @param args the command line arguments
      */
-        private static void setLookAndFeel()   {
+    private static void setLookAndFeel()   {
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
         }   catch (Exception exc)   {
@@ -26,11 +26,8 @@ public class BitCalc {
 
     
     public static void main(String[] args) {
-//        BitCalc thisCalc = new BitCalc();
         setLookAndFeel();
         CalcFrame thisFrame = new CalcFrame();
-//        CalcActions thisActions = new CalcActions();
-        // TODO code application logic here
     }
     
 }
