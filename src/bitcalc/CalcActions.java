@@ -207,21 +207,55 @@ public class CalcActions implements KeyListener, ActionListener  {
         return Long.toString(decimalResult);
     }
 
-    public void createBinaryArray(String input, byte whichBinary)  {
+    public void createBinaryArray(String input, byte whichNumber)  {
         double inputValue = Double.parseDouble(input);
+        if (!noDecimal) {
+            createFloatArray(inputValue, whichNumber);
+            return;
+        }
+        
         long powerOf2 = TWO_TO_THE_30TH;
         
-        Arrays.fill(thisEq.binaryNumber[whichBinary], false);
+        Arrays.fill(thisEq.binaryNumber[whichNumber], false);
         
         if (inputValue < 0) {
-            thisEq.binaryNumber[whichBinary][31] = true;
+            thisEq.binaryNumber[whichNumber][31] = true;
             inputValue += (TWO_TO_THE_30TH * 2);
         }
         
         for (int i = 30; i >= 0; i--)    {
             if (inputValue >= powerOf2) {
-                thisEq.binaryNumber[whichBinary][i] = true;
+                thisEq.binaryNumber[whichNumber][i] = true;
                 inputValue -= powerOf2;
+            }
+            powerOf2 /= 2;
+        }
+    }
+    
+    public void createFloatArray(double value, byte whichNumber)    {
+        long powerOf2 = 1;
+        
+        if (value == 0)  {
+            Arrays.fill(thisEq.binaryNumber[whichNumber], false);
+            return;
+        }
+        
+        if (value < 0)  {
+            thisEq.binaryNumber[whichNumber][31] = true;
+            value *= (-1);
+        }
+        
+        Arrays.fill(thisEq.binaryNumber[whichNumber], 25, 31, true);
+        
+        while (powerOf2 < value)    {
+            powerOf2 *= 2;
+            thisEq.addOne(whichNumber, 25, 6);
+        }
+        
+        for (int i = 24; i >= 0; i--)  {
+            if (value > powerOf2)   {
+                thisEq.binaryNumber[whichNumber][i] = true;
+                value -= powerOf2;
             }
             powerOf2 /= 2;
         }

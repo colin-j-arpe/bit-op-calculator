@@ -51,13 +51,13 @@ public class Equation   {
         do  {
             addition();
             if (!binaryNumber[RESULT][31])
-                addOne(TEMP);
+                addOne(TEMP, 0);
             System.arraycopy(binaryNumber[RESULT], 0, binaryNumber[OPERAND1], 0, 32);
         }   while (!binaryNumber[OPERAND1][31]);
         
         System.arraycopy(binaryNumber[TEMP], 0, binaryNumber[RESULT], 0, 32);
         if (negativeResult)
-            multByNegOne(RESULT);
+            multByNegOne(RESULT, 0, 32);
     }
     
     protected boolean addRange(int startBit, int rangeLength)    {
@@ -108,13 +108,14 @@ public class Equation   {
         return true;
     }
 
-    protected void addOne(byte whichNumber, byte start)    {
+    protected void addOne(byte whichNumber, byte start, int length)    {
         byte i = start;
-        while (binaryNumber[whichNumber][i])   {
+        while (binaryNumber[whichNumber][i] && i < start + length)   {
             binaryNumber[whichNumber][i] = false;
             i++;
         }
-        binaryNumber[whichNumber][i] = true;
+        if (i < start + length)
+            binaryNumber[whichNumber][i] = true;
     }
 
     protected void complement(byte whichNumber, byte start, byte length)    {
