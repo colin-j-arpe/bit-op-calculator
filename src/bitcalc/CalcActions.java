@@ -233,7 +233,7 @@ public class CalcActions implements KeyListener, ActionListener  {
     }
     
     public void createFloatArray(double value, byte whichNumber)    {
-        long powerOf2 = 1;
+        double powerOf2 = 1;
         
         if (value == 0)  {
             Arrays.fill(thisEq.binaryNumber[whichNumber], false);
@@ -258,6 +258,7 @@ public class CalcActions implements KeyListener, ActionListener  {
                 value -= powerOf2;
             }
             powerOf2 /= 2;
+            if (value == 0) break;
         }
     }
 

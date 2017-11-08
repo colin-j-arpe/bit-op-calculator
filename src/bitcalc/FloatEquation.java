@@ -53,4 +53,15 @@ public class FloatEquation extends Equation {
             binaryNumber[whichNumber][i] = binaryNumber[whichNumber][i+1];
         binaryNumber[whichNumber][start + length - 1] = false;
     }
+    
+    private void subtractRange (byte minuend, int start, int length)    {
+        boolean borrowFlag = false;
+        int end = start + length;
+        byte subtrahend = (minuend + 1) % 2;
+        
+        for (int i = start; i < end; i++)   {
+            binaryNumber[RESULT][i] = binaryNumber[minuend][i] ^ (binaryNumber[subtrahend][i] ^ borrowFlag);
+            borrowFlag = binaryNumber[minuend][i] ? (binaryNumber[subtrahend][i] && borrowFlag) : (binaryNumber[subtrahend][i] || borrowFlag);
+        }
+    }
 }
