@@ -215,16 +215,35 @@ public class FloatEquationTest {
     /**
      * Test of multiplication method, of class FloatEquation.
      */
-    @Ignore
     @Test
-    public void testMultiplication() {
-//        System.out.println("multiplication");
-//        FloatEquation instance = new FloatEquation();
-//        boolean expResult = false;
-//        boolean result = instance.multiplication();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
+    public void testMultiplicationPos() {
+        System.out.println("Test multiplication with a positive outcome");
+        testEq.multiplication();
+        printOnes(testEq.RESULT);
+        assertFalse(testEq.binaryNumber[testEq.RESULT][31]);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][27]);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][26]);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][24]);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][19]);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][17]);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][15]);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][14]);
+    }
+
+    @Test
+    public void testMultiplicationNeg() {
+        System.out.println("Test multiplication with a negative outcome");
+        testEq.binaryNumber[testEq.OPERAND1][31] = true;
+        testEq.multiplication();
+        printOnes(testEq.RESULT);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][31]);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][27]);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][26]);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][24]);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][19]);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][17]);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][15]);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][14]);
     }
 
     /**
