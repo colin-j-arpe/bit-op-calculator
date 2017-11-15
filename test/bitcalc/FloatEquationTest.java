@@ -252,14 +252,18 @@ public class FloatEquationTest {
     /**
      * Test of division method, of class FloatEquation.
      */
-    @Ignore
     @Test
     public void testDivision() {
-//        System.out.println("division");
-//        FloatEquation instance = new FloatEquation();
-//        instance.division();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
+        System.out.println("testing division with a positive outcome, both operands greater than one");
+        testEq.division();
+        printOnes(testEq.RESULT);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][25]);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][24]);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][20]);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][19]);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][17]);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][13]);
+        assertTrue(testEq.binaryNumber[testEq.RESULT][11]);
     }
 
     public void printOnes(byte whichNumber) {
