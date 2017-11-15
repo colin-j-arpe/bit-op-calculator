@@ -5,6 +5,8 @@
  */
 package bitcalc;
 
+import java.util.Arrays;
+
 /**
  *
  * @author cspanw74
@@ -64,7 +66,22 @@ public class FloatEquation extends Equation {
     
     @Override
     public boolean multiplication() {
-        return true;
+        binaryNumber[RESULT][31] = binaryNumber[OPERAND1][31] ^ binaryNumber[OPERAND2][31];
+        
+        addOne(OPERAND1, EXP_START, EXP_LENGTH);
+        bitShiftHalf(OPERAND1, 0, MANT_LENGTH);
+        System.arraycopy(binaryNumber[OPERAND2], 0, binaryNumber[TEMP], 0, MANT_LENGTH);
+        Arrays.fill(binaryNumber[OPERAND2], 0, MANT_LENGTH, false);
+        
+        for (int i = MANT_LENGTH - 1; i >= 0; i--)  {
+            if (binaryNumber[TEMP][i])  {
+                addRange(0, MANT_LENGTH);
+                System.arraycopy(binaryNumber[RESULT], 0, binaryNumber[OPERAND2], 0, MANT_LENGTH);
+            }
+            bitShiftHalf(OPERAND1, 0, MANT_LENGTH);
+        }
+        
+        return addRange(EXP_START, EXP_LENGTH);
     }
     
     @Override

@@ -68,7 +68,7 @@ public class FloatEquationTest {
     public void testAdditionPosPosGtr() {
         System.out.println("Test addition() with both operands positive, first operand greater abs val");
         testEq.addition();
-        printOnes(testEq.RESULT);
+//        printOnes(testEq.RESULT);
 //        printOnes(testEq.OPERAND1);
 //        printOnes(testEq.OPERAND2);
         assertFalse(testEq.binaryNumber[2][31]);
@@ -85,7 +85,7 @@ public class FloatEquationTest {
         testEq.binaryNumber[0][31] = true;
         testEq.binaryNumber[1][31] = true;
         testEq.addition();
-        printOnes(testEq.RESULT);
+//        printOnes(testEq.RESULT);
         assertTrue(testEq.binaryNumber[2][31]);
         assertTrue(testEq.binaryNumber[2][27]);
         assertTrue(testEq.binaryNumber[2][24]);
@@ -100,7 +100,7 @@ public class FloatEquationTest {
         testEq.binaryNumber[0][31] = true;
         testEq.binaryNumber[1][31] = false;
         testEq.addition();
-        printOnes(testEq.RESULT);
+//        printOnes(testEq.RESULT);
         assertTrue(testEq.binaryNumber[2][31]);
         assertTrue(testEq.binaryNumber[2][26]);
         assertTrue(testEq.binaryNumber[2][24]);
@@ -116,7 +116,7 @@ public class FloatEquationTest {
         testEq.binaryNumber[0][31] = false;
         testEq.binaryNumber[1][31] = true;
         testEq.addition();
-        printOnes(testEq.RESULT);
+//        printOnes(testEq.RESULT);
         assertFalse(testEq.binaryNumber[2][31]);
         assertTrue(testEq.binaryNumber[2][26]);
         assertTrue(testEq.binaryNumber[2][24]);
@@ -218,8 +218,10 @@ public class FloatEquationTest {
     @Test
     public void testMultiplicationPos() {
         System.out.println("Test multiplication with a positive outcome");
-        testEq.multiplication();
-        printOnes(testEq.RESULT);
+        assertFalse(testEq.multiplication());
+//        printOnes(testEq.OPERAND1);
+//        printOnes(testEq.OPERAND2);
+//        printOnes(testEq.RESULT);
         assertFalse(testEq.binaryNumber[testEq.RESULT][31]);
         assertTrue(testEq.binaryNumber[testEq.RESULT][27]);
         assertTrue(testEq.binaryNumber[testEq.RESULT][26]);
@@ -234,7 +236,8 @@ public class FloatEquationTest {
     public void testMultiplicationNeg() {
         System.out.println("Test multiplication with a negative outcome");
         testEq.binaryNumber[testEq.OPERAND1][31] = true;
-        testEq.multiplication();
+        assertFalse(testEq.multiplication());
+//        testEq.multiplication();
         printOnes(testEq.RESULT);
         assertTrue(testEq.binaryNumber[testEq.RESULT][31]);
         assertTrue(testEq.binaryNumber[testEq.RESULT][27]);
