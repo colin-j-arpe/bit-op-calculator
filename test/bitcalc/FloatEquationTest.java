@@ -68,9 +68,9 @@ public class FloatEquationTest {
     public void testAdditionPosPosGtr() {
         System.out.println("Test addition() with both operands positive, first operand greater abs val");
         testEq.addition();
+        printOnes(testEq.RESULT);
 //        printOnes(testEq.OPERAND1);
 //        printOnes(testEq.OPERAND2);
-        printOnes(testEq.RESULT);
         assertFalse(testEq.binaryNumber[2][31]);
         assertTrue(testEq.binaryNumber[2][27]);
         assertTrue(testEq.binaryNumber[2][24]);
@@ -85,6 +85,7 @@ public class FloatEquationTest {
         testEq.binaryNumber[0][31] = true;
         testEq.binaryNumber[1][31] = true;
         testEq.addition();
+        printOnes(testEq.RESULT);
         assertTrue(testEq.binaryNumber[2][31]);
         assertTrue(testEq.binaryNumber[2][27]);
         assertTrue(testEq.binaryNumber[2][24]);
@@ -96,9 +97,10 @@ public class FloatEquationTest {
     @Test
     public void testAdditionNegPosGtr() {
         System.out.println("Test addition() with first operand negative, second positive, first operand greater abs val");
-//        testEq.binaryNumber[0][31] = true;
+        testEq.binaryNumber[0][31] = true;
         testEq.binaryNumber[1][31] = false;
         testEq.addition();
+        printOnes(testEq.RESULT);
         assertTrue(testEq.binaryNumber[2][31]);
         assertTrue(testEq.binaryNumber[2][26]);
         assertTrue(testEq.binaryNumber[2][24]);
@@ -114,6 +116,7 @@ public class FloatEquationTest {
         testEq.binaryNumber[0][31] = false;
         testEq.binaryNumber[1][31] = true;
         testEq.addition();
+        printOnes(testEq.RESULT);
         assertFalse(testEq.binaryNumber[2][31]);
         assertTrue(testEq.binaryNumber[2][26]);
         assertTrue(testEq.binaryNumber[2][24]);

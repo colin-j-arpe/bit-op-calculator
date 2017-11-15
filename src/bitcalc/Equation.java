@@ -64,13 +64,13 @@ public class Equation   {
         boolean carryFlag = false;
         int endBit = startBit + rangeLength - 1;
         
-        for (int i = startBit; i < endBit; i++)    {
-            binaryNumber[RESULT][i] = (binaryNumber[OPERAND1][i] ^ binaryNumber[OPERAND2][i]);
-            binaryNumber[RESULT][i] = (binaryNumber[RESULT][i] ^ carryFlag);
-            if (carryFlag)
-                carryFlag = (binaryNumber[OPERAND1][i] || binaryNumber[OPERAND2][i]);
-            else
-                carryFlag = (binaryNumber[OPERAND1][i] && binaryNumber[OPERAND2][i]);
+        for (int i = startBit; i <= endBit; i++)    {
+            binaryNumber[RESULT][i] = (binaryNumber[OPERAND1][i] ^ binaryNumber[OPERAND2][i]) ^ carryFlag;
+//            binaryNumber[RESULT][i] = (binaryNumber[RESULT][i] );
+//            if (carryFlag)
+                carryFlag = carryFlag ? (binaryNumber[OPERAND1][i] || binaryNumber[OPERAND2][i]) : (binaryNumber[OPERAND1][i] && binaryNumber[OPERAND2][i]);
+//            else
+//                carryFlag = ;
         }
 
         if (binaryNumber[OPERAND1][endBit] == binaryNumber[OPERAND2][endBit])   {
