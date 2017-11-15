@@ -31,7 +31,7 @@ public class Equation   {
                 System.arraycopy(binaryNumber[RESULT], 0, binaryNumber[OPERAND2], 0, 32);
             }
             multiplierIndex++;
-        }   while (bitShiftDouble(OPERAND1));
+        }   while (bitShiftDouble(OPERAND1, 0, 32));
         
         for (int i = multiplierIndex; i < 32; i++)  {
             if (binaryNumber[TEMP][i])  {
@@ -40,18 +40,18 @@ public class Equation   {
         }
         
         if (negativeResult)
-            multByNegOne(RESULT);
+            multByNegOne(RESULT, 0, 32);
         return false;
     }
     
     public void division()  {
         boolean negativeResult = removeNegatives();
-        multByNegOne(OPERAND2);
+        multByNegOne(OPERAND2, 0, 32);
         
         do  {
             addition();
             if (!binaryNumber[RESULT][31])
-                addOne(TEMP, 0);
+                addOne(TEMP, 0, 32);
             System.arraycopy(binaryNumber[RESULT], 0, binaryNumber[OPERAND1], 0, 32);
         }   while (!binaryNumber[OPERAND1][31]);
         
@@ -84,18 +84,18 @@ public class Equation   {
         }
     }
     
-    protected void multByNegOne(byte whichNumber, byte start, byte length)  {
+    protected void multByNegOne(byte whichNumber, int start, int length)  {
         if (binaryNumber[whichNumber][length - 1]) {
             subtractOne(whichNumber, start, length);
             complement(whichNumber, start, length);
         }
         else    {
             complement(whichNumber, start, length);
-            addOne(whichNumber, start);
+            addOne(whichNumber, start, length);
         }
     }
 
-    protected boolean subtractOne(byte whichNumber, byte start, byte length)   {
+    protected boolean subtractOne(byte whichNumber, int start, int length)   {
 //        int i = start;
         while (!binaryNumber[whichNumber][start] && start < length - 1)  {
             binaryNumber[whichNumber][start] = true;
@@ -108,8 +108,8 @@ public class Equation   {
         return true;
     }
 
-    protected void addOne(byte whichNumber, byte start, int length)    {
-        byte i = start;
+    protected void addOne(byte whichNumber, int start, int length)    {
+        int i = start;
         while (binaryNumber[whichNumber][i] && i < start + length)   {
             binaryNumber[whichNumber][i] = false;
             i++;
@@ -118,7 +118,7 @@ public class Equation   {
             binaryNumber[whichNumber][i] = true;
     }
 
-    protected void complement(byte whichNumber, byte start, byte length)    {
+    protected void complement(byte whichNumber, int start, int length)    {
         for (int i = start; i < length; i++)    {
             binaryNumber[whichNumber][i] = !binaryNumber[whichNumber][i];
         }
@@ -128,18 +128,18 @@ public class Equation   {
         boolean result = binaryNumber[OPERAND1][31] ^ binaryNumber[OPERAND2][31];
         for (byte i = 0; i < 2; i++) {
             if (binaryNumber[i][31])
-                multByNegOne(i);
+                multByNegOne(i, 0, 32);
         }
         return result;
     }
     
-    protected boolean bitShiftDouble(byte whichNumber)    {
-        if (binaryNumber[whichNumber][31])
+    protected boolean bitShiftDouble(byte whichNumber, int start, int length)    {
+        if (binaryNumber[whichNumber][start + length - 1])
             return false;
-        for (int i = 31; i > 0; i--)    {
+        for (int i = start + length - 1; i > start; i--)    {
             binaryNumber[whichNumber][i] = binaryNumber[whichNumber][i-1];
         }
-        binaryNumber[whichNumber][0] = false;
+        binaryNumber[whichNumber][start] = false;
         return true;
     }
 }
