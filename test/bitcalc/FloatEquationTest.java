@@ -19,7 +19,8 @@ import org.junit.Ignore;
  * @author cspanw74
  */
 public class FloatEquationTest {
-    public FloatEquation testEq = new FloatEquation();
+    public FloatEquation testEq1 = new FloatEquation();
+    public FloatEquation testEq2 = new FloatEquation();
 //    Arrays.fill(testEq.binaryNumber, false);
     
     public FloatEquationTest() {
@@ -27,13 +28,6 @@ public class FloatEquationTest {
     
     @BeforeClass
     public static void setUpClass() {
-//        FloatEquation testEq = new FloatEquation();
-//        Arrays.fill(testEq.binaryNumber, false);
-//        int[] onesInGreater = {26, 25, 24, 23, 18};
-//        int[] onesInLesser  = {26, 24, 22, 21};
-//        for (int i = 0; i < 4; i++) {
-//            Arrays.fill(testEq.binaryNumber[i], false);
-//        }
     }
     
     @AfterClass
@@ -42,19 +36,17 @@ public class FloatEquationTest {
     
     @Before
     public void setUp() {
-        for (boolean[] eachNumber: testEq.binaryNumber)
+        for (boolean[] eachNumber: testEq1.binaryNumber)
             Arrays.fill(eachNumber, false);
+//  Initialise operands
         int[] onesInGreater = {26, 25, 24, 23, 18}; //  12.125
         int[] onesInLesser  = {26, 24, 22, 21};     //   5.5
-//  Initialise operands
         for (int i = 0; i < onesInGreater.length; i++)  {
-            testEq.binaryNumber[testEq.OPERAND1][onesInGreater[i]] = true;
+            testEq1.binaryNumber[testEq.OPERAND1][onesInGreater[i]] = true;
         }
         for (int i = 0; i < onesInLesser.length; i++)  {
-            testEq.binaryNumber[testEq.OPERAND2][onesInLesser[i]] = true;
+            testEq1.binaryNumber[testEq.OPERAND2][onesInLesser[i]] = true;
         }
-//        printOnes(testEq.OPERAND1);
-//        printOnes(testEq.OPERAND2);
     }
     
     @After
@@ -67,62 +59,55 @@ public class FloatEquationTest {
     @Test
     public void testAdditionPosPosGtr() {
         System.out.println("Test addition() with both operands positive, first operand greater abs val");
-        testEq.addition();
-//        printOnes(testEq.RESULT);
-//        printOnes(testEq.OPERAND1);
-//        printOnes(testEq.OPERAND2);
-        assertFalse(testEq.binaryNumber[2][31]);
-        assertTrue(testEq.binaryNumber[2][27]);
-        assertTrue(testEq.binaryNumber[2][24]);
-        assertTrue(testEq.binaryNumber[2][20]);
-        assertTrue(testEq.binaryNumber[2][19]);
-        assertTrue(testEq.binaryNumber[2][17]);
+        testEq1.addition(); //  17.625
+        assertFalse(testEq1.binaryNumber[testEq1.RESULT][testEq1.SIGN_BIT]);  //  positive
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][27]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][24]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][20]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][19]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][17]);
     }
 
     @Test
     public void testAdditionNegNegGtr() {
         System.out.println("Test addition() with both operands negative, first operand greater abs val");
-        testEq.binaryNumber[0][31] = true;
-        testEq.binaryNumber[1][31] = true;
-        testEq.addition();
-//        printOnes(testEq.RESULT);
-        assertTrue(testEq.binaryNumber[2][31]);
-        assertTrue(testEq.binaryNumber[2][27]);
-        assertTrue(testEq.binaryNumber[2][24]);
-        assertTrue(testEq.binaryNumber[2][20]);
-        assertTrue(testEq.binaryNumber[2][19]);
-        assertTrue(testEq.binaryNumber[2][17]);
+        testEq1.binaryNumber[testEq1.OPERAND1][testEq1.SIGN_BIT] = true;
+        testEq1.binaryNumber[testEq1.OPERAND2][testEq1.SIGN_BIT] = true;
+        testEq1.addition(); //  -17.625
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][testEq1.SIGN_BIT]);   //  negative
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][27]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][24]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][20]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][19]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][17]);
     }
     
     @Test
     public void testAdditionNegPosGtr() {
         System.out.println("Test addition() with first operand negative, second positive, first operand greater abs val");
-        testEq.binaryNumber[0][31] = true;
-        testEq.binaryNumber[1][31] = false;
-        testEq.addition();
-//        printOnes(testEq.RESULT);
-        assertTrue(testEq.binaryNumber[2][31]);
-        assertTrue(testEq.binaryNumber[2][26]);
-        assertTrue(testEq.binaryNumber[2][24]);
-        assertTrue(testEq.binaryNumber[2][23]);
-        assertTrue(testEq.binaryNumber[2][21]);
-        assertTrue(testEq.binaryNumber[2][19]);
+        testEq1.binaryNumber[testEq1.OPERAND1][testEq1.SIGN_BIT] = true;
+        testEq1.binaryNumber[testEq1.OPERAND2][testEq1.SIGN_BIT] = false;
+        testEq1.addition(); //  -6.625
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][testEq1.SIGN_BIT]);   //  negative
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][26]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][24]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][23]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][21]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][19]);
     }
     
     @Test
     public void testAdditionPosNegGtr() {
-//  Second operand negative
         System.out.println("Test addition() with first operand positive, second negative, first operand greater abs val");
-        testEq.binaryNumber[0][31] = false;
-        testEq.binaryNumber[1][31] = true;
-        testEq.addition();
-//        printOnes(testEq.RESULT);
-        assertFalse(testEq.binaryNumber[2][31]);
-        assertTrue(testEq.binaryNumber[2][26]);
-        assertTrue(testEq.binaryNumber[2][24]);
-        assertTrue(testEq.binaryNumber[2][23]);
-        assertTrue(testEq.binaryNumber[2][21]);
-        assertTrue(testEq.binaryNumber[2][19]);
+        testEq1.binaryNumber[testEq1.OPERAND1][testEq1.SIGN_BIT] = false;
+        testEq1.binaryNumber[testEq1.OPERAND2][testEq1.SIGN_BIT] = true;
+        testEq1.addition(); //  6.625
+        assertFalse(testEq1.binaryNumber[testEq1.RESULT][testEq1.SIGN_BIT]);  //  positive
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][26]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][24]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][23]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][21]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][19]);
     }
     
     @Ignore
@@ -218,52 +203,48 @@ public class FloatEquationTest {
     @Test
     public void testMultiplicationPos() {
         System.out.println("Test multiplication with a positive outcome");
-        assertFalse(testEq.multiplication());
-//        printOnes(testEq.OPERAND1);
-//        printOnes(testEq.OPERAND2);
-//        printOnes(testEq.RESULT);
-        assertFalse(testEq.binaryNumber[testEq.RESULT][31]);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][27]);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][26]);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][24]);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][19]);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][17]);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][15]);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][14]);
+        assertFalse(testEq1.multiplication());  //  66.6875
+        assertFalse(testEq1.binaryNumber[testEq1.RESULT][testEq1.SIGN_BIT]);  //  positive
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][27]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][26]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][24]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][19]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][17]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][15]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][14]);
     }
 
     @Test
     public void testMultiplicationNeg() {
         System.out.println("Test multiplication with a negative outcome");
-        testEq.binaryNumber[testEq.OPERAND1][31] = true;
-        assertFalse(testEq.multiplication());
-//        testEq.multiplication();
-        printOnes(testEq.RESULT);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][31]);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][27]);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][26]);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][24]);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][19]);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][17]);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][15]);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][14]);
+        testEq1.binaryNumber[testEq1.OPERAND1][testEq1.SIGN_BIT] = true;
+        assertFalse(testEq1.multiplication());  //  -66.6875
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][testEq1.SIGN_BIT]);   //  negative
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][27]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][26]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][24]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][19]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][17]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][15]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][14]);
     }
 
     /**
      * Test of division method, of class FloatEquation.
      */
     @Test
-    public void testDivision() {
+    public void testDivisionPos() {
         System.out.println("testing division with a positive outcome, both operands greater than one");
-        testEq.division();
-        printOnes(testEq.RESULT);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][25]);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][24]);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][20]);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][19]);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][17]);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][13]);
-        assertTrue(testEq.binaryNumber[testEq.RESULT][11]);
+        testEq1.division(); //  2.20r(45)
+        printOnes(testEq1.RESULT);
+        assertFalse(testEq1.binaryNumber[testEq1.RESULT][testEq1.SIGN_BIT]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][25]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][24]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][20]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][19]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][17]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][13]);
+        assertTrue(testEq1.binaryNumber[testEq1.RESULT][11]);
     }
 
     public void printOnes(byte whichNumber) {
