@@ -20,12 +20,12 @@ import org.junit.Ignore;
  */
 public class FloatEquationTest {
     public static FloatEquation[] testEqs = new FloatEquation[4];
-    int[] onesInEq0Op1 = {26, 25, 24, 23, 18};          //  12.125
-    int[] onesInEq0Op2  = {26, 24, 22, 21};             //   5.5
-    int[] onesInEq1Op1 = {26, 25, 24, 23, 21, 19};      //  13.25
-    int[] onesInEq1Op2  = {27, 24, 22, 20, 19, 17};     //  21.625
-    int[] onesInEq2Op1 = {30, 29, 28, 27, 26, 24, 21};  //   0.28125
-    int[] onesInEq2Op2  = {26, 25, 24, 22, 19, 17};     //  10.15625
+    int[] onesInEq0Op1 = {26, 25, 24, 23, 18};              //  12.125
+    int[] onesInEq0Op2  = {26, 24, 22, 21};                 //   5.5
+    int[] onesInEq1Op1 = {26, 25, 24, 23, 21, 19};          //  13.25
+    int[] onesInEq1Op2  = {27, 24, 22, 20, 19, 17};         //  21.625
+    int[] onesInEq2Op1 = {30, 29, 28, 27, 25, 24, 22};      //   0.15625
+    int[] onesInEq2Op2  = {27, 25, 24, 23, 21, 19, 18, 16}; //  53.625
     
 //    Arrays.fill(testEq.binaryNumber, false);
     
@@ -157,7 +157,6 @@ public class FloatEquationTest {
         testEqs[1].binaryNumber[testEqs[1].OPERAND1][testEqs[1].SIGN_BIT] = true;
         testEqs[1].binaryNumber[testEqs[1].OPERAND2][testEqs[1].SIGN_BIT] = true;
         testEqs[1].addition(); //  -34.875
-//        printOnes(1, testEqs[1].RESULT);
         assertTrue(testEqs[1].binaryNumber[testEqs[1].RESULT][testEqs[1].SIGN_BIT]);  //  negative
         assertTrue(testEqs[1].binaryNumber[testEqs[1].RESULT][27]);
         assertTrue(testEqs[1].binaryNumber[testEqs[1].RESULT][25]);
@@ -173,7 +172,6 @@ public class FloatEquationTest {
         System.out.println("Test addition() with first operand negative, second operand positive, first operand lesser abs val");
         testEqs[1].binaryNumber[testEqs[1].OPERAND1][testEqs[1].SIGN_BIT] = true;
         testEqs[1].addition(); //  8.375
-        printOnes(1, testEqs[1].RESULT);
         assertFalse(testEqs[1].binaryNumber[testEqs[1].RESULT][testEqs[1].SIGN_BIT]);  //  positive
         assertTrue(testEqs[1].binaryNumber[testEqs[1].RESULT][26]);
         assertTrue(testEqs[1].binaryNumber[testEqs[1].RESULT][25]);
@@ -196,19 +194,41 @@ public class FloatEquationTest {
         assertTrue(testEqs[1].binaryNumber[testEqs[1].RESULT][18]);
     }
 
+    @Test
+    public void testAdditionPosPosLessOne() {
+        System.out.println("Test addition() with both operands positive, first operand less than one");
+        testEqs[2].addition(); //  53.78125
+        printOnes(2, testEqs[2].RESULT);
+        assertFalse(testEqs[2].binaryNumber[testEqs[2].RESULT][testEqs[2].SIGN_BIT]);  //  positive
+        assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][27]);
+        assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][25]);
+        assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][24]);
+        assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][23]);
+        assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][21]);
+        assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][19]);
+        assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][18]);
+        assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][17]);
+        assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][14]);
+    }
+
     /**
      * Test of subtraction method, of class FloatEquation.
      */
-    @Ignore
     @Test
-    public void testSubtraction() {
-//        System.out.println("subtraction");
-//        FloatEquation instance = new FloatEquation();
-//        boolean expResult = false;
-//        boolean result = instance.subtraction();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
+    public void testSubtractionPosPosLessOne() {
+        System.out.println("Test subtraction() with both operands positive, first op less than one");
+        testEqs[2].subtraction(); //  -53.46875
+        assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][testEqs[2].SIGN_BIT]);  //  negative
+        assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][27]);
+        assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][25]);
+        assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][24]);
+        assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][23]);
+        assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][21]);
+        assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][19]);
+        assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][17]);
+        assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][16]);
+        assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][15]);
+        assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][14]);
     }
 
     /**

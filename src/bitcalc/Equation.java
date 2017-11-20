@@ -92,17 +92,15 @@ public class Equation   {
         }
     }
 
-    protected boolean subtractOne(byte whichNumber, int start, int length)   {
-//        int i = start;
-        while (!binaryNumber[whichNumber][start] && start < length - 1)  {
+    protected void subtractOne(byte whichNumber, int start, int length)   {
+        int end = start + length;
+        while (!binaryNumber[whichNumber][start] && start < end)  {
             binaryNumber[whichNumber][start] = true;
             start++;
         }
-        if (start == length - 1)
-            return false;
         
-        binaryNumber[whichNumber][start] = false;
-        return true;
+        if (start < end)
+            binaryNumber[whichNumber][start] = false;
     }
 
     protected void addOne(byte whichNumber, int start, int length)    {

@@ -35,15 +35,15 @@ public class FloatEquation extends Equation {
 
         binaryNumber[RESULT][SIGN_BIT] = binaryNumber[greaterOperand][SIGN_BIT];
 
-        if (binaryNumber[OPERAND1][SIGN_BIT] ^ binaryNumber[OPERAND2][SIGN_BIT])    {
-            subtractRange(greaterOperand, 0, MANT_LENGTH);
-//            return false;
-        }   else    {
+        if (binaryNumber[OPERAND1][SIGN_BIT] = binaryNumber[OPERAND2][SIGN_BIT])    {
             for (byte i = 0; i < 2; i++) {
                 addOne(i, EXP_START, EXP_LENGTH);
                 bitShiftHalf(i, 0, MANT_LENGTH);
             }
             addRange(0, MANT_LENGTH);
+//            return false;
+        }   else    {
+            subtractRange(greaterOperand, 0, MANT_LENGTH);
 //            return false;
         }
 
@@ -123,7 +123,7 @@ public class FloatEquation extends Equation {
         binaryNumber[whichNumber][start + length - 1] = false;
     }
     
-    private void subtractRange (byte minuend, int start, int length)    {
+    private boolean subtractRange (byte minuend, int start, int length)    {
         boolean borrowFlag = false;
         int end = start + length;
         byte subtrahend = (byte)((minuend + 1) % 2);
@@ -132,5 +132,7 @@ public class FloatEquation extends Equation {
             binaryNumber[RESULT][i] = binaryNumber[minuend][i] ^ (binaryNumber[subtrahend][i] ^ borrowFlag);
             borrowFlag = binaryNumber[minuend][i] ? (binaryNumber[subtrahend][i] && borrowFlag) : (binaryNumber[subtrahend][i] || borrowFlag);
         }
+        
+        return borrowFlag;
     }
 }
