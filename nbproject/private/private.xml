@@ -3,10 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/cspanw74/NetBeansProjects/BitCalc/src/bitcalc/CalcFrame.java</file>
-            <file>file:/home/cspanw74/NetBeansProjects/BitCalc/src/bitcalc/BitCalc.java</file>
+            <file>file:/home/cspanw74/NetBeansProjects/BitCalc/test/bitcalc/FloatEquationTest.java</file>
             <file>file:/home/cspanw74/NetBeansProjects/BitCalc/src/bitcalc/CalcActions.java</file>
             <file>file:/home/cspanw74/NetBeansProjects/BitCalc/src/bitcalc/Equation.java</file>
+            <file>file:/home/cspanw74/NetBeansProjects/BitCalc/src/bitcalc/FloatEquation.java</file>
         </group>
     </open-files>
 </project-private>

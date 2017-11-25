@@ -129,8 +129,8 @@ public class Equation   {
     }
     
     protected boolean bitShiftDouble(byte whichNumber, int start, int length)    {
-        if (binaryNumber[whichNumber][start + length - 1])
-            return false;
+//        if (binaryNumber[whichNumber][start + length - 1])
+//            return false;
         for (int i = start + length - 1; i > start; i--)    {
             binaryNumber[whichNumber][i] = binaryNumber[whichNumber][i-1];
         }

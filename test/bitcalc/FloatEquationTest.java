@@ -87,6 +87,7 @@ public class FloatEquationTest {
     public void testAdditionPosPosGtr() {
         System.out.println("Test addition() with both operands positive, first operand greater abs val");
         testEqs[0].addition(); //  17.625
+        printOnes(0, testEqs[0].RESULT);
         assertFalse(testEqs[0].binaryNumber[testEqs[0].RESULT][testEqs[0].SIGN_BIT]);  //  positive
         assertTrue(testEqs[0].binaryNumber[testEqs[0].RESULT][27]);
         assertTrue(testEqs[0].binaryNumber[testEqs[0].RESULT][24]);
@@ -141,6 +142,7 @@ public class FloatEquationTest {
     public void testAdditionPosPosLsr() {
         System.out.println("Test addition() with both operands positive, first operand lesser abs val");
         testEqs[1].addition(); //  34.875
+        printOnes(1, testEqs[1].RESULT);
         assertFalse(testEqs[1].binaryNumber[testEqs[1].RESULT][testEqs[1].SIGN_BIT]);  //  positive
         assertTrue(testEqs[1].binaryNumber[testEqs[1].RESULT][27]);
         assertTrue(testEqs[1].binaryNumber[testEqs[1].RESULT][25]);

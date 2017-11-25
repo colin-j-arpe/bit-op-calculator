@@ -25,9 +25,9 @@ public class FloatEquation extends Equation {
         byte greaterMantissa = checkGreater(0, MANT_LENGTH, false);
         byte greaterOperand = (byte)((greaterExponent < 2) ? greaterExponent : greaterMantissa);
         if (greaterOperand > 1) greaterOperand = 0;
+        lesserExponent = (byte)((greaterExponent + 1) % 2);
 
         while (greaterExponent < 2)   {
-            lesserExponent = (byte)((greaterExponent + 1) % 2);
             addOne(lesserExponent, EXP_START, EXP_LENGTH);
             bitShiftHalf(lesserExponent, 0, MANT_LENGTH);
             greaterExponent = checkGreater(EXP_START, EXP_LENGTH, true);
@@ -35,14 +35,16 @@ public class FloatEquation extends Equation {
 
         binaryNumber[RESULT][SIGN_BIT] = binaryNumber[greaterOperand][SIGN_BIT];
 
-        if (binaryNumber[OPERAND1][SIGN_BIT] = binaryNumber[OPERAND2][SIGN_BIT])    {
+        if (binaryNumber[OPERAND1][SIGN_BIT] == binaryNumber[OPERAND2][SIGN_BIT])    {
             for (byte i = 0; i < 2; i++) {
                 addOne(i, EXP_START, EXP_LENGTH);
                 bitShiftHalf(i, 0, MANT_LENGTH);
             }
+//System.out.println("adding");
             addRange(0, MANT_LENGTH);
 //            return false;
         }   else    {
+//System.out.println("subtracting");
             subtractRange(greaterOperand, 0, MANT_LENGTH);
 //            return false;
         }
