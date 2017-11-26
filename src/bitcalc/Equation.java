@@ -44,7 +44,7 @@ public class Equation   {
         return false;
     }
     
-    public void division()  {
+    public boolean division()  {
         boolean negativeResult = removeNegatives();
         multByNegOne(OPERAND2, 0, 32);
         
@@ -58,6 +58,7 @@ public class Equation   {
         System.arraycopy(binaryNumber[TEMP], 0, binaryNumber[RESULT], 0, 32);
         if (negativeResult)
             multByNegOne(RESULT, 0, 32);
+        return false;
     }
     
     protected boolean addRange(int startBit, int rangeLength)    {

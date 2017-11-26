@@ -80,9 +80,9 @@ public class FloatEquation extends Equation {
     }
     
     @Override
-    public void division()   {
+    public boolean division()   {
         binaryNumber[RESULT][SIGN_BIT] = binaryNumber[OPERAND1][SIGN_BIT] ^ binaryNumber[OPERAND2][SIGN_BIT];
-        subtractRange(OPERAND1, EXP_START, EXP_LENGTH);
+        if (subtractRange(OPERAND1, EXP_START, EXP_LENGTH)) return true;
         
         for (int i = MANT_LENGTH - 1; i >= 0; i--)  {
             if (checkGreater(0, MANT_LENGTH, false) != 1)   {
@@ -98,6 +98,7 @@ public class FloatEquation extends Equation {
             subtractOne(RESULT, EXP_START, EXP_LENGTH);
             bitShiftDouble(RESULT, 0, MANT_LENGTH);
         }
+        return false;
     }
     
     private byte checkGreater(int start, int length, boolean isSigned)  {
