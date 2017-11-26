@@ -4,10 +4,10 @@ import java.util.Arrays;
 
 public class Equation   {
     boolean[][] binaryNumber = new boolean[4][32];
-    final byte OPERAND1 = 0;
-    final byte OPERAND2 = 1;
-    final byte RESULT = 2;
-    final byte TEMP = 3;
+    final static byte OPERAND1 = 0;
+    final static byte OPERAND2 = 1;
+    final static byte RESULT = 2;
+    final static byte TEMP = 3;
     
     public boolean addition()   {
         return addRange(0, 32);

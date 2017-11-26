@@ -12,11 +12,11 @@ import java.util.Arrays;
  * @author cspanw74
  */
 public class FloatEquation extends Equation {
-    final int NUMBER_SIZE = 32;
-    final int SIGN_BIT = NUMBER_SIZE - 1;
-    final int MANT_LENGTH = 25;
-    final int EXP_START = MANT_LENGTH;
-    final int EXP_LENGTH = NUMBER_SIZE - EXP_START - 1;
+    final static int NUMBER_SIZE = 32;
+    final static int SIGN_BIT = NUMBER_SIZE - 1;
+    final static int MANT_LENGTH = 25;
+    final static int EXP_START = MANT_LENGTH;
+    final static int EXP_LENGTH = NUMBER_SIZE - EXP_START - 1;
     
     @Override
     public boolean addition()   {
@@ -40,13 +40,9 @@ public class FloatEquation extends Equation {
                 addOne(i, EXP_START, EXP_LENGTH);
                 bitShiftHalf(i, 0, MANT_LENGTH);
             }
-//System.out.println("adding");
             addRange(0, MANT_LENGTH);
-//            return false;
         }   else    {
-//System.out.println("subtracting");
             subtractRange(greaterOperand, 0, MANT_LENGTH);
-//            return false;
         }
 
         System.arraycopy(binaryNumber[OPERAND1], EXP_START, binaryNumber[RESULT], EXP_START, EXP_LENGTH);
@@ -54,10 +50,7 @@ public class FloatEquation extends Equation {
             subtractOne(RESULT, EXP_START, EXP_LENGTH);
             bitShiftDouble(RESULT, 0, MANT_LENGTH);
         }
-//        for (byte i = EXP_START; i < EXP_START + EXP_LENGTH; i++)
-//            binaryNumber[RESULT][i] = binaryNumber[OPERAND1][i];
         return false;
-//        return addRange(0, MANT_LENGTH + 1);
     }
     
     @Override

@@ -19,15 +19,27 @@ import org.junit.Ignore;
  * @author cspanw74
  */
 public class FloatEquationTest {
-    public static FloatEquation[] testEqs = new FloatEquation[4];
-    int[] onesInEq0Op1 = {26, 25, 24, 23, 18};              //  12.125
-    int[] onesInEq0Op2  = {26, 24, 22, 21};                 //   5.5
-    int[] onesInEq1Op1 = {26, 25, 24, 23, 21, 19};          //  13.25
-    int[] onesInEq1Op2  = {27, 24, 22, 20, 19, 17};         //  21.625
-    int[] onesInEq2Op1 = {30, 29, 28, 27, 25, 24, 22};      //   0.15625
-    int[] onesInEq2Op2  = {27, 25, 24, 23, 21, 19, 18, 16}; //  53.625
+    public static FloatEquation[] testEqs = new FloatEquation[6];
+//    int[] nextList = {26, 25, 24, 23, 18};              //  12.125
+//    int[] onesInEq0Op2  = {26, 24, 22, 21};                 //   5.5
+//    int[] onesInEq1Op1 = {26, 25, 24, 23, 21, 19};          //  13.25
+//    int[] onesInEq1Op2  = {27, 24, 22, 20, 19, 17};         //  21.625
+//    int[] onesInEq2Op1 = {30, 29, 28, 27, 25, 24, 22};      //   0.15625
+//    int[] onesInEq2Op2  = {27, 25, 24, 23, 21, 19, 18, 16}; //  53.625
     
-//    Arrays.fill(testEq.binaryNumber, false);
+    int[][] listOfOnes = {  {26, 25, 24, 23, 18},               //  12.125
+                            {26, 24, 22, 21},                   //   5.5                            first pair:     operand1 greater
+                            {26, 25, 24, 23, 21, 19},           //  13.25
+                            {27, 24, 22, 20, 19, 17},           //  21.625                          second pair:    operand1 lesser
+                            {30, 29, 28, 27, 25, 24, 22},       //   0.15625
+                            {27, 25, 24, 23, 21, 19, 18, 16},   //  53.625                          third pair:     operand1 less than 1
+                            {29, 28, 27, 26, 25, 24, 22, 20},   //  2,818,572,288
+                            {29, 28, 27, 26, 24, 23},           //  1,610,612,736                   fourth pair:    too large
+                            {30, 29, 28, 27, 25, 24, 22},       //  0.00000000116415321826...
+                            {30, 29, 28, 27, 26, 24, 23},       //  0.00000000069849193096...       fifth pair:     too small
+                            {27, 26, 24, 23, 20, 19, 18, 15, 14 ,11, 10, 7, 6, 3, 2},   //  103.2
+                            {27, 26, 25, 24, 21, 18, 16, 13, 12, 9, 8, 5, 4, 1, 0}      //  146.6   sixth pair:     binary repeating decimals
+                        };
     
     public FloatEquationTest() {
     }
@@ -44,39 +56,46 @@ public class FloatEquationTest {
     
     @Before
     public void setUp() {
+//  Initialise operands for all test equations
+        for (int i = 0; i < testEqs.length; i++)    {
+            for (int j = 0; j < listOfOnes[i * 2].length; j++)
+                testEqs[i].binaryNumber[Equation.OPERAND1][listOfOnes[i * 2][j]] = true;
+            for (int j = 0; j < listOfOnes[(i * 2) + 1].length; j++)
+                testEqs[i].binaryNumber[Equation.OPERAND2][listOfOnes[(i * 2) + 1][j]] = true;
+        }
+////  Initialise operands in first test equation; first operand greater absolute value
+//        for (int i = 0; i < onesInEq0Op1.length; i++)  {
+//            testEqs[0].binaryNumber[testEqs[0].OPERAND1][onesInEq0Op1[i]] = true;
+//        }
+//        for (int i = 0; i < onesInEq0Op2.length; i++)  {
+//            testEqs[0].binaryNumber[testEqs[0].OPERAND2][onesInEq0Op2[i]] = true;
+//        }
+//
+////  Initialise operands in second test equation; first operand lesser absolute value
+//        for (int i = 0; i < onesInEq1Op1.length; i++)  {
+//            testEqs[1].binaryNumber[testEqs[1].OPERAND1][onesInEq1Op1[i]] = true;
+//        }
+//        for (int i = 0; i < onesInEq1Op2.length; i++)  {
+//            testEqs[1].binaryNumber[testEqs[1].OPERAND2][onesInEq1Op2[i]] = true;
+//        }
+//
+////  Initialise operands in third test equation; first operand less than one
+//        for (int i = 0; i < onesInEq2Op1.length; i++)  {
+//            testEqs[2].binaryNumber[testEqs[2].OPERAND1][onesInEq2Op1[i]] = true;
+//        }
+//        for (int i = 0; i < onesInEq2Op2.length; i++)  {
+//            testEqs[2].binaryNumber[testEqs[2].OPERAND2][onesInEq2Op2[i]] = true;
+//        }
+    }
+    
+    @After
+    public void tearDown() {
 //  Reset all binary numbers to zero
         for (FloatEquation testEq : testEqs) {
             for (boolean[] eachNumber : testEq.binaryNumber) {
                 Arrays.fill(eachNumber, false);
             }
         }
-//  Initialise operands in first test equation; first operand greater absolute value
-        for (int i = 0; i < onesInEq0Op1.length; i++)  {
-            testEqs[0].binaryNumber[testEqs[0].OPERAND1][onesInEq0Op1[i]] = true;
-        }
-        for (int i = 0; i < onesInEq0Op2.length; i++)  {
-            testEqs[0].binaryNumber[testEqs[0].OPERAND2][onesInEq0Op2[i]] = true;
-        }
-
-//  Initialise operands in second test equation; first operand lesser absolute value
-        for (int i = 0; i < onesInEq1Op1.length; i++)  {
-            testEqs[1].binaryNumber[testEqs[1].OPERAND1][onesInEq1Op1[i]] = true;
-        }
-        for (int i = 0; i < onesInEq1Op2.length; i++)  {
-            testEqs[1].binaryNumber[testEqs[1].OPERAND2][onesInEq1Op2[i]] = true;
-        }
-
-//  Initialise operands in third test equation; first operand less than one
-        for (int i = 0; i < onesInEq2Op1.length; i++)  {
-            testEqs[2].binaryNumber[testEqs[2].OPERAND1][onesInEq2Op1[i]] = true;
-        }
-        for (int i = 0; i < onesInEq2Op2.length; i++)  {
-            testEqs[2].binaryNumber[testEqs[2].OPERAND2][onesInEq2Op2[i]] = true;
-        }
-    }
-    
-    @After
-    public void tearDown() {
     }
 
     /***
@@ -87,7 +106,6 @@ public class FloatEquationTest {
     public void testAdditionPosPosGtr() {
         System.out.println("Test addition() with both operands positive, first operand greater abs val");
         testEqs[0].addition(); //  17.625
-        printOnes(0, testEqs[0].RESULT);
         assertFalse(testEqs[0].binaryNumber[testEqs[0].RESULT][testEqs[0].SIGN_BIT]);  //  positive
         assertTrue(testEqs[0].binaryNumber[testEqs[0].RESULT][27]);
         assertTrue(testEqs[0].binaryNumber[testEqs[0].RESULT][24]);
@@ -114,7 +132,6 @@ public class FloatEquationTest {
     public void testAdditionNegPosGtr() {
         System.out.println("Test addition() with first operand negative, second positive, first operand greater abs val");
         testEqs[0].binaryNumber[testEqs[0].OPERAND1][testEqs[0].SIGN_BIT] = true;
-        testEqs[0].binaryNumber[testEqs[0].OPERAND2][testEqs[0].SIGN_BIT] = false;
         testEqs[0].addition(); //  -6.625
         assertTrue(testEqs[0].binaryNumber[testEqs[0].RESULT][testEqs[0].SIGN_BIT]);   //  negative
         assertTrue(testEqs[0].binaryNumber[testEqs[0].RESULT][26]);
@@ -127,7 +144,6 @@ public class FloatEquationTest {
     @Test
     public void testAdditionPosNegGtr() {
         System.out.println("Test addition() with first operand positive, second negative, first operand greater abs val");
-        testEqs[0].binaryNumber[testEqs[0].OPERAND1][testEqs[0].SIGN_BIT] = false;
         testEqs[0].binaryNumber[testEqs[0].OPERAND2][testEqs[0].SIGN_BIT] = true;
         testEqs[0].addition(); //  6.625
         assertFalse(testEqs[0].binaryNumber[testEqs[0].RESULT][testEqs[0].SIGN_BIT]);  //  positive
@@ -142,7 +158,6 @@ public class FloatEquationTest {
     public void testAdditionPosPosLsr() {
         System.out.println("Test addition() with both operands positive, first operand lesser abs val");
         testEqs[1].addition(); //  34.875
-        printOnes(1, testEqs[1].RESULT);
         assertFalse(testEqs[1].binaryNumber[testEqs[1].RESULT][testEqs[1].SIGN_BIT]);  //  positive
         assertTrue(testEqs[1].binaryNumber[testEqs[1].RESULT][27]);
         assertTrue(testEqs[1].binaryNumber[testEqs[1].RESULT][25]);
@@ -187,7 +202,6 @@ public class FloatEquationTest {
         System.out.println("Test addition() with first operand positive, second operand negative, first operand lesser abs val");
         testEqs[1].binaryNumber[testEqs[1].OPERAND2][testEqs[1].SIGN_BIT] = true;
         testEqs[1].addition(); //  -8.375
-        printOnes(1, testEqs[1].RESULT);
         assertTrue(testEqs[1].binaryNumber[testEqs[1].RESULT][testEqs[1].SIGN_BIT]);  //  negative
         assertTrue(testEqs[1].binaryNumber[testEqs[1].RESULT][26]);
         assertTrue(testEqs[1].binaryNumber[testEqs[1].RESULT][25]);
@@ -200,7 +214,6 @@ public class FloatEquationTest {
     public void testAdditionPosPosLessOne() {
         System.out.println("Test addition() with both operands positive, first operand less than one");
         testEqs[2].addition(); //  53.78125
-        printOnes(2, testEqs[2].RESULT);
         assertFalse(testEqs[2].binaryNumber[testEqs[2].RESULT][testEqs[2].SIGN_BIT]);  //  positive
         assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][27]);
         assertTrue(testEqs[2].binaryNumber[testEqs[2].RESULT][25]);
