@@ -38,7 +38,11 @@ public class FloatEquationTest {
                             {30, 29, 28, 27, 25, 24, 22},       //  0.00000000116415321826...
                             {30, 29, 28, 27, 26, 24, 23},       //  0.00000000069849193096...       fifth pair:     too small
                             {27, 26, 24, 23, 20, 19, 18, 15, 14 ,11, 10, 7, 6, 3, 2},   //  103.2
-                            {27, 26, 25, 24, 21, 18, 16, 13, 12, 9, 8, 5, 4, 1, 0}      //  146.6   sixth pair:     binary repeating decimals
+                            {27, 26, 25, 24, 21, 18, 16, 13, 12, 9, 8, 5, 4, 1, 0},     //  146.6   sixth pair:     binary repeating decimals
+                            {25, 24},       //  2
+                            {25, 24},       //  2                                                   seventh pair:   equal operands
+                            {26, 24},       //  4
+                            {},             //  0                                                   eighth pair:    second operand zero
                         };
     
     public FloatEquationTest() {
@@ -226,6 +230,14 @@ public class FloatEquationTest {
         assertTrue(testEqs[2].binaryNumber[Equation.RESULT][14]);
     }
 
+    @Test
+    public void testAdditionEqualOps()  {
+        System.out.println("Test addition with both operands equal");
+        testEqs[6].addition();  //  4
+        assertTrue(testEqs[6].binaryNumber[Equation.RESULT][26]);
+        assertTrue(testEqs[6].binaryNumber[Equation.RESULT][24]);
+    }
+
     /**
      * Test of subtraction method, of class FloatEquation.
      */
@@ -244,6 +256,14 @@ public class FloatEquationTest {
         assertTrue(testEqs[2].binaryNumber[Equation.RESULT][16]);
         assertTrue(testEqs[2].binaryNumber[Equation.RESULT][15]);
         assertTrue(testEqs[2].binaryNumber[Equation.RESULT][14]);
+    }
+    
+    @Test
+    public void testSubtractionEqualOps()   {
+        System.out.println("Test subtraction with equal operands, result zero");
+        testEqs[6].subtraction();   //  0
+        assertFalse(testEqs[6].binaryNumber[Equation.RESULT][25]);
+        assertFalse(testEqs[6].binaryNumber[Equation.RESULT][24]);
     }
 
     /**
