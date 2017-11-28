@@ -82,6 +82,10 @@ public class FloatEquation extends Equation {
     
     @Override
     public boolean division()   {
+    //  Catch division by zero
+        if (!binaryNumber[OPERAND2][24])
+            return true;
+        
         binaryNumber[RESULT][SIGN_BIT] = binaryNumber[OPERAND1][SIGN_BIT] ^ binaryNumber[OPERAND2][SIGN_BIT];
         if (subtractRange(OPERAND1, EXP_START, EXP_LENGTH)) return true;
         
@@ -112,13 +116,6 @@ public class FloatEquation extends Equation {
             if (binaryNumber[OPERAND1][i] != binaryNumber[OPERAND2][i])
                 return (binaryNumber[OPERAND1][i] ? OPERAND1 : OPERAND2);
         return 2;
-    }
-    
-    private boolean checkZero(byte whichNumber, int start, int length)  {
-        for (int i = start + length - 1; i >= start; i--)
-            if (binaryNumber[whichNumber][i])
-                return false;
-        return true;
     }
     
     private void bitShiftHalf(byte whichNumber, int start, int length)    {

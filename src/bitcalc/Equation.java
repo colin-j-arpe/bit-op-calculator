@@ -45,6 +45,8 @@ public class Equation   {
     }
     
     public boolean division()  {
+        if (checkZero(OPERAND2, 0, 32))
+            return true;
         boolean negativeResult = removeNegatives();
         multByNegOne(OPERAND2, 0, 32);
         
@@ -138,4 +140,12 @@ public class Equation   {
         binaryNumber[whichNumber][start] = false;
         return true;
     }
+    
+    protected boolean checkZero(byte whichNumber, int start, int length)  {
+        for (int i = start + length - 1; i >= start; i--)
+            if (binaryNumber[whichNumber][i])
+                return false;
+        return true;
+    }
 }
+

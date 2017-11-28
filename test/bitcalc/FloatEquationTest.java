@@ -344,6 +344,12 @@ public class FloatEquationTest {
         assertTrue(testEqs[0].binaryNumber[Equation.RESULT][13]);
         assertTrue(testEqs[0].binaryNumber[Equation.RESULT][11]);
     }
+    
+    @Test
+    public void testDivisionByZero()    {
+        System.out.println("Test division by zero");
+        assertTrue(testEqs[7].division());  //  OOR
+    }
 
     public void printOnes(int whichEquation, byte whichNumber) {
         int trues = 0;
