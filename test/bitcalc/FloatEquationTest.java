@@ -229,6 +229,31 @@ public class FloatEquationTest {
         assertTrue(testEqs[2].binaryNumber[Equation.RESULT][17]);
         assertTrue(testEqs[2].binaryNumber[Equation.RESULT][14]);
     }
+    
+    @Test
+    public void testAdditionRepeat()    {
+        System.out.append("Test addition with irrational binary fraction");
+        assertFalse(testEqs[5].addition()); //  249.8; in range
+        assertFalse(testEqs[5].binaryNumber[Equation.RESULT][FloatEquation.SIGN_BIT]);  //  positive
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][27]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][26]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][25]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][24]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][23]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][22]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][21]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][20]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][17]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][16]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][15]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][12]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][11]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][8]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][7]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][4]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][3]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][0]);
+    }
 
     @Test
     public void testAdditionEqualOps()  {
@@ -267,6 +292,29 @@ public class FloatEquationTest {
         assertTrue(testEqs[2].binaryNumber[Equation.RESULT][16]);
         assertTrue(testEqs[2].binaryNumber[Equation.RESULT][15]);
         assertTrue(testEqs[2].binaryNumber[Equation.RESULT][14]);
+    }
+    
+    @Test
+    public void testSubtractionRepeat() {
+        System.out.println("Test subtraction with irrational binary fraction");
+        assertFalse(testEqs[5].subtraction());  //  -43.4; in range
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][FloatEquation.SIGN_BIT]);   //  negative
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][27]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][25]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][24]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][22]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][20]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][19]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][17]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][16]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][13]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][12]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][9]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][8]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][5]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][4]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][1]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][0]);
     }
     
     @Test(timeout=2000)
@@ -322,6 +370,29 @@ public class FloatEquationTest {
     }
     
     @Test
+    public void testMultiplicationRepeat()  {
+        System.out.println("Test multiplication with irrational binary fraction");
+        assertFalse(testEqs[5].multiplication());   //  15,129.12; in range
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][28]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][27]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][25]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][24]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][23]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][22]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][20]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][19]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][15]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][14]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][11]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][7]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][6]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][5]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][4]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][2]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][0]);
+    }
+    
+    @Test
     public void testMultiplicationZero()    {
         System.out.println("Test multiplication by zero");
         testEqs[7].multiplication();    //  0
@@ -349,6 +420,25 @@ public class FloatEquationTest {
     public void testDivisionByZero()    {
         System.out.println("Test division by zero");
         assertTrue(testEqs[7].division());  //  OOR
+    }
+    
+    @Test
+    public void testDivisionRepeat()    {
+        System.out.println("Test division with irrational binary fraction");
+        assertFalse(testEqs[5].division()); //  0.7032742155...; in range
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][30]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][29]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][28]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][27]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][26]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][25]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][24]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][22]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][21]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][13]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][10]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][9]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][8]);
     }
 
     public void printOnes(int whichEquation, byte whichNumber) {
