@@ -19,7 +19,7 @@ import org.junit.Ignore;
  * @author cspanw74
  */
 public class FloatEquationTest {
-    public static FloatEquation[] testEqs = new FloatEquation[6];
+    public static FloatEquation[] testEqs = new FloatEquation[8];
 //    int[] nextList = {26, 25, 24, 23, 18};              //  12.125
 //    int[] onesInEq0Op2  = {26, 24, 22, 21};                 //   5.5
 //    int[] onesInEq1Op1 = {26, 25, 24, 23, 21, 19};          //  13.25
@@ -237,6 +237,17 @@ public class FloatEquationTest {
         assertTrue(testEqs[6].binaryNumber[Equation.RESULT][26]);
         assertTrue(testEqs[6].binaryNumber[Equation.RESULT][24]);
     }
+    
+    @Test
+    public void testAdditionZero()  {
+        System.out.println("Test addition with zero");
+        testEqs[7].addition();  //  4
+        assertFalse(testEqs[7].binaryNumber[Equation.RESULT][27]);
+        assertTrue(testEqs[7].binaryNumber[Equation.RESULT][26]);
+        assertFalse(testEqs[7].binaryNumber[Equation.RESULT][25]);
+        assertTrue(testEqs[7].binaryNumber[Equation.RESULT][24]);
+        assertFalse(testEqs[7].binaryNumber[Equation.RESULT][23]);
+    }
 
     /**
      * Test of subtraction method, of class FloatEquation.
@@ -258,11 +269,11 @@ public class FloatEquationTest {
         assertTrue(testEqs[2].binaryNumber[Equation.RESULT][14]);
     }
     
-    @Test
+    @Test(timeout=2000)
     public void testSubtractionEqualOps()   {
         System.out.println("Test subtraction with equal operands, result zero");
         testEqs[6].subtraction();   //  0
-        assertFalse(testEqs[6].binaryNumber[Equation.RESULT][25]);
+        assertTrue(testEqs[6].binaryNumber[Equation.RESULT][25]);
         assertFalse(testEqs[6].binaryNumber[Equation.RESULT][24]);
     }
 
@@ -308,6 +319,13 @@ public class FloatEquationTest {
     public void testMultiplicationTooSmall()    {
         System.out.print("Test multiplication where the result is out of range: too small");
         assertTrue(testEqs[4].multiplication());    //  OOR
+    }
+    
+    @Test
+    public void testMultiplicationZero()    {
+        System.out.println("Test multiplication by zero");
+        testEqs[7].multiplication();    //  0
+        assertFalse(testEqs[7].binaryNumber[Equation.RESULT][24]);
     }
 
     /**

@@ -47,6 +47,7 @@ public class FloatEquation extends Equation {
 
         System.arraycopy(binaryNumber[OPERAND1], EXP_START, binaryNumber[RESULT], EXP_START, EXP_LENGTH);
         while (!binaryNumber[RESULT][MANT_LENGTH - 1])  {
+            if (checkZero(RESULT, 0, MANT_LENGTH)) break;
             subtractOne(RESULT, EXP_START, EXP_LENGTH);
             bitShiftDouble(RESULT, 0, MANT_LENGTH);
         }
@@ -111,6 +112,13 @@ public class FloatEquation extends Equation {
             if (binaryNumber[OPERAND1][i] != binaryNumber[OPERAND2][i])
                 return (binaryNumber[OPERAND1][i] ? OPERAND1 : OPERAND2);
         return 2;
+    }
+    
+    private boolean checkZero(byte whichNumber, int start, int length)  {
+        for (int i = start + length - 1; i >= start; i--)
+            if (binaryNumber[whichNumber][i])
+                return false;
+        return true;
     }
     
     private void bitShiftHalf(byte whichNumber, int start, int length)    {
