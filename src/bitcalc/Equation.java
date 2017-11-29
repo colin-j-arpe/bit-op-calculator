@@ -72,7 +72,8 @@ public class Equation   {
             carryFlag = carryFlag   ? (binaryNumber[OPERAND1][i] || binaryNumber[OPERAND2][i]) 
                                     : (binaryNumber[OPERAND1][i] && binaryNumber[OPERAND2][i]);
         }
-
+        
+    //  Return true if result is out of range
         if (binaryNumber[OPERAND1][endBit] == binaryNumber[OPERAND2][endBit])
             return (binaryNumber[OPERAND1][endBit] ^ binaryNumber[RESULT][endBit]);
         else return false;
@@ -139,6 +140,7 @@ public class Equation   {
         return true;
     }
     
+    //  Return true if the value of the range is zero
     protected boolean checkZero(byte whichNumber, int start, int length)  {
         for (int i = start + length - 1; i >= start; i--)
             if (binaryNumber[whichNumber][i])

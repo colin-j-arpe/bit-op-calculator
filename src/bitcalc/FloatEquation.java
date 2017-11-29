@@ -1,16 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package bitcalc;
 
 import java.util.Arrays;
 
-/**
- *
- * @author cspanw74
- */
 public class FloatEquation extends Equation {
     final static int NUMBER_SIZE = 32;
     final static int SIGN_BIT = NUMBER_SIZE - 1;
@@ -28,7 +19,7 @@ public class FloatEquation extends Equation {
         lesserExponent = (byte)((greaterExponent + 1) % 2);
 
         while (greaterExponent < 2)   {
-            addOne(lesserExponent, EXP_START, EXP_LENGTH);
+            if (addOne(lesserExponent, EXP_START, EXP_LENGTH)) return true;
             bitShiftHalf(lesserExponent, 0, MANT_LENGTH);
             greaterExponent = checkGreater(EXP_START, EXP_LENGTH, true);
         }
@@ -37,7 +28,7 @@ public class FloatEquation extends Equation {
 
         if (binaryNumber[OPERAND1][SIGN_BIT] == binaryNumber[OPERAND2][SIGN_BIT])    {
             for (byte i = 0; i < 2; i++) {
-                addOne(i, EXP_START, EXP_LENGTH);
+                if (addOne(i, EXP_START, EXP_LENGTH)) return true;
                 bitShiftHalf(i, 0, MANT_LENGTH);
             }
             addRange(0, MANT_LENGTH);
@@ -128,12 +119,14 @@ public class FloatEquation extends Equation {
             binaryNumber[RESULT][i] = binaryNumber[minuend][i] ^ (binaryNumber[subtrahend][i] ^ borrowFlag);
             borrowFlag = binaryNumber[minuend][i] ? (binaryNumber[subtrahend][i] && borrowFlag) : (binaryNumber[subtrahend][i] || borrowFlag);
         }
-        
+    
+    //  Return true if result is out of range
         if (binaryNumber[minuend][endBit] ^ binaryNumber[subtrahend][endBit])
             return !(binaryNumber[RESULT][endBit] ^ borrowFlag);
         else return false;
     }
     
+    //  This method ensures that the mantissa is stored as a value between 1 and 2, i.e., 1.xxx...
     private void oneToTheFront (byte whichNumber)   {
         if (checkZero(whichNumber, 0, MANT_LENGTH)) return;
         while (!binaryNumber[whichNumber][MANT_LENGTH - 1])  {

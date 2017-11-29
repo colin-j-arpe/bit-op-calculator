@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package bitcalc;
 
 import java.util.Arrays;
@@ -14,10 +9,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
 
-/**
- *
- * @author cspanw74
- */
 public class FloatEquationTest {
     public static FloatEquation[] testEqs = new FloatEquation[8];
     int[][] listOfOnes = {  {26, 25, 24, 23, 18},               //  12.125
@@ -72,10 +63,7 @@ public class FloatEquationTest {
         }
     }
 
-    /***
-     * Test of addition method, of class FloatEquation.
-     */
-    
+//  Addition tests
     @Test
     public void testAdditionPosPosGtr() {
         System.out.println("Test addition() with both operands positive, first operand greater abs val");
@@ -243,9 +231,7 @@ public class FloatEquationTest {
         assertFalse(testEqs[7].binaryNumber[Equation.RESULT][23]);
     }
 
-    /**
-     * Test of subtraction method, of class FloatEquation.
-     */
+//  Subtraction tests
     @Test
     public void testSubtractionPosPosLessOne() {
         System.out.println("Test subtraction() with both operands positive, first op less than one");
@@ -293,9 +279,7 @@ public class FloatEquationTest {
         assertFalse(testEqs[6].binaryNumber[Equation.RESULT][24]);
     }
 
-    /**
-     * Test of multiplication method, of class FloatEquation.
-     */
+//  Multiplication tests
     @Test
     public void testMultiplicationPos() {
         System.out.println("Test multiplication with a positive outcome");
@@ -329,19 +313,12 @@ public class FloatEquationTest {
     public void testMultiplicationTooLarge()    {
         System.out.println("Test multiplication where the result is out of range: too large");
         assertTrue(testEqs[3].multiplication());    //  OOR
-//        boolean result = testEqs[3].multiplication();
-//        printOnes(3, Equation.RESULT);
-//        System.out.println(result);
-//        assertTrue(result);
     }
 
     @Test
     public void testMultiplicationTooSmall()    {
         System.out.println("Test multiplication where the result is out of range: too small");
         assertTrue(testEqs[4].multiplication());    //  OOR
-//        boolean result = testEqs[4].multiplication();
-//        printOnes(4, Equation.RESULT);
-//        System.out.println(result);
     }
     
     @Test
@@ -373,9 +350,7 @@ public class FloatEquationTest {
         assertFalse(testEqs[7].binaryNumber[Equation.RESULT][24]);
     }
 
-    /**
-     * Test of division method, of class FloatEquation.
-     */
+//  Division tests
     @Test
     public void testDivisionPos() {
         System.out.println("testing division with a positive outcome, both operands greater than one");
@@ -436,6 +411,7 @@ public class FloatEquationTest {
         assertTrue(testEqs[7].division());  //  OOR
     }
     
+//  Display boolean values to assist debugging failed tests
     public void printOnes(int whichEquation, byte whichNumber) {
         int trues = 0;
         for (int i = 31; i >= 0; i--)   {
@@ -446,5 +422,4 @@ public class FloatEquationTest {
         }
         System.out.println(trues + " ones");
     }
-    
 }
