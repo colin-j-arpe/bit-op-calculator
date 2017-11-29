@@ -2,7 +2,9 @@ package bitcalc;
 
 import javax.swing.*;
 import java.awt.*;
-//import java.awt.event.*;
+//import java.awt.event.ItemEvent;
+//import java.awt.event.ItemListener;
+import java.awt.event.*;
 
 public class CalcFrame extends JFrame   {
     CalcActions calc = new CalcActions(this);
@@ -25,6 +27,7 @@ public class CalcFrame extends JFrame   {
         add(calcWindow);
 
         entryField.entryText.addKeyListener(calc);
+        entryField.floatToggle.addItemListener(new checkListen());
         keypad.b1.addActionListener(calc);
         keypad.b2.addActionListener(calc);
         keypad.b3.addActionListener(calc);
@@ -46,15 +49,36 @@ public class CalcFrame extends JFrame   {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
+    
+    class checkListen implements ItemListener   {
+        @Override
+        public void itemStateChanged(ItemEvent check)   {
+            if (entryField.floatToggle.isSelected())    {
+                keypad.point.setEnabled(true);
+                calc.isFloat = true;
+//                calc.thisEq = (FloatEquation)calc.thisEq;
+                calc.reset();
+            }   else    {
+                keypad.point.setEnabled(false);
+                calc.isFloat = false;
+//                calc.thisEq = (Equation)calc.thisEq;
+                calc.reset();
+            }
+        }
+    }
 }
 
 class EntryPanel extends JPanel  {
     JTextField entryText = new JTextField("0", 10);
+    JCheckBox floatToggle = new JCheckBox("Fractional values", false);
     
     public EntryPanel() {
         super();
         entryText.setEditable(false);
+        floatToggle.setMnemonic(KeyEvent.VK_F);
+        floatToggle.setSelected(false);
         add(entryText);
+        add(floatToggle);
     }
 }
 
@@ -117,7 +141,7 @@ class NumberPanel extends JPanel    {
         add(b8);
         add(b9);
         add(b0);
-//        add(point);
+        add(point);
     }
     
     public Insets getInsets()   {

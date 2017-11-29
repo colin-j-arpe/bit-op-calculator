@@ -8,7 +8,7 @@ public class CalcActions implements KeyListener, ActionListener  {
     CalcFrame gui;
     Equation thisEq;
     
-    boolean noDecimal = true, newEntry = true, negative = false, outOfRange = false;
+    boolean noDecimal = true, newEntry = true, negative = false, outOfRange = false, isFloat = false;
     byte operand = 0;
     String entryString = "0";
     String opString = " ";
@@ -41,6 +41,8 @@ public class CalcActions implements KeyListener, ActionListener  {
     public void keyReleased(KeyEvent input) {
         //  ignore
     }
+    
+
     
     public void actionPerformed(ActionEvent event)  {
         String buttonLabel = event.getActionCommand();
@@ -143,31 +145,36 @@ public class CalcActions implements KeyListener, ActionListener  {
         }
         
         else if (entry == 'C' || entry == 'c') {
-            thisEq = new Equation();
-            entryString = "0";
-            noDecimal = true;
-            newEntry = true;
-            negative = false;
-            outOfRange = false;
-            operand = 0;
-            Arrays.fill(binaryString, "");
-            for (int i = 0; i < 3; i++)
-                Arrays.fill(thisEq.binaryNumber[i], false);
-            gui.entryField.entryText.setText("0");
-            gui.display.binaryOperand1.setText("");
-            gui.display.decimalOperand1.setText("");
-            gui.display.operator.setText(" ");
-            gui.display.binaryOperand2.setText("");
-            gui.display.decimalOperand2.setText("");
-            gui.display.binaryResult.setText("");
-            gui.display.decimalResult.setText("");
-            gui.operators.plus.setEnabled(true);
-            gui.operators.minus.setEnabled(true);
-            gui.operators.multiply.setEnabled(true);
-            gui.operators.divide.setEnabled(true);
-            gui.operators.equals.setEnabled(false);
+            reset();
         }
         
+    }
+    
+    public void reset() {
+        thisEq = isFloat ? new FloatEquation() : new Equation();
+        entryString = "0";
+        noDecimal = true;
+        newEntry = true;
+        negative = false;
+        outOfRange = false;
+        operand = 0;
+        opString = " ";
+        Arrays.fill(binaryString, "");
+        for (int i = 0; i < 3; i++)
+            Arrays.fill(thisEq.binaryNumber[i], false);
+        gui.entryField.entryText.setText("0");
+        gui.display.binaryOperand1.setText("");
+        gui.display.decimalOperand1.setText("");
+        gui.display.operator.setText(opString);
+        gui.display.binaryOperand2.setText("");
+        gui.display.decimalOperand2.setText("");
+        gui.display.binaryResult.setText("");
+        gui.display.decimalResult.setText("");
+        gui.operators.plus.setEnabled(true);
+        gui.operators.minus.setEnabled(true);
+        gui.operators.multiply.setEnabled(true);
+        gui.operators.divide.setEnabled(true);
+        gui.operators.equals.setEnabled(false);
     }
     
     public void operatorButton(char operator)    {

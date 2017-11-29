@@ -31,7 +31,7 @@ public class Equation   {
                 System.arraycopy(binaryNumber[RESULT], 0, binaryNumber[OPERAND2], 0, 32);
             }
             multiplierIndex++;
-        }   while (bitShiftDouble(OPERAND1, 0, 32));
+        }   while (!bitShiftDouble(OPERAND1, 0, 32));
         
         for (int i = multiplierIndex; i < 32; i++)  {
             if (binaryNumber[TEMP][i])  {
@@ -133,11 +133,13 @@ public class Equation   {
     protected boolean bitShiftDouble(byte whichNumber, int start, int length)    {
 //        if (binaryNumber[whichNumber][start + length - 1])
 //            return false;
+        boolean signChange = (binaryNumber[whichNumber][start + length - 1] != binaryNumber[whichNumber][start + length - 2]) ?
+                true : false;
         for (int i = start + length - 1; i > start; i--)    {
             binaryNumber[whichNumber][i] = binaryNumber[whichNumber][i-1];
         }
         binaryNumber[whichNumber][start] = false;
-        return true;
+        return signChange;
     }
     
     //  Return true if the value of the range is zero
