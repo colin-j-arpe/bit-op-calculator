@@ -24,7 +24,7 @@ public class FloatEquation extends Equation {
         byte greaterExponent = checkGreater(EXP_START, EXP_LENGTH, true);
         byte greaterMantissa = checkGreater(0, MANT_LENGTH, false);
         byte greaterOperand = (byte)((greaterExponent < 2) ? greaterExponent : greaterMantissa);
-        if (greaterOperand > 1) greaterOperand = 0;
+        if (greaterOperand == 2) greaterOperand = OPERAND1;
         lesserExponent = (byte)((greaterExponent + 1) % 2);
 
         while (greaterExponent < 2)   {
@@ -46,11 +46,7 @@ public class FloatEquation extends Equation {
         }
 
         System.arraycopy(binaryNumber[OPERAND1], EXP_START, binaryNumber[RESULT], EXP_START, EXP_LENGTH);
-        while (!binaryNumber[RESULT][MANT_LENGTH - 1])  {
-            if (checkZero(RESULT, 0, MANT_LENGTH)) break;
-            subtractOne(RESULT, EXP_START, EXP_LENGTH);
-            bitShiftDouble(RESULT, 0, MANT_LENGTH);
-        }
+        oneToTheFront(RESULT);
         return false;
     }
     
@@ -64,7 +60,7 @@ public class FloatEquation extends Equation {
     public boolean multiplication() {
         binaryNumber[RESULT][31] = binaryNumber[OPERAND1][31] ^ binaryNumber[OPERAND2][31];
         
-        addOne(OPERAND1, EXP_START, EXP_LENGTH);
+        if (addOne(OPERAND1, EXP_START, EXP_LENGTH)) return true;
         bitShiftHalf(OPERAND1, 0, MANT_LENGTH);
         System.arraycopy(binaryNumber[OPERAND2], 0, binaryNumber[TEMP], 0, MANT_LENGTH);
         Arrays.fill(binaryNumber[OPERAND2], 0, MANT_LENGTH, false);
@@ -77,7 +73,9 @@ public class FloatEquation extends Equation {
             bitShiftHalf(OPERAND1, 0, MANT_LENGTH);
         }
         
-        return addRange(EXP_START, EXP_LENGTH);
+        if (addRange(EXP_START, EXP_LENGTH)) return true;
+        oneToTheFront(RESULT);
+        return false;
     }
     
     @Override
@@ -90,7 +88,7 @@ public class FloatEquation extends Equation {
         if (subtractRange(OPERAND1, EXP_START, EXP_LENGTH)) return true;
         
         for (int i = MANT_LENGTH - 1; i >= 0; i--)  {
-            if (checkGreater(0, MANT_LENGTH, false) != 1)   {
+            if (checkGreater(0, MANT_LENGTH, false) != OPERAND2)   {
                 subtractRange(OPERAND1, 0, MANT_LENGTH);
                 System.arraycopy(binaryNumber[RESULT], 0, binaryNumber[OPERAND1], 0, MANT_LENGTH);
                 binaryNumber[TEMP][i] = true;
@@ -99,10 +97,7 @@ public class FloatEquation extends Equation {
         }
         
         System.arraycopy(binaryNumber[TEMP], 0, binaryNumber[RESULT], 0, MANT_LENGTH);
-        while (!binaryNumber[RESULT][MANT_LENGTH - 1])  {
-            subtractOne(RESULT, EXP_START, EXP_LENGTH);
-            bitShiftDouble(RESULT, 0, MANT_LENGTH);
-        }
+        oneToTheFront(RESULT);
         return false;
     }
     
@@ -126,14 +121,24 @@ public class FloatEquation extends Equation {
     
     private boolean subtractRange (byte minuend, int start, int length)    {
         boolean borrowFlag = false;
-        int end = start + length;
+        int endBit = start + length - 1;
         byte subtrahend = (byte)((minuend + 1) % 2);
         
-        for (int i = start; i < end; i++)   {
+        for (int i = start; i <= endBit; i++)   {
             binaryNumber[RESULT][i] = binaryNumber[minuend][i] ^ (binaryNumber[subtrahend][i] ^ borrowFlag);
             borrowFlag = binaryNumber[minuend][i] ? (binaryNumber[subtrahend][i] && borrowFlag) : (binaryNumber[subtrahend][i] || borrowFlag);
         }
         
-        return borrowFlag;
+        if (binaryNumber[minuend][endBit] ^ binaryNumber[subtrahend][endBit])
+            return !(binaryNumber[RESULT][endBit] ^ borrowFlag);
+        else return false;
+    }
+    
+    private void oneToTheFront (byte whichNumber)   {
+        if (checkZero(whichNumber, 0, MANT_LENGTH)) return;
+        while (!binaryNumber[whichNumber][MANT_LENGTH - 1])  {
+            subtractOne(whichNumber, EXP_START, EXP_LENGTH);
+            bitShiftDouble(whichNumber, 0, MANT_LENGTH);
+        }
     }
 }

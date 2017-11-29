@@ -73,15 +73,9 @@ public class Equation   {
                                     : (binaryNumber[OPERAND1][i] && binaryNumber[OPERAND2][i]);
         }
 
-        if (binaryNumber[OPERAND1][endBit] == binaryNumber[OPERAND2][endBit])   {
-            if (binaryNumber[OPERAND1][endBit]) {
-                return !binaryNumber[RESULT][endBit];
-            }   else    {
-                return binaryNumber[RESULT][endBit];
-            }
-        }   else    {
-            return false;
-        }
+        if (binaryNumber[OPERAND1][endBit] == binaryNumber[OPERAND2][endBit])
+            return (binaryNumber[OPERAND1][endBit] ^ binaryNumber[RESULT][endBit]);
+        else return false;
     }
     
     protected void multByNegOne(byte whichNumber, int start, int length)  {
@@ -95,25 +89,29 @@ public class Equation   {
         }
     }
 
-    protected void subtractOne(byte whichNumber, int start, int length)   {
-        int end = start + length;
-        while (!binaryNumber[whichNumber][start] && start < end)  {
+    protected boolean subtractOne(byte whichNumber, int start, int length)   {
+        int endBit = start + length - 1;
+        boolean negative = binaryNumber[whichNumber][endBit];
+        while (!binaryNumber[whichNumber][start] && start <= endBit)  {
             binaryNumber[whichNumber][start] = true;
             start++;
         }
         
-        if (start < end)
+        if (start <= endBit)
             binaryNumber[whichNumber][start] = false;
+        return (negative ? !binaryNumber[whichNumber][endBit] : false);
     }
 
-    protected void addOne(byte whichNumber, int start, int length)    {
-        int i = start;
-        while (binaryNumber[whichNumber][i] && i < start + length)   {
-            binaryNumber[whichNumber][i] = false;
-            i++;
+    protected boolean addOne(byte whichNumber, int start, int length)    {
+        int endBit = start + length - 1;
+        boolean positive = !binaryNumber[whichNumber][endBit];
+        while (binaryNumber[whichNumber][start] && start <= endBit)   {
+            binaryNumber[whichNumber][start] = false;
+            start++;
         }
-        if (i < start + length)
-            binaryNumber[whichNumber][i] = true;
+        if (start <= endBit)
+            binaryNumber[whichNumber][start] = true;
+        return (positive ? binaryNumber[whichNumber][endBit] : false);
     }
 
     protected void complement(byte whichNumber, int start, int length)    {

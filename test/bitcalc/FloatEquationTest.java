@@ -20,13 +20,6 @@ import org.junit.Ignore;
  */
 public class FloatEquationTest {
     public static FloatEquation[] testEqs = new FloatEquation[8];
-//    int[] nextList = {26, 25, 24, 23, 18};              //  12.125
-//    int[] onesInEq0Op2  = {26, 24, 22, 21};                 //   5.5
-//    int[] onesInEq1Op1 = {26, 25, 24, 23, 21, 19};          //  13.25
-//    int[] onesInEq1Op2  = {27, 24, 22, 20, 19, 17};         //  21.625
-//    int[] onesInEq2Op1 = {30, 29, 28, 27, 25, 24, 22};      //   0.15625
-//    int[] onesInEq2Op2  = {27, 25, 24, 23, 21, 19, 18, 16}; //  53.625
-    
     int[][] listOfOnes = {  {26, 25, 24, 23, 18},               //  12.125
                             {26, 24, 22, 21},                   //   5.5                            first pair:     operand1 greater
                             {26, 25, 24, 23, 21, 19},           //  13.25
@@ -35,8 +28,8 @@ public class FloatEquationTest {
                             {27, 25, 24, 23, 21, 19, 18, 16},   //  53.625                          third pair:     operand1 less than 1
                             {29, 28, 27, 26, 25, 24, 22, 20},   //  2,818,572,288
                             {29, 28, 27, 26, 24, 23},           //  1,610,612,736                   fourth pair:    too large
-                            {30, 29, 28, 27, 25, 24, 22},       //  0.00000000116415321826...
-                            {30, 29, 28, 27, 26, 24, 23},       //  0.00000000069849193096...       fifth pair:     too small
+                            {30, 26, 24, 22},                   //  0.00000000116415321826...
+                            {30, 25, 24, 23},                   //  0.00000000069849193096...       fifth pair:     too small
                             {27, 26, 24, 23, 20, 19, 18, 15, 14 ,11, 10, 7, 6, 3, 2},   //  103.2
                             {27, 26, 25, 24, 21, 18, 16, 13, 12, 9, 8, 5, 4, 1, 0},     //  146.6   sixth pair:     binary repeating decimals
                             {25, 24},       //  2
@@ -67,29 +60,6 @@ public class FloatEquationTest {
             for (int j = 0; j < listOfOnes[(i * 2) + 1].length; j++)
                 testEqs[i].binaryNumber[Equation.OPERAND2][listOfOnes[(i * 2) + 1][j]] = true;
         }
-////  Initialise operands in first test equation; first operand greater absolute value
-//        for (int i = 0; i < onesInEq0Op1.length; i++)  {
-//            testEqs[0].binaryNumber[Equation.OPERAND1][onesInEq0Op1[i]] = true;
-//        }
-//        for (int i = 0; i < onesInEq0Op2.length; i++)  {
-//            testEqs[0].binaryNumber[Equation.OPERAND2][onesInEq0Op2[i]] = true;
-//        }
-//
-////  Initialise operands in second test equation; first operand lesser absolute value
-//        for (int i = 0; i < onesInEq1Op1.length; i++)  {
-//            testEqs[1].binaryNumber[Equation.OPERAND1][onesInEq1Op1[i]] = true;
-//        }
-//        for (int i = 0; i < onesInEq1Op2.length; i++)  {
-//            testEqs[1].binaryNumber[Equation.OPERAND2][onesInEq1Op2[i]] = true;
-//        }
-//
-////  Initialise operands in third test equation; first operand less than one
-//        for (int i = 0; i < onesInEq2Op1.length; i++)  {
-//            testEqs[2].binaryNumber[Equation.OPERAND1][onesInEq2Op1[i]] = true;
-//        }
-//        for (int i = 0; i < onesInEq2Op2.length; i++)  {
-//            testEqs[2].binaryNumber[Equation.OPERAND2][onesInEq2Op2[i]] = true;
-//        }
     }
     
     @After
@@ -252,7 +222,6 @@ public class FloatEquationTest {
         assertTrue(testEqs[5].binaryNumber[Equation.RESULT][7]);
         assertTrue(testEqs[5].binaryNumber[Equation.RESULT][4]);
         assertTrue(testEqs[5].binaryNumber[Equation.RESULT][3]);
-        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][0]);
     }
 
     @Test
@@ -313,8 +282,7 @@ public class FloatEquationTest {
         assertTrue(testEqs[5].binaryNumber[Equation.RESULT][8]);
         assertTrue(testEqs[5].binaryNumber[Equation.RESULT][5]);
         assertTrue(testEqs[5].binaryNumber[Equation.RESULT][4]);
-        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][1]);
-        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][0]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][2]);
     }
     
     @Test(timeout=2000)
@@ -357,16 +325,23 @@ public class FloatEquationTest {
         assertTrue(testEqs[0].binaryNumber[Equation.RESULT][14]);
     }
     
-    @Test
+    @Test(timeout=2000)
     public void testMultiplicationTooLarge()    {
-        System.out.print("Test multiplication where the result is out of range: too large");
+        System.out.println("Test multiplication where the result is out of range: too large");
         assertTrue(testEqs[3].multiplication());    //  OOR
+//        boolean result = testEqs[3].multiplication();
+//        printOnes(3, Equation.RESULT);
+//        System.out.println(result);
+//        assertTrue(result);
     }
 
     @Test
     public void testMultiplicationTooSmall()    {
-        System.out.print("Test multiplication where the result is out of range: too small");
+        System.out.println("Test multiplication where the result is out of range: too small");
         assertTrue(testEqs[4].multiplication());    //  OOR
+//        boolean result = testEqs[4].multiplication();
+//        printOnes(4, Equation.RESULT);
+//        System.out.println(result);
     }
     
     @Test
@@ -387,9 +362,8 @@ public class FloatEquationTest {
         assertTrue(testEqs[5].binaryNumber[Equation.RESULT][7]);
         assertTrue(testEqs[5].binaryNumber[Equation.RESULT][6]);
         assertTrue(testEqs[5].binaryNumber[Equation.RESULT][5]);
-        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][4]);
         assertTrue(testEqs[5].binaryNumber[Equation.RESULT][2]);
-        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][0]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][1]);
     }
     
     @Test
@@ -417,12 +391,6 @@ public class FloatEquationTest {
     }
     
     @Test
-    public void testDivisionByZero()    {
-        System.out.println("Test division by zero");
-        assertTrue(testEqs[7].division());  //  OOR
-    }
-    
-    @Test
     public void testDivisionRepeat()    {
         System.out.println("Test division with irrational binary fraction");
         assertFalse(testEqs[5].division()); //  0.7032742155...; in range
@@ -435,12 +403,39 @@ public class FloatEquationTest {
         assertTrue(testEqs[5].binaryNumber[Equation.RESULT][24]);
         assertTrue(testEqs[5].binaryNumber[Equation.RESULT][22]);
         assertTrue(testEqs[5].binaryNumber[Equation.RESULT][21]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][19]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][14]);
         assertTrue(testEqs[5].binaryNumber[Equation.RESULT][13]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][11]);
         assertTrue(testEqs[5].binaryNumber[Equation.RESULT][10]);
-        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][9]);
-        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][8]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][7]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][6]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][5]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][3]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][2]);
+//        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][1]);
+        assertTrue(testEqs[5].binaryNumber[Equation.RESULT][0]);
     }
 
+    @Test
+    public void testDivisionEqual() {
+        System.out.println("Test division with equal operands");
+        assertFalse(testEqs[6].division()); //  1; in range
+        assertFalse(testEqs[6].binaryNumber[Equation.RESULT][30]);
+        assertFalse(testEqs[6].binaryNumber[Equation.RESULT][29]);
+        assertFalse(testEqs[6].binaryNumber[Equation.RESULT][28]);
+        assertFalse(testEqs[6].binaryNumber[Equation.RESULT][27]);
+        assertFalse(testEqs[6].binaryNumber[Equation.RESULT][26]);
+        assertFalse(testEqs[6].binaryNumber[Equation.RESULT][25]);
+        assertTrue(testEqs[6].binaryNumber[Equation.RESULT][24]);
+    }
+
+    @Test
+    public void testDivisionByZero()    {
+        System.out.println("Test division by zero");
+        assertTrue(testEqs[7].division());  //  OOR
+    }
+    
     public void printOnes(int whichEquation, byte whichNumber) {
         int trues = 0;
         for (int i = 31; i >= 0; i--)   {
