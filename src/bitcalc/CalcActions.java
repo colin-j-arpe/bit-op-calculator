@@ -2,11 +2,13 @@ package bitcalc;
 
 //import javax.swing.*;
 import java.awt.event.*;
+import static java.lang.Math.abs;
 import java.util.*;
 
 public class CalcActions implements KeyListener, ActionListener  {
     CalcFrame gui;
     Equation thisEq;
+//    FloatEquation FloatEq;
     
     boolean noDecimal = true, newEntry = true, negative = false, outOfRange = false, isFloat = false;
     byte operand = 0;
@@ -14,6 +16,7 @@ public class CalcActions implements KeyListener, ActionListener  {
     String opString = " ";
     String[] binaryString = new String[3];
     String[] decimalString = new String[3];
+//    int[] floatBinarySpaces = {31, 25};
 
     byte selectedOp;
     static final byte PLUS = 0;
@@ -42,8 +45,6 @@ public class CalcActions implements KeyListener, ActionListener  {
         //  ignore
     }
     
-
-    
     public void actionPerformed(ActionEvent event)  {
         String buttonLabel = event.getActionCommand();
         char[] button = buttonLabel.toCharArray() ;
@@ -61,7 +62,7 @@ public class CalcActions implements KeyListener, ActionListener  {
             gui.entryField.entryText.setText(entryString);
 
             createBinaryArray(entryString, operand);
-            binaryString[operand] = createBinaryString(operand);
+            binaryString[operand] = (outOfRange ? "ERROR: out of range" : createBinaryString(operand));
             if (operand == 0)
                 gui.display.binaryOperand1.setText(binaryString[0]);
             else
@@ -216,12 +217,13 @@ public class CalcActions implements KeyListener, ActionListener  {
 
     public void createBinaryArray(String input, byte whichNumber)  {
         double inputValue = Double.parseDouble(input);
-        if (!noDecimal) {
+        if (isFloat) {
             createFloatArray(inputValue, whichNumber);
             return;
         }
         
         long powerOf2 = TWO_TO_THE_30TH;
+        if (outOfRange =/*sic*/ (abs(inputValue) >= powerOf2 * 2)) return;  //  INTENTIONAL: value assigned and evaluated within conditional
         
         Arrays.fill(thisEq.binaryNumber[whichNumber], false);
         
@@ -241,25 +243,30 @@ public class CalcActions implements KeyListener, ActionListener  {
     
     public void createFloatArray(double value, byte whichNumber)    {
         double powerOf2 = 1;
-        
-        if (value == 0)  {
-            Arrays.fill(thisEq.binaryNumber[whichNumber], false);
-            return;
-        }
+        Arrays.fill(thisEq.binaryNumber[whichNumber], false);
+        if (value == 0) return;
         
         if (value < 0)  {
-            thisEq.binaryNumber[whichNumber][31] = true;
+            thisEq.binaryNumber[whichNumber][FloatEquation.SIGN_BIT] = true;
             value *= (-1);
         }
         
-        Arrays.fill(thisEq.binaryNumber[whichNumber], 25, 31, true);
-        
-        while (powerOf2 < value)    {
-            powerOf2 *= 2;
-            thisEq.addOne(whichNumber, 25, 6);
+        if (value > 1)  {
+            Arrays.fill(thisEq.binaryNumber[whichNumber], FloatEquation.EXP_START, FloatEquation.EXP_START + FloatEquation.EXP_LENGTH, true);
+            while (powerOf2 < value && !outOfRange)    {
+                powerOf2 *= 2;
+                outOfRange = thisEq.addOne(whichNumber, FloatEquation.EXP_START, FloatEquation.EXP_LENGTH);
+            }
+            powerOf2 /= 2;
+        }   else    {
+            while (powerOf2 > value && !outOfRange)    {
+                powerOf2 /= 2;
+                outOfRange = thisEq.subtractOne(whichNumber, FloatEquation.EXP_START, FloatEquation.EXP_LENGTH);
+            }
         }
+        if (outOfRange) return;
         
-        for (int i = 24; i >= 0; i--)  {
+        for (int i = FloatEquation.MANT_LENGTH - 1; i >= 0; i--)  {
             if (value > powerOf2)   {
                 thisEq.binaryNumber[whichNumber][i] = true;
                 value -= powerOf2;
@@ -276,8 +283,11 @@ public class CalcActions implements KeyListener, ActionListener  {
                 output += "1";
             else
                 output += "0";
-            if (i % 4 == 0)
-                output += " ";
+            if (i > 24) {
+                if ((!isFloat && i % 4 == 0) || (isFloat && (i == 31 || i == 25)))
+                    output += " ";
+            }   else if (i % 4 == 0)
+                    output += " ";
         }
         return output;
     }
