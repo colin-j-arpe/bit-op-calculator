@@ -15,7 +15,7 @@ public class CalcFrame extends JFrame   {
 
     public CalcFrame()  {
         super("bitCalc");
-        setSize(320, 420);
+        setSize(320, 450);
         JPanel calcWindow = new JPanel();
         BoxLayout calcLayout = new BoxLayout(calcWindow, BoxLayout.Y_AXIS);
         calcWindow.setLayout (calcLayout);
@@ -88,6 +88,7 @@ class DisplayPanel extends JPanel    {
     JLabel operator = new JLabel(" ");
     JTextField binaryOperand2 = new JTextField();
     JTextField decimalOperand2 = new JTextField();
+    JLabel equals = new JLabel("=");
     JTextField binaryResult = new JTextField();
     JTextField decimalResult = new JTextField();
     
@@ -107,6 +108,7 @@ class DisplayPanel extends JPanel    {
         this.add(operator);
         this.add(binaryOperand2);
         this.add(decimalOperand2);
+        this.add(equals);
         this.add(binaryResult);
         this.add(decimalResult);
     }
