@@ -23,8 +23,11 @@ import static org.junit.Assert.*;
 public class CalcActionsTest {
     public static CalcFrame testFrame;
     public static CalcActions testCalc;
-//    public static Equation testEq;
-//    public static FloatEquation testFloat;
+    public int[][] listOfOnes = {   {29, 26, 25, 24, 21, 20, 19, 17, 16, 15, 11, 10, 8, 6, 1, 0},   //  646,250.0946
+                                    {28, 25, 24, 22, 17, 16, 13, 1, 0},                             //  646.2500946
+                                    {30, 29, 28, 27, 24, 19, 15, 13, 12, 10, 5, 4, 3, 0},           //  0.064625
+                                    {31, 27, 25, 24, 21, 19, 18, 16, 14, 12}                        //  -37.6640625
+                                };
     
     public CalcActionsTest() {
     }
@@ -63,34 +66,6 @@ public class CalcActionsTest {
         KeyEvent input = null;
         CalcActions instance = null;
         instance.keyTyped(input);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of keyPressed method, of class CalcActions.
-     */
-    @Ignore
-    @Test
-    public void testKeyPressed() {
-        System.out.println("keyPressed");
-        KeyEvent input = null;
-        CalcActions instance = null;
-        instance.keyPressed(input);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of keyReleased method, of class CalcActions.
-     */
-    @Ignore
-    @Test
-    public void testKeyReleased() {
-        System.out.println("keyReleased");
-        KeyEvent input = null;
-        CalcActions instance = null;
-        instance.keyReleased(input);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -157,11 +132,11 @@ public class CalcActionsTest {
     @Test
     public void testConvertToDecimal() {
         System.out.println("convertToDecimal");
-        boolean[] input = null;
+//        byte input = null;
         CalcActions instance = null;
         String expResult = "";
-        String result = instance.convertToDecimal(input);
-        assertEquals(expResult, result);
+//        String result = instance.convertToInteger(input);
+//        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -170,8 +145,9 @@ public class CalcActionsTest {
      * Test of createBinaryArray method, of class CalcActions.
      */
     @Test
-    public void testCreateBinaryArrayInt() {
+    public void testCreateBinaryArray() {
         System.out.println("createBinaryArray with integers");
+        testCalc.isFloat = false;
         String[] input = {"3242010", "-3242010", "999999999999", "-99999999999999"};
         for (byte i = 0; i < 4; i++) {
             testCalc.createBinaryArray(input[i], i);
@@ -212,21 +188,20 @@ public class CalcActionsTest {
     }
 
     @Test
-    public void testCreateBinaryArrayFloat() {
+    public void testCreateFloatArray() {
         System.out.println("createBinaryArray with integers");
         testCalc.isFloat = true;
-        String[] input = {"25.00946", "-0.00646", "11.6", "0.0000000000125"};
+        String[] input = {"25.00946", "-0.00646", "11.6", "2.5"};
         for (byte i = 0; i < 4; i++) {
             testCalc.createBinaryArray(input[i], i);
-            if (i < 3)  {
-                assertFalse(testCalc.outOfRange);
-            }
-            else    {
-                assertTrue(testCalc.outOfRange);
-            }
-        System.out.println(i);
-        System.out.println(testCalc.createBinaryString(i));
+//            if (i < 3)  {
+//                assertFalse(testCalc.outOfRange);
+//            }
+//            else    {
+//                assertTrue(testCalc.outOfRange);
+//            }
         }
+        //  test 25.00946
         assertTrue(testCalc.thisEq.binaryNumber[0][27]);
         assertTrue(testCalc.thisEq.binaryNumber[0][24]);
         assertTrue(testCalc.thisEq.binaryNumber[0][23]);
@@ -240,8 +215,8 @@ public class CalcActionsTest {
         assertTrue(testCalc.thisEq.binaryNumber[0][3]);
         assertTrue(testCalc.thisEq.binaryNumber[0][1]);
         assertTrue(testCalc.thisEq.binaryNumber[0][0]);
-        
-//        System.out.println(testCalc.createBinaryString((byte)1));
+
+        //  test -0.00646
         assertTrue(testCalc.thisEq.binaryNumber[1][31]);
         assertTrue(testCalc.thisEq.binaryNumber[1][30]);
         assertTrue(testCalc.thisEq.binaryNumber[1][29]);
@@ -264,6 +239,7 @@ public class CalcActionsTest {
         assertFalse(testCalc.thisEq.binaryNumber[1][1]);
         assertFalse(testCalc.thisEq.binaryNumber[1][0]);
         
+        //  test 11.6
         assertTrue(testCalc.thisEq.binaryNumber[2][26]);
         assertTrue(testCalc.thisEq.binaryNumber[2][25]);
         assertTrue(testCalc.thisEq.binaryNumber[2][24]);
@@ -280,20 +256,22 @@ public class CalcActionsTest {
         assertTrue(testCalc.thisEq.binaryNumber[2][4]);
         assertTrue(testCalc.thisEq.binaryNumber[2][1]);
         assertTrue(testCalc.thisEq.binaryNumber[2][0]);
-    }
-            /**
-     * Test of createFloatArray method, of class CalcActions.
-     */
-    @Ignore
-    @Test
-    public void testCreateFloatArray() {
-        System.out.println("createFloatArray");
-        double value = 0.0;
-        byte whichNumber = 0;
-        CalcActions instance = null;
-        instance.createFloatArray(value, whichNumber);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        assertTrue(testCalc.thisEq.binaryNumber[3][25]);
+        assertTrue(testCalc.thisEq.binaryNumber[3][24]);
+        assertTrue(testCalc.thisEq.binaryNumber[3][22]);
+        assertFalse(testCalc.thisEq.binaryNumber[3][21]);
+        assertFalse(testCalc.thisEq.binaryNumber[3][20]);
+        assertFalse(testCalc.thisEq.binaryNumber[3][19]);
+        assertFalse(testCalc.thisEq.binaryNumber[3][16]);
+        assertFalse(testCalc.thisEq.binaryNumber[3][15]);
+        assertFalse(testCalc.thisEq.binaryNumber[3][12]);
+        assertFalse(testCalc.thisEq.binaryNumber[3][11]);
+        assertFalse(testCalc.thisEq.binaryNumber[3][8]);
+        assertFalse(testCalc.thisEq.binaryNumber[3][7]);
+        assertFalse(testCalc.thisEq.binaryNumber[3][4]);
+        assertFalse(testCalc.thisEq.binaryNumber[3][3]);
+        assertFalse(testCalc.thisEq.binaryNumber[3][0]);
     }
 
     /**
@@ -310,6 +288,23 @@ public class CalcActionsTest {
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
+    }
+    
+    @Test
+    public void testConvertToFloat()    {
+        System.out.println("testing output string from float equations");
+        testCalc.isFloat = true;
+        for (int i = 0; i < 4; i++)
+            for (int j = 0; j < listOfOnes[i].length; j++)
+                testCalc.thisEq.binaryNumber[i][listOfOnes[i][j]] = true;
+        
+        assertEquals(testCalc.convertToInteger((byte)0), "646250.09375");
+        assertEquals(testCalc.convertToInteger((byte)1), "646.2500915527344");
+//        assertEquals(testCalc.convertToInteger((byte)1), "646.250091552784375");
+        assertEquals(testCalc.convertToInteger((byte)2), "0.06462499871850014");
+//        assertEquals(testCalc.convertToInteger((byte)2), "0.0646249987185001373291015625");
+        assertEquals(testCalc.convertToInteger((byte)3), "-37.6640625");
+        
     }
     
 }

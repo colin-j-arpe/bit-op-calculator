@@ -114,7 +114,7 @@ public class CalcActions implements KeyListener, ActionListener  {
             if (operand < 1) return;
             createBinaryArray(entryString, (byte)1);
             binaryString[1] = createBinaryString((byte)1);
-            decimalString[1] = convertToDecimal(thisEq.binaryNumber[1]);
+            decimalString[1] = convertToInteger(thisEq.OPERAND2);
            
             gui.display.binaryOperand2.setText(binaryString[1]);
             gui.display.decimalOperand2.setText(decimalString[1]);
@@ -130,7 +130,7 @@ public class CalcActions implements KeyListener, ActionListener  {
                     outOfRange = thisEq.multiplication();
                     break;
                 case DIVIDE:
-                    thisEq.division();
+                    outOfRange = thisEq.division();
                     break;
             }
             
@@ -140,7 +140,7 @@ public class CalcActions implements KeyListener, ActionListener  {
             if (outOfRange) {
                 gui.display.decimalResult.setText("ERROR: result out of range");
             }   else    {
-                decimalString[2] = convertToDecimal(thisEq.binaryNumber[2]);
+                decimalString[2] = convertToInteger(thisEq.RESULT);
                 gui.display.decimalResult.setText(decimalString[2]);
             }
         }
@@ -181,7 +181,7 @@ public class CalcActions implements KeyListener, ActionListener  {
     public void operatorButton(char operator)    {
         createBinaryArray(entryString, (byte)0);
         binaryString[0] = createBinaryString((byte)0);
-        decimalString[0] = convertToDecimal(thisEq.binaryNumber[0]);
+        decimalString[0] = convertToInteger(thisEq.OPERAND1);
         opString += operator;
 
         gui.display.binaryOperand1.setText(binaryString[0]);
@@ -201,18 +201,46 @@ public class CalcActions implements KeyListener, ActionListener  {
         gui.entryField.entryText.setText(entryString);
     }
     
-    public String convertToDecimal(boolean[] input) {
-        long decimalResult = 0, powerOf2 = TWO_TO_THE_30TH;
+    public String convertToInteger(byte whichNumber) {
+        if (isFloat)
+            return convertToFloat(whichNumber);
+        long integerResult = 0, powerOf2 = TWO_TO_THE_30TH;
         
-        if (input[31])
-            decimalResult = TWO_TO_THE_30TH * (-2);
+        if (thisEq.binaryNumber[whichNumber][31])
+            integerResult = TWO_TO_THE_30TH * (-2);
         for (int i = 30; i >= 0; i--)   {
-            if (input[i])
-                decimalResult += powerOf2;
+            if (thisEq.binaryNumber[whichNumber][i])
+                integerResult += powerOf2;
             powerOf2 /= 2;
         }
         
-        return Long.toString(decimalResult);
+        return Long.toString(integerResult);
+    }
+    
+    public String convertToFloat(byte whichNumber)  {
+        double floatResult = 0, powerOf2 = 1;
+        
+        if (thisEq.binaryNumber[whichNumber][30])   {
+            while (!thisEq.checkZero(whichNumber, FloatEquation.EXP_START, FloatEquation.EXP_LENGTH))   {
+                thisEq.addOne(whichNumber, FloatEquation.EXP_START, FloatEquation.EXP_LENGTH);
+                powerOf2 /= 2;
+            }
+        }   else    {
+            while (!thisEq.checkZero(whichNumber, FloatEquation.EXP_START, FloatEquation.EXP_LENGTH))   {
+                thisEq.subtractOne(whichNumber, FloatEquation.EXP_START, FloatEquation.EXP_LENGTH);
+                powerOf2 *= 2;
+            }
+        }
+        
+        for (int i = FloatEquation.MANT_LENGTH - 1; i >= 0; i--)    {
+            if (thisEq.binaryNumber[whichNumber][i])
+                floatResult += powerOf2;
+            powerOf2 /= 2;
+        }
+        
+        if (thisEq.binaryNumber[whichNumber][31])
+            floatResult *= (-1);
+        return Double.toString(floatResult);
     }
 
     public void createBinaryArray(String input, byte whichNumber)  {
@@ -267,7 +295,7 @@ public class CalcActions implements KeyListener, ActionListener  {
         if (outOfRange) return;
         
         for (int i = FloatEquation.MANT_LENGTH - 1; i >= 0; i--)  {
-            if (value > powerOf2)   {
+            if (value >= powerOf2)   {
                 thisEq.binaryNumber[whichNumber][i] = true;
                 value -= powerOf2;
             }

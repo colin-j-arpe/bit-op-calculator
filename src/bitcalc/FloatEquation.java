@@ -11,6 +11,7 @@ public class FloatEquation extends Equation {
     
     @Override
     public boolean addition()   {
+System.out.println("here: 1");
         byte lesserExponent;
         byte greaterExponent = checkGreater(EXP_START, EXP_LENGTH, true);
         byte greaterMantissa = checkGreater(0, MANT_LENGTH, false);
@@ -18,12 +19,14 @@ public class FloatEquation extends Equation {
         if (greaterOperand == 2) greaterOperand = OPERAND1;
         lesserExponent = (byte)((greaterExponent + 1) % 2);
 
+System.out.println("here: 2");
         while (greaterExponent < 2)   {
             if (addOne(lesserExponent, EXP_START, EXP_LENGTH)) return true;
             bitShiftHalf(lesserExponent, 0, MANT_LENGTH);
             greaterExponent = checkGreater(EXP_START, EXP_LENGTH, true);
         }
 
+System.out.println("here: 3");
         binaryNumber[RESULT][SIGN_BIT] = binaryNumber[greaterOperand][SIGN_BIT];
 
         if (binaryNumber[OPERAND1][SIGN_BIT] == binaryNumber[OPERAND2][SIGN_BIT])    {
@@ -32,12 +35,16 @@ public class FloatEquation extends Equation {
                 bitShiftHalf(i, 0, MANT_LENGTH);
             }
             addRange(0, MANT_LENGTH);
+System.out.println("here: 4");
         }   else    {
             subtractRange(greaterOperand, 0, MANT_LENGTH);
+System.out.println("here: 5");
         }
 
         System.arraycopy(binaryNumber[OPERAND1], EXP_START, binaryNumber[RESULT], EXP_START, EXP_LENGTH);
+System.out.println("here: 6");
         oneToTheFront(RESULT);
+System.out.println("here: 7");
         return false;
     }
     
