@@ -56,6 +56,7 @@ public class CalcActions implements KeyListener, ActionListener  {
             if (newEntry)   {
                 entryString = "";
                 if (negative) entryString = "-";
+                if (operand > 0) gui.operators.minus.setEnabled(false);
                 newEntry = false;
             }
             entryString += entry;
@@ -86,26 +87,26 @@ public class CalcActions implements KeyListener, ActionListener  {
                 gui.entryField.entryText.setText(entryString);
             }
             else    {
-                if (operand > 0) return;
+                if (operand == 1) return;
                 operatorButton(entry);
                 selectedOp = MINUS;
             }
         }
 
         else if (entry == '+')  {
-            if (operand > 0) return;
+            if (operand == 1) return;
             operatorButton(entry);
             selectedOp = PLUS;
         }
 
         else if (entry == '*')  {
-            if (operand > 0) return;
+            if (operand == 1) return;
             operatorButton(entry);
             selectedOp = MULTIPLY;
         }
 
         else if (entry == '/')  {
-            if (operand > 0) return;
+            if (operand == 1) return;
             operatorButton(entry);
             selectedOp = DIVIDE;
         }
@@ -143,6 +144,13 @@ public class CalcActions implements KeyListener, ActionListener  {
                 decimalString[2] = convertToInteger(thisEq.RESULT);
                 gui.display.decimalResult.setText(decimalString[2]);
             }
+
+            operand = 2;
+            gui.operators.plus.setEnabled(true);
+            gui.operators.minus.setEnabled(true);
+            gui.operators.multiply.setEnabled(true);
+            gui.operators.divide.setEnabled(true);
+            gui.operators.equals.setEnabled(false);
         }
         
         else if (entry == 'C' || entry == 'c') {
@@ -161,7 +169,7 @@ public class CalcActions implements KeyListener, ActionListener  {
         operand = 0;
         opString = " ";
         Arrays.fill(binaryString, "");
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
             Arrays.fill(thisEq.binaryNumber[i], false);
         gui.entryField.entryText.setText("0");
         gui.display.binaryOperand1.setText("");
@@ -179,13 +187,16 @@ public class CalcActions implements KeyListener, ActionListener  {
     }
     
     public void operatorButton(char operator)    {
-        createBinaryArray(entryString, (byte)0);
-        binaryString[0] = createBinaryString((byte)0);
-        decimalString[0] = convertToInteger(thisEq.OPERAND1);
-        opString += operator;
+        if (operand == 2) chainEquation();
+        else    {
+            createBinaryArray(entryString, (byte)0);
+            binaryString[0] = createBinaryString((byte)0);
+            decimalString[0] = convertToInteger(thisEq.OPERAND1);
+        }
 
         gui.display.binaryOperand1.setText(binaryString[0]);
         gui.display.decimalOperand1.setText(decimalString[0]);
+        opString += operator;
         gui.display.operator.setText(opString);
 
         gui.operators.plus.setEnabled(false);
@@ -199,6 +210,25 @@ public class CalcActions implements KeyListener, ActionListener  {
         operand = 1;
         entryString = "0";
         gui.entryField.entryText.setText(entryString);
+    }
+    
+    public void chainEquation() {
+        System.arraycopy(thisEq.binaryNumber[Equation.RESULT], 0, thisEq.binaryNumber[Equation.OPERAND1], 0, 32);
+        binaryString[Equation.OPERAND1] = binaryString[Equation.RESULT];
+        decimalString[Equation.OPERAND1] = decimalString[Equation.RESULT];
+        for (int i = 1; i < 4; i++)
+            Arrays.fill(thisEq.binaryNumber[i], false);
+        for (int i = 1; i < 3; i++) {
+            binaryString[i] = "";
+            decimalString[i] = "";
+        }
+        outOfRange = false;
+        opString = " ";
+
+        gui.display.binaryOperand2.setText("");
+        gui.display.decimalOperand2.setText("");
+        gui.display.binaryResult.setText("");
+        gui.display.decimalResult.setText("");
     }
     
     public String convertToInteger(byte whichNumber) {
