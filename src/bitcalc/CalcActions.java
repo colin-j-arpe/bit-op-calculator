@@ -69,7 +69,7 @@ public class CalcActions implements KeyListener, ActionListener  {
                 gui.display.binaryOperand2.setText(binaryString[1]);
         }
 
-        else if (entry == '.' && noDecimal)   {
+        else if (entry == '.' && noDecimal && isFloat)   {
             entryString += entry;
             noDecimal = false;
             newEntry = false;
@@ -281,7 +281,7 @@ public class CalcActions implements KeyListener, ActionListener  {
         
         if (value > 1)  {
             Arrays.fill(thisEq.binaryNumber[whichNumber], FloatEquation.EXP_START, FloatEquation.EXP_START + FloatEquation.EXP_LENGTH, true);
-            while (powerOf2 < value && !outOfRange)    {
+            while (powerOf2 <= value && !outOfRange)    {
                 powerOf2 *= 2;
                 outOfRange = thisEq.addOne(whichNumber, FloatEquation.EXP_START, FloatEquation.EXP_LENGTH);
             }
@@ -295,6 +295,9 @@ public class CalcActions implements KeyListener, ActionListener  {
         if (outOfRange) return;
         
         for (int i = FloatEquation.MANT_LENGTH - 1; i >= 0; i--)  {
+//System.out.println("at bit " + i + ":");
+//System.out.println("powerOf2 is " + Long.toBinaryString(Double.doubleToRawLongBits(powerOf2)));
+//System.out.println("value  is   " + Long.toBinaryString(Double.doubleToRawLongBits(value)));
             if (value >= powerOf2)   {
                 thisEq.binaryNumber[whichNumber][i] = true;
                 value -= powerOf2;
