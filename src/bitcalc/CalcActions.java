@@ -67,6 +67,7 @@ public class CalcActions implements KeyListener, ActionListener  {
                 gui.display.binaryOperand1.setText(binaryString[0]);
             else
                 gui.display.binaryOperand2.setText(binaryString[1]);
+System.out.println("operand1: " + createBinaryString((byte)0));
         }
 
         else if (entry == '.' && noDecimal && isFloat)   {
@@ -96,6 +97,7 @@ public class CalcActions implements KeyListener, ActionListener  {
             if (operand > 0) return;
             operatorButton(entry);
             selectedOp = PLUS;
+System.out.println("op1, ret fr opBtn: " + createBinaryString((byte)0));
         }
 
         else if (entry == '*')  {
@@ -111,6 +113,7 @@ public class CalcActions implements KeyListener, ActionListener  {
         }
 
         else if (entry == '=')  {
+System.out.println("operand1: " + createBinaryString((byte)0));
             if (operand < 1) return;
             createBinaryArray(entryString, (byte)1);
             binaryString[1] = createBinaryString((byte)1);
@@ -121,6 +124,10 @@ public class CalcActions implements KeyListener, ActionListener  {
 
             switch (selectedOp) {
                 case PLUS:
+System.out.println("operand1: " + createBinaryString((byte)0));
+System.out.println("operand2: " + createBinaryString((byte)1));
+System.out.println("result:   " + createBinaryString((byte)2));
+System.out.println("temp:     " + createBinaryString((byte)3));
                     outOfRange = thisEq.addition();
                     break;
                 case MINUS:
@@ -179,9 +186,13 @@ public class CalcActions implements KeyListener, ActionListener  {
     }
     
     public void operatorButton(char operator)    {
+System.out.println("op1, st of opBtn:  " + createBinaryString((byte)0));
         createBinaryArray(entryString, (byte)0);
+System.out.println("op1, aft crBinArr: " + createBinaryString((byte)0));
         binaryString[0] = createBinaryString((byte)0);
+System.out.println("op1, aft crBinStr: " + createBinaryString((byte)0));
         decimalString[0] = convertToInteger(thisEq.OPERAND1);
+System.out.println("op1, aft cvtToStr: " + createBinaryString((byte)0));
         opString += operator;
 
         gui.display.binaryOperand1.setText(binaryString[0]);
@@ -219,15 +230,16 @@ public class CalcActions implements KeyListener, ActionListener  {
     
     public String convertToFloat(byte whichNumber)  {
         double floatResult = 0, powerOf2 = 1;
+        System.arraycopy(thisEq.binaryNumber[whichNumber], FloatEquation.EXP_START, thisEq.binaryNumber[Equation.TEMP], FloatEquation.EXP_START, FloatEquation.EXP_LENGTH);
         
-        if (thisEq.binaryNumber[whichNumber][30])   {
-            while (!thisEq.checkZero(whichNumber, FloatEquation.EXP_START, FloatEquation.EXP_LENGTH))   {
-                thisEq.addOne(whichNumber, FloatEquation.EXP_START, FloatEquation.EXP_LENGTH);
+        if (thisEq.binaryNumber[Equation.TEMP][30])   {
+            while (!thisEq.checkZero(Equation.TEMP, FloatEquation.EXP_START, FloatEquation.EXP_LENGTH))   {
+                thisEq.addOne(Equation.TEMP, FloatEquation.EXP_START, FloatEquation.EXP_LENGTH);
                 powerOf2 /= 2;
             }
         }   else    {
-            while (!thisEq.checkZero(whichNumber, FloatEquation.EXP_START, FloatEquation.EXP_LENGTH))   {
-                thisEq.subtractOne(whichNumber, FloatEquation.EXP_START, FloatEquation.EXP_LENGTH);
+            while (!thisEq.checkZero(Equation.TEMP, FloatEquation.EXP_START, FloatEquation.EXP_LENGTH))   {
+                thisEq.subtractOne(Equation.TEMP, FloatEquation.EXP_START, FloatEquation.EXP_LENGTH);
                 powerOf2 *= 2;
             }
         }
