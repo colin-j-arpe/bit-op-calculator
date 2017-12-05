@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package bitcalc;
 
 import java.awt.event.ActionEvent;
@@ -36,8 +31,6 @@ public class CalcActionsTest {
     public static void setUpClass() {
         testFrame = new CalcFrame();
         testCalc = new CalcActions(testFrame);
-//        testEq = new Equation();
-//        testFloat = new FloatEquation();
     }
     
     @AfterClass
@@ -51,99 +44,8 @@ public class CalcActionsTest {
     @After
     public void tearDown() {
         testCalc.reset();
-//        for (boolean[] numArray : testCalc.thisEq.binaryNumber)
-//            Arrays.fill(numArray, false);
-//        testCalc.outOfRange = false;
     }
 
-    /**
-     * Test of keyTyped method, of class CalcActions.
-     */
-    @Ignore
-    @Test
-    public void testKeyTyped() {
-        System.out.println("keyTyped");
-        KeyEvent input = null;
-        CalcActions instance = null;
-        instance.keyTyped(input);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of actionPerformed method, of class CalcActions.
-     */
-    @Ignore
-    @Test
-    public void testActionPerformed() {
-        System.out.println("actionPerformed");
-        ActionEvent event = null;
-        CalcActions instance = null;
-        instance.actionPerformed(event);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of buttonFunctions method, of class CalcActions.
-     */
-    @Ignore
-    @Test
-    public void testButtonFunctions() {
-        System.out.println("buttonFunctions");
-        char entry = ' ';
-        CalcActions instance = null;
-        instance.buttonFunctions(entry);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of reset method, of class CalcActions.
-     */
-    @Ignore
-    @Test
-    public void testReset() {
-        System.out.println("reset");
-        CalcActions instance = null;
-        instance.reset();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of operatorButton method, of class CalcActions.
-     */
-    @Ignore
-    @Test
-    public void testOperatorButton() {
-        System.out.println("operatorButton");
-        char operator = ' ';
-        CalcActions instance = null;
-        instance.operatorButton(operator);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of convertToDecimal method, of class CalcActions.
-     */
-    @Ignore
-    @Test
-    public void testConvertToDecimal() {
-        System.out.println("convertToDecimal");
-//        byte input = null;
-        CalcActions instance = null;
-        String expResult = "";
-//        String result = instance.convertToInteger(input);
-//        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of createBinaryArray method, of class CalcActions.
-     */
     @Test
     public void testCreateBinaryArray() {
         System.out.println("createBinaryArray with integers");
@@ -194,12 +96,6 @@ public class CalcActionsTest {
         String[] input = {"25.00946", "-0.00646", "11.6", "2.5"};
         for (byte i = 0; i < 4; i++) {
             testCalc.createBinaryArray(input[i], i);
-//            if (i < 3)  {
-//                assertFalse(testCalc.outOfRange);
-//            }
-//            else    {
-//                assertTrue(testCalc.outOfRange);
-//            }
         }
         //  test 25.00946
         assertTrue(testCalc.thisEq.binaryNumber[0][27]);
@@ -274,22 +170,6 @@ public class CalcActionsTest {
         assertFalse(testCalc.thisEq.binaryNumber[3][0]);
     }
 
-    /**
-     * Test of createBinaryString method, of class CalcActions.
-     */
-    @Ignore
-    @Test
-    public void testCreateBinaryString() {
-        System.out.println("createBinaryString");
-        byte whichBinary = 0;
-        CalcActions instance = null;
-        String expResult = "";
-        String result = instance.createBinaryString(whichBinary);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
     @Test
     public void testConvertToFloat()    {
         System.out.println("testing output string from float equations");
