@@ -1,22 +1,20 @@
 package bitcalc;
 
 //import javax.swing.*;
+import java.util.*;
 import java.awt.event.*;
 import static java.lang.Math.abs;
-import java.util.*;
 
 public class CalcActions implements KeyListener, ActionListener  {
     CalcFrame gui;
     Equation thisEq;
-//    FloatEquation FloatEq;
     
     boolean noDecimal = true, newEntry = true, negative = false, outOfRange = false, isFloat = false;
-    byte operand = 0;
+    byte operand = Equation.OPERAND1;
     String entryString = "0";
     String opString = " ";
     String[] binaryString = new String[3];
     String[] decimalString = new String[3];
-//    int[] floatBinarySpaces = {31, 25};
 
     byte selectedOp;
     static final byte PLUS = 0;
@@ -65,9 +63,9 @@ public class CalcActions implements KeyListener, ActionListener  {
             createBinaryArray(entryString, operand);
             binaryString[operand] = (outOfRange ? "ERROR: out of range" : createBinaryString(operand));
             if (operand == 0)
-                gui.display.binaryOperand1.setText(binaryString[0]);
+                gui.display.binaryOperand1.setText(binaryString[operand]);
             else
-                gui.display.binaryOperand2.setText(binaryString[1]);
+                gui.display.binaryOperand2.setText(binaryString[operand]);
         }
 
         else if (entry == '.' && noDecimal && isFloat)   {
@@ -112,13 +110,13 @@ public class CalcActions implements KeyListener, ActionListener  {
         }
 
         else if (entry == '=')  {
-            if (operand < 1) return;
-            createBinaryArray(entryString, (byte)1);
-            binaryString[1] = createBinaryString((byte)1);
-            decimalString[1] = convertToInteger(thisEq.OPERAND2);
+            if (operand < Equation.OPERAND2) return;
+            createBinaryArray(entryString, Equation.OPERAND2);
+            binaryString[Equation.OPERAND2] = createBinaryString(Equation.OPERAND2);
+            decimalString[Equation.OPERAND2] = convertToInteger(Equation.OPERAND2);
            
-            gui.display.binaryOperand2.setText(binaryString[1]);
-            gui.display.decimalOperand2.setText(decimalString[1]);
+            gui.display.binaryOperand2.setText(binaryString[Equation.OPERAND2]);
+            gui.display.decimalOperand2.setText(decimalString[Equation.OPERAND2]);
 
             switch (selectedOp) {
                 case PLUS:
@@ -135,17 +133,17 @@ public class CalcActions implements KeyListener, ActionListener  {
                     break;
             }
             
-            binaryString[2] = createBinaryString((byte)2);
-            gui.display.binaryResult.setText(binaryString[2]);
+            binaryString[Equation.RESULT] = createBinaryString(Equation.RESULT);
+            gui.display.binaryResult.setText(binaryString[Equation.RESULT]);
             
             if (outOfRange) {
                 gui.display.decimalResult.setText("ERROR: result out of range");
             }   else    {
-                decimalString[2] = convertToInteger(thisEq.RESULT);
-                gui.display.decimalResult.setText(decimalString[2]);
+                decimalString[Equation.RESULT] = convertToInteger(thisEq.RESULT);
+                gui.display.decimalResult.setText(decimalString[Equation.RESULT]);
             }
 
-            operand = 2;
+            operand = Equation.RESULT;
             gui.operators.plus.setEnabled(true);
             gui.operators.minus.setEnabled(true);
             gui.operators.multiply.setEnabled(true);
@@ -166,7 +164,7 @@ public class CalcActions implements KeyListener, ActionListener  {
         newEntry = true;
         negative = false;
         outOfRange = false;
-        operand = 0;
+        operand = Equation.OPERAND1;
         opString = " ";
         Arrays.fill(binaryString, "");
         for (int i = 0; i < 4; i++)
@@ -187,15 +185,15 @@ public class CalcActions implements KeyListener, ActionListener  {
     }
     
     public void operatorButton(char operator)    {
-        if (operand == 2) chainEquation();
+        if (operand == Equation.RESULT) chainEquation();
         else    {
-            createBinaryArray(entryString, (byte)0);
-            binaryString[0] = createBinaryString((byte)0);
-            decimalString[0] = convertToInteger(thisEq.OPERAND1);
+            createBinaryArray(entryString, Equation.OPERAND1);
+            binaryString[Equation.OPERAND1] = createBinaryString(Equation.OPERAND1);
+            decimalString[Equation.OPERAND1] = convertToInteger(thisEq.OPERAND1);
         }
 
-        gui.display.binaryOperand1.setText(binaryString[0]);
-        gui.display.decimalOperand1.setText(decimalString[0]);
+        gui.display.binaryOperand1.setText(binaryString[Equation.OPERAND1]);
+        gui.display.decimalOperand1.setText(decimalString[Equation.OPERAND1]);
         opString += operator;
         gui.display.operator.setText(opString);
 
@@ -207,7 +205,7 @@ public class CalcActions implements KeyListener, ActionListener  {
         noDecimal = true;
         newEntry = true;
         negative = false;
-        operand = 1;
+        operand = Equation.OPERAND2;
         entryString = "0";
         gui.entryField.entryText.setText(entryString);
     }
@@ -216,9 +214,9 @@ public class CalcActions implements KeyListener, ActionListener  {
         System.arraycopy(thisEq.binaryNumber[Equation.RESULT], 0, thisEq.binaryNumber[Equation.OPERAND1], 0, 32);
         binaryString[Equation.OPERAND1] = binaryString[Equation.RESULT];
         decimalString[Equation.OPERAND1] = decimalString[Equation.RESULT];
-        for (int i = 1; i < 4; i++)
+        for (int i = Equation.OPERAND2; i < thisEq.binaryNumber.length; i++)
             Arrays.fill(thisEq.binaryNumber[i], false);
-        for (int i = 1; i < 3; i++) {
+        for (int i = Equation.OPERAND2; i < binaryString.length; i++) {
             binaryString[i] = "";
             decimalString[i] = "";
         }
