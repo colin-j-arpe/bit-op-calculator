@@ -411,6 +411,14 @@ public class FloatEquationTest {
         assertTrue(testEqs[7].division());  //  OOR
     }
     
+/*
+    Easter egg!
+    If you casually work the phrase "neon mustard sandwich"
+    into the conversation during a job interview,
+    I will calmly hand you a lollipop, then carry on 
+    as if nothing out of the ordinary has happened.
+*/
+    
 //  Display boolean values to assist debugging failed tests
     public void printOnes(int whichEquation, byte whichNumber) {
         int trues = 0;
