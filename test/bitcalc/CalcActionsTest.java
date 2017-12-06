@@ -11,10 +11,6 @@ import org.junit.Test;
 import org.junit.Ignore;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author cspanw74
- */
 public class CalcActionsTest {
     public static CalcFrame testFrame;
     public static CalcActions testCalc;
@@ -153,6 +149,7 @@ public class CalcActionsTest {
         assertTrue(testCalc.thisEq.binaryNumber[2][1]);
         assertTrue(testCalc.thisEq.binaryNumber[2][0]);
         
+        //  test 2.5
         assertTrue(testCalc.thisEq.binaryNumber[3][25]);
         assertTrue(testCalc.thisEq.binaryNumber[3][24]);
         assertTrue(testCalc.thisEq.binaryNumber[3][22]);
@@ -179,10 +176,10 @@ public class CalcActionsTest {
                 testCalc.thisEq.binaryNumber[i][listOfOnes[i][j]] = true;
         
         assertEquals(testCalc.convertToInteger((byte)0), "646250.09375");
-        assertEquals(testCalc.convertToInteger((byte)1), "646.2500915527344");
 //        assertEquals(testCalc.convertToInteger((byte)1), "646.250091552784375");
-        assertEquals(testCalc.convertToInteger((byte)2), "0.06462499871850014");
+        assertEquals(testCalc.convertToInteger((byte)1), "646.2500915527344");      //  rounded off by Java double datatype
 //        assertEquals(testCalc.convertToInteger((byte)2), "0.0646249987185001373291015625");
+        assertEquals(testCalc.convertToInteger((byte)2), "0.06462499871850014");    //  rounded off by Java double datatype
         assertEquals(testCalc.convertToInteger((byte)3), "-37.6640625");
         
     }

@@ -131,10 +131,7 @@ public class Equation   {
     }
     
     protected boolean bitShiftDouble(byte whichNumber, int start, int length)    {
-//        if (binaryNumber[whichNumber][start + length - 1])
-//            return false;
-        boolean signChange = (binaryNumber[whichNumber][start + length - 1] != binaryNumber[whichNumber][start + length - 2]) ?
-                true : false;
+        boolean signChange = (binaryNumber[whichNumber][start + length - 1] ^ binaryNumber[whichNumber][start + length - 2]);
         for (int i = start + length - 1; i > start; i--)    {
             binaryNumber[whichNumber][i] = binaryNumber[whichNumber][i-1];
         }

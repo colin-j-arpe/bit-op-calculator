@@ -1,6 +1,5 @@
 package bitcalc;
 
-//import javax.swing.*;
 import java.util.*;
 import java.awt.event.*;
 import static java.lang.Math.abs;

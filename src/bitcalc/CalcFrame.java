@@ -2,8 +2,6 @@ package bitcalc;
 
 import javax.swing.*;
 import java.awt.*;
-//import java.awt.event.ItemEvent;
-//import java.awt.event.ItemListener;
 import java.awt.event.*;
 
 public class CalcFrame extends JFrame   {
